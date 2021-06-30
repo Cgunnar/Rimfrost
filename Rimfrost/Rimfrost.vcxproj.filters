@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Rimfrost">
+      <UniqueIdentifier>{DBDF24C1-C7AC-7FCC-F0C5-6D74DCF1B45A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rimfrost\Math">
+      <UniqueIdentifier>{94656048-0026-DC7E-C960-25FC35E0205B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Rimfrost.h" />
+    <ClInclude Include="src\Rimfrost\Core.h">
+      <Filter>Rimfrost</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\EngineApp.h">
+      <Filter>Rimfrost</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\EntryPoint.h">
+      <Filter>Rimfrost</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Math\Vector3.hpp">
+      <Filter>Rimfrost\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\TestClass.hpp">
+      <Filter>Rimfrost</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Window.hpp">
+      <Filter>Rimfrost</Filter>
+    </ClInclude>
+    <ClInclude Include="src\rfpch.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Rimfrost\EngineApp.cpp">
+      <Filter>Rimfrost</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Math\Vector3.cpp">
+      <Filter>Rimfrost\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\TestClass.cpp">
+      <Filter>Rimfrost</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Window.cpp">
+      <Filter>Rimfrost</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rfpch.cpp" />
+  </ItemGroup>
+</Project>
