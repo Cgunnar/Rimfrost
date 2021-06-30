@@ -67,8 +67,7 @@ namespace Engine1
 
 		assert(this->m_hWnd);
 
-		//show window
-		ShowWindow(this->m_hWnd, SW_SHOWDEFAULT);
+		
 
 #ifndef DirectInput
 		RAWINPUTDEVICE rid;
@@ -95,6 +94,9 @@ namespace Engine1
 
 		ImGui_ImplWin32_Init(this->getHwnd());
 		ImGui_ImplDX11_Init(this->m_graphics->GetDevice().Get(), this->m_graphics->GetDeviceContext().Get());
+
+		//show window
+		ShowWindow(this->m_hWnd, SW_SHOWDEFAULT);
 
 	}
 	Window::~Window()
@@ -344,9 +346,11 @@ namespace Engine1
 			{
 				//this->GetGraphics().SetFullScreen(this->GetGraphics().ShouldBeFullScreen());
 
-
-				m_mouse->m_windowOutOfFocus = false; //window is a friend of mouse to fix alt tab
-				m_mouse->confineCursor(m_mouse->m_cursorIsConfined);
+				if (m_mouse != nullptr)
+				{
+					m_mouse->m_windowOutOfFocus = false; //window is a friend of mouse to fix alt tab
+					m_mouse->confineCursor(m_mouse->m_cursorIsConfined);
+				}
 			}
 			else
 			{

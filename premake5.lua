@@ -22,7 +22,8 @@ project "Rimfrost"
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.hpp",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/src/**.hlsl"
     }
 
     includedirs
@@ -55,6 +56,9 @@ project "Rimfrost"
        runtime "Release"
        optimize "on"
 
+    filter {"files:**.hlsl"}
+        flags {"ExcludeFromBuild"}
+
 
 
 
@@ -79,6 +83,9 @@ project "Game"
     {
         "Rimfrost/vendor/includes",
         "Rimfrost/src",
+        "Rimfrost/src/**",
+        "Rimfrost/src/Rimfrost",
+        "Rimfrost/src/Rimfrost/Scene",
     }
 
     defines
@@ -116,8 +123,8 @@ project "ImGui"
 
     files 
     {
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/**.h",
+        "%{prj.name}/**.cpp"
     }
 
     filter { "configurations:Debug" }

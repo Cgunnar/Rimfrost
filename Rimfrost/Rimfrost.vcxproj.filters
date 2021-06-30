@@ -22,6 +22,9 @@
     <Filter Include="Rimfrost\Scenes">
       <UniqueIdentifier>{AB2C2BF0-17B8-98B4-20C9-1BA98CD3F4B4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rimfrost\Shaders">
+      <UniqueIdentifier>{B4AFEC00-A0A8-0B53-C9DA-F0D7B532EB5E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Rimfrost\Utilities">
       <UniqueIdentifier>{06D2AA65-F2B5-6BBB-5B16-660E4719563D}</UniqueIdentifier>
     </Filter>
@@ -199,6 +202,9 @@
     <ClInclude Include="src\Rimfrost\Utilities\Timer.hpp">
       <Filter>Rimfrost\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rimfrost\Window.hpp">
+      <Filter>Rimfrost</Filter>
+    </ClInclude>
     <ClInclude Include="src\Rimfrost\external_headers\json.hpp">
       <Filter>Rimfrost\external_headers</Filter>
     </ClInclude>
@@ -206,7 +212,6 @@
       <Filter>Rimfrost\external_headers</Filter>
     </ClInclude>
     <ClInclude Include="src\rfpch.hpp" />
-    <ClInclude Include="src\Rimfrost\Window.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp">
@@ -356,7 +361,41 @@
     <ClCompile Include="src\Rimfrost\Utilities\Timer.cpp">
       <Filter>Rimfrost\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rimfrost\Window.cpp">
+      <Filter>Rimfrost</Filter>
+    </ClCompile>
     <ClCompile Include="src\rfpch.cpp" />
-    <ClCompile Include="src\Rimfrost\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\Rimfrost\Shaders\MousePickingPS.hlsl">
+      <Filter>Rimfrost\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\PhongDiffNormPS.hlsl">
+      <Filter>Rimfrost\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\PhongDiffPS.hlsl">
+      <Filter>Rimfrost\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\PhongDiffSpecNormPS.hlsl">
+      <Filter>Rimfrost\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\PhongDiffSpecPS.hlsl">
+      <Filter>Rimfrost\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\PhongPS.hlsl">
+      <Filter>Rimfrost\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\QuadPassVS.hlsl">
+      <Filter>Rimfrost\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\VertexShader.hlsl">
+      <Filter>Rimfrost\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\finalGammaPS.hlsl">
+      <Filter>Rimfrost\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\normalMapVS.hlsl">
+      <Filter>Rimfrost\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

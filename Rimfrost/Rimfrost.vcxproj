@@ -148,10 +148,10 @@
     <ClInclude Include="src\Rimfrost\Utilities\RandGen.hpp" />
     <ClInclude Include="src\Rimfrost\Utilities\ReadImg.hpp" />
     <ClInclude Include="src\Rimfrost\Utilities\Timer.hpp" />
+    <ClInclude Include="src\Rimfrost\Window.hpp" />
     <ClInclude Include="src\Rimfrost\external_headers\json.hpp" />
     <ClInclude Include="src\Rimfrost\external_headers\stb_image.h" />
     <ClInclude Include="src\rfpch.hpp" />
-    <ClInclude Include="src\Rimfrost\Window.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp" />
@@ -203,10 +203,42 @@
     <ClCompile Include="src\Rimfrost\Utilities\Logger.cpp" />
     <ClCompile Include="src\Rimfrost\Utilities\ReadImg.cpp" />
     <ClCompile Include="src\Rimfrost\Utilities\Timer.cpp" />
+    <ClCompile Include="src\Rimfrost\Window.cpp" />
     <ClCompile Include="src\rfpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Rimfrost\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\Rimfrost\Shaders\MousePickingPS.hlsl">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\PhongDiffNormPS.hlsl">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\PhongDiffPS.hlsl">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\PhongDiffSpecNormPS.hlsl">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\PhongDiffSpecPS.hlsl">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\PhongPS.hlsl">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\QuadPassVS.hlsl">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\VertexShader.hlsl">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\finalGammaPS.hlsl">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="src\Rimfrost\Shaders\normalMapVS.hlsl">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ImGui\ImGui.vcxproj">

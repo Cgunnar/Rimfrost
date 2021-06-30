@@ -173,8 +173,8 @@ namespace Engine1
 
 
 		//second pass setup
-		m_p2vertexShader = ShaderRepo::addShader("Src/Shaders/QuadPassVS.hlsl", ShaderEnum::VERTEXSHADER);
-		m_p2pixelShader = ShaderRepo::addShader("Src/Shaders/MousePickingPS.hlsl", ShaderEnum::PIXELSHADER);
+		m_p2vertexShader = ShaderRepo::addShader("../Rimfrost/src/Rimfrost/Shaders/QuadPassVS.hlsl", ShaderEnum::VERTEXSHADER);
+		m_p2pixelShader = ShaderRepo::addShader("../Rimfrost/src/Rimfrost/Shaders/MousePickingPS.hlsl", ShaderEnum::PIXELSHADER);
 
 		m_quadVertexBuffer = std::make_unique<VertexBuffer>();
 		Geometry::Quad quad = {};

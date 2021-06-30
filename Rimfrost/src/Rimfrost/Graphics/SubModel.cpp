@@ -71,24 +71,24 @@ namespace Engine1
 			m_mat.addProperty(MaterialProperties::WIREFRAME);
 		}
 
-
+		std::string shaderFolderPath = "../Rimfrost/src/Rimfrost/Shaders/";
 		if (meshInfo.texTypes == (TextureTypes::DIFFUSE | TextureTypes::SPECULAR | TextureTypes::NORMAL))
-			m_pixelShader = ShaderRepo::addShader("Src/Shaders/PhongDiffSpecNormPS.hlsl", ShaderEnum::PIXELSHADER);
+			m_pixelShader = ShaderRepo::addShader(shaderFolderPath + "PhongDiffSpecNormPS.hlsl", ShaderEnum::PIXELSHADER);
 		else if (meshInfo.texTypes == (TextureTypes::DIFFUSE | TextureTypes::SPECULAR))
-			m_pixelShader = ShaderRepo::addShader("Src/Shaders/PhongDiffSpecPS.hlsl", ShaderEnum::PIXELSHADER);
+			m_pixelShader = ShaderRepo::addShader(shaderFolderPath + "PhongDiffSpecPS.hlsl", ShaderEnum::PIXELSHADER);
 		else if (meshInfo.texTypes == (TextureTypes::DIFFUSE | TextureTypes::NORMAL))
-			m_pixelShader = ShaderRepo::addShader("Src/Shaders/PhongDiffNormPS.hlsl", ShaderEnum::PIXELSHADER);
+			m_pixelShader = ShaderRepo::addShader(shaderFolderPath + "PhongDiffNormPS.hlsl", ShaderEnum::PIXELSHADER);
 		else if (meshInfo.texTypes == TextureTypes::DIFFUSE)
-			m_pixelShader = ShaderRepo::addShader("Src/Shaders/PhongDiffPS.hlsl", ShaderEnum::PIXELSHADER);
+			m_pixelShader = ShaderRepo::addShader(shaderFolderPath + "PhongDiffPS.hlsl", ShaderEnum::PIXELSHADER);
 		else if (meshInfo.texTypes == TextureTypes::NONE)
-			m_pixelShader = ShaderRepo::addShader("Src/Shaders/PhongPS.hlsl", ShaderEnum::PIXELSHADER);
+			m_pixelShader = ShaderRepo::addShader(shaderFolderPath + "PhongPS.hlsl", ShaderEnum::PIXELSHADER);
 		else
 			assert(false); //fix more if statements, but this should never happend
 
 		if ((meshInfo.texTypes & TextureTypes::NORMAL) == TextureTypes::NORMAL)
-			m_vertexShader = ShaderRepo::addShader("Src/Shaders/normalMapVS.hlsl", ShaderEnum::VERTEXSHADER);
+			m_vertexShader = ShaderRepo::addShader(shaderFolderPath + "normalMapVS.hlsl", ShaderEnum::VERTEXSHADER);
 		else
-			m_vertexShader = ShaderRepo::addShader("Src/Shaders/VertexShader.hlsl", ShaderEnum::VERTEXSHADER);
+			m_vertexShader = ShaderRepo::addShader(shaderFolderPath + "VertexShader.hlsl", ShaderEnum::VERTEXSHADER);
 
 		m_inputLayout = std::make_shared<InputLayout>();
 		m_inputLayout->init(reinterpret_cast<VertexShader&>(ShaderRepo::getShader(m_vertexShader)), model.layout);

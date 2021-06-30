@@ -3,10 +3,10 @@
 #include "Core.h"
 
 #include "Rimfrost\Graphics\ForwardRenderer.hpp"
+#include "Rimfrost\Window.hpp"
+
 
 #include "Rimfrost\Scene\Scene.hpp"
-
-class Window;
 namespace Rimfrost
 {
 
@@ -19,7 +19,7 @@ namespace Rimfrost
 
 		void Run();
 	private:
-		Engine1::Window* m_window;
+		Engine1::Window m_window;
 
 		std::vector<std::shared_ptr<Engine1::Scene>> m_scenes;
 		std::shared_ptr<Engine1::Scene> m_acticeScene;
