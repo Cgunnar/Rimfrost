@@ -2,26 +2,37 @@
 
 #include "Core.h"
 
-#include "Rimfrost\TestClass.hpp"
-#include "Rimfrost\Math\Vector3.hpp"
-#include "Rimfrost\Window.hpp"
+#include "Rimfrost\Graphics\ForwardRenderer.hpp"
+
+#include "Rimfrost\Scene\Scene.hpp"
+
+class Window;
 namespace Rimfrost
 {
 
 
-	class /*RIMFROST_API*/ EngineApp
+	class EngineApp
 	{
 	public:
 		EngineApp();
 		virtual ~EngineApp();
 
 		void Run();
-
-		TestClass m_testClass = TestClass(4);
-
-		Vector3 m_vector;
 	private:
-		Window* m_window;
+		Engine1::Window* m_window;
+
+		std::vector<std::shared_ptr<Engine1::Scene>> m_scenes;
+		std::shared_ptr<Engine1::Scene> m_acticeScene;
+
+		Engine1::ForwardRenderer m_renderer;
+
+		int m_paused;
+
+	private:
+		void setPaused(bool pause);
+		bool isPaused() const;
+
+		void handlePauseAndFullscreen();
 	};
 
 

@@ -28,15 +28,20 @@ project "Rimfrost"
     includedirs
     {
         "%{prj.name}/src",
+        "%{prj.name}/src/**",
+        "ImGui/",
         "%{prj.name}/vendor/includes"
     }
 
     defines
     {
-        "RIMFROST_BUILD_DLL",
-        "_WINDLL",
         "_UNICODE",
         "UNICODE",
+    }
+
+    links
+    {
+        "ImGui"
     }
 
 
@@ -73,7 +78,7 @@ project "Game"
     includedirs
     {
         "Rimfrost/vendor/includes",
-        "Rimfrost/src"
+        "Rimfrost/src",
     }
 
     defines
@@ -94,3 +99,33 @@ project "Game"
     filter { "configurations:Release" }
        defines { "_NDEBUG", "NDEBUG" }
        optimize "On"
+
+
+
+
+
+project "ImGui"
+    location "ImGui"
+    kind "StaticLib"
+    staticruntime "on"
+    language "C++"
+    cppdialect "C++20"
+    systemversion "latest"
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files 
+    {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp"
+    }
+
+    filter { "configurations:Debug" }
+        defines { "_DEBUG", "DEBUG" }
+        runtime "Debug"
+        symbols "on"
+
+    filter { "configurations:Release" }
+       defines { "_NDEBUG", "NDEBUG" }
+       runtime "Release"
+       optimize "on"

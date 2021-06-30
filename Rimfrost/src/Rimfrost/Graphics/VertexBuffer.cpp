@@ -1,7 +1,7 @@
-#include "pch.hpp"
+#include "rfpch.hpp"
 #include "VertexBuffer.hpp"
-
-#include "Logger.hpp"
+#include "Rimfrost\Utilities\Logger.hpp"
+//#include "Logger.hpp"
 
 using namespace Microsoft::WRL;
 

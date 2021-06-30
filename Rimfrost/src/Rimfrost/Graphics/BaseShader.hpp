@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine1.hpp"
 #include "DXAccess.hpp"
+#include <string>
 
 namespace Engine1
 {

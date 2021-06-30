@@ -4,8 +4,29 @@
     <Filter Include="Rimfrost">
       <UniqueIdentifier>{DBDF24C1-C7AC-7FCC-F0C5-6D74DCF1B45A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rimfrost\Core">
+      <UniqueIdentifier>{13255B48-7FE5-D67E-4820-20FCB49F1B5B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rimfrost\EventSystem">
+      <UniqueIdentifier>{11C67237-FD54-FC00-A673-10FC92E10CA7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rimfrost\Graphics">
+      <UniqueIdentifier>{7BAE0D0E-E7C4-0BA4-303C-97C59C91DC2B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Rimfrost\Math">
       <UniqueIdentifier>{94656048-0026-DC7E-C960-25FC35E0205B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rimfrost\Scene">
+      <UniqueIdentifier>{3885DA54-2453-CE5A-0DE7-3E81F953AABF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rimfrost\Scenes">
+      <UniqueIdentifier>{AB2C2BF0-17B8-98B4-20C9-1BA98CD3F4B4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rimfrost\Utilities">
+      <UniqueIdentifier>{06D2AA65-F2B5-6BBB-5B16-660E4719563D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rimfrost\external_headers">
+      <UniqueIdentifier>{8862D4C7-F424-0852-3DD5-96DEA9D6E02F}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -13,36 +34,329 @@
     <ClInclude Include="src\Rimfrost\Core.h">
       <Filter>Rimfrost</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rimfrost\Core\Keyboard.hpp">
+      <Filter>Rimfrost\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Core\Mouse.hpp">
+      <Filter>Rimfrost\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Rimfrost\EngineApp.h">
       <Filter>Rimfrost</Filter>
     </ClInclude>
     <ClInclude Include="src\Rimfrost\EntryPoint.h">
       <Filter>Rimfrost</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rimfrost\EventSystem\Event.hpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\EventSystem\EventObserver.hpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\EventSystem\EventSystem.hpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\EventSystem\MouseEvent.hpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\EventSystem\PauseEvent.hpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\EventSystem\ResizeEvent.hpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\AssetManager.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\AssimpLoader.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\BaseShader.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\BufferRepo.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\Camera.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\DXAccess.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\Engine1.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\ForwardRenderer.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\FrameBufferRepo.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\FrameBuffers.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\Geometry.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\Graphics.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\IndexBuffer.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\InputLayout.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\Material.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\MeshStructures.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\Model.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\PixelShader.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\PointLight.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\PointLightContainer.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\RenderPass.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\Sampler.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\ShaderRepo.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\StructuredBuffer.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\SubModel.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\Texture.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\TextureRepo.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\Transform.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\VertexBuffer.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\VertexShader.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="src\Rimfrost\Math\Vector3.hpp">
       <Filter>Rimfrost\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Scene\Node.hpp">
+      <Filter>Rimfrost\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Scene\NodeEditGUI.hpp">
+      <Filter>Rimfrost\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Scene\Scene.hpp">
+      <Filter>Rimfrost\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Scene\SceneSerializer.hpp">
+      <Filter>Rimfrost\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Scenes\LevelEditor.hpp">
+      <Filter>Rimfrost\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Scenes\Scene0.hpp">
+      <Filter>Rimfrost\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Scenes\Scene1.hpp">
+      <Filter>Rimfrost\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="src\Rimfrost\TestClass.hpp">
       <Filter>Rimfrost</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rimfrost\Window.hpp">
-      <Filter>Rimfrost</Filter>
+    <ClInclude Include="src\Rimfrost\Utilities\FrameTimer.hpp">
+      <Filter>Rimfrost\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Utilities\Logger.hpp">
+      <Filter>Rimfrost\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Utilities\ObjLoader.hpp">
+      <Filter>Rimfrost\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Utilities\RandGen.hpp">
+      <Filter>Rimfrost\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Utilities\ReadImg.hpp">
+      <Filter>Rimfrost\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Utilities\Timer.hpp">
+      <Filter>Rimfrost\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\external_headers\json.hpp">
+      <Filter>Rimfrost\external_headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\external_headers\stb_image.h">
+      <Filter>Rimfrost\external_headers</Filter>
     </ClInclude>
     <ClInclude Include="src\rfpch.hpp" />
+    <ClInclude Include="src\Rimfrost\Window.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp">
+      <Filter>Rimfrost\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Core\Mouse.cpp">
+      <Filter>Rimfrost\Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\Rimfrost\EngineApp.cpp">
       <Filter>Rimfrost</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\EventSystem\Event.cpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\EventSystem\EventObserver.cpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\EventSystem\EventSystem.cpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\EventSystem\MouseEvent.cpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\EventSystem\PauseEvent.cpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\EventSystem\ResizeEvent.cpp">
+      <Filter>Rimfrost\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\AssetManager.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\AssimpLoader.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\BaseShader.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\BufferRepo.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\Camera.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\DXAccess.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\ForwardRenderer.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\FrameBufferRepo.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\FrameBuffers.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\Graphics.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\IndexBuffer.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\InputLayout.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\Material.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\Model.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\PixelShader.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\PointLight.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\PointLightContainer.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\RenderPass.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\Sampler.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\ShaderRepo.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\StructuredBuffer.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\SubModel.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\Texture.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\TextureRepo.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\Transform.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\VertexBuffer.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\VertexShader.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Rimfrost\Math\Vector3.cpp">
       <Filter>Rimfrost\Math</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rimfrost\Scene\Node.cpp">
+      <Filter>Rimfrost\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Scene\NodeEditGUI.cpp">
+      <Filter>Rimfrost\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Scene\Scene.cpp">
+      <Filter>Rimfrost\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Scene\SceneSerializer.cpp">
+      <Filter>Rimfrost\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Scenes\LevelEditor.cpp">
+      <Filter>Rimfrost\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Scenes\Scene0.cpp">
+      <Filter>Rimfrost\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Scenes\Scene1.cpp">
+      <Filter>Rimfrost\Scenes</Filter>
+    </ClCompile>
     <ClCompile Include="src\Rimfrost\TestClass.cpp">
       <Filter>Rimfrost</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rimfrost\Window.cpp">
-      <Filter>Rimfrost</Filter>
+    <ClCompile Include="src\Rimfrost\Utilities\FrameTimer.cpp">
+      <Filter>Rimfrost\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Utilities\Logger.cpp">
+      <Filter>Rimfrost\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Utilities\ReadImg.cpp">
+      <Filter>Rimfrost\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Utilities\Timer.cpp">
+      <Filter>Rimfrost\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="src\rfpch.cpp" />
+    <ClCompile Include="src\Rimfrost\Window.cpp" />
   </ItemGroup>
 </Project>

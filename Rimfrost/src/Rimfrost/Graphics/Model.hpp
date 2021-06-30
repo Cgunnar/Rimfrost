@@ -3,6 +3,8 @@
 #include "IndexBuffer.hpp"
 #include "InputLayout.hpp"
 #include "MeshStructures.hpp"
+#include <memory>
+#include <vector>
 
 namespace Engine1
 {

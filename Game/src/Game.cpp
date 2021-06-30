@@ -6,8 +6,6 @@ class Game : public Rimfrost::EngineApp
 public:
 	Game()
 	{
-		m_testClass.print();
-		m_vector.lengt();
 	}
 	~Game()
 	{

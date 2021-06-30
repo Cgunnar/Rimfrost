@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "rfpch.hpp"
 #include "Scene.hpp"
 #include "AssimpLoader.hpp"
 #include "MeshStructures.hpp"
@@ -62,7 +62,7 @@ namespace Engine1
 		}
 	}
 
-	void Scene::bindInput(const std::shared_ptr<Keyboard>& keyboard, const std::shared_ptr<Mouse>& mouse)
+	void Scene::bindInput(const std::shared_ptr<Engine1::Keyboard>& keyboard, const std::shared_ptr<Engine1::Mouse>& mouse)
 	{
 		m_keyboard = keyboard;
 		m_mouse = mouse;

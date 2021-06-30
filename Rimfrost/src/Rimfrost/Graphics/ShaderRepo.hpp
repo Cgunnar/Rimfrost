@@ -2,6 +2,9 @@
 #include "VertexShader.hpp"
 #include "PixelShader.hpp"
 #include "BaseShader.hpp"
+#include <unordered_map>
+#include <memory>
+
 
 namespace Engine1
 {
