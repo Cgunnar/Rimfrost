@@ -3,9 +3,9 @@
 #include <Windows.h>
 #include <string>
 #include <vector>
-//#include "Graphics.hpp"
-//#include "Mouse.hpp"
-//#include "Keyboard.hpp"
+#include "Rimfrost\Graphics\Graphics.hpp"
+#include "Rimfrost\Core\Mouse.hpp"
+#include "Rimfrost\Core\Keyboard.hpp"
 
 class Window
 {
