@@ -11,21 +11,6 @@ namespace Engine1
 		m_matrix = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
 	}
 
-	//Transform::Transform(float x, float y, float z) : Transform()
-	//{
-	//	setPosition(x, y, z);
-	//}
-
-	/*Transform::Transform(const XMVECTOR& position) : Transform()
-	{
-		setPosition(position);
-	}
-
-	Transform::Transform(const XMFLOAT3& position) : Transform()
-	{
-		setPosition(position);
-	}*/
-
 	Transform::Transform(const XMMATRIX& other)
 	{
 		XMStoreFloat4x4(&m_matrix, other);

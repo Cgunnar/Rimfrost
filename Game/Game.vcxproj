@@ -91,12 +91,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FpsPlayer.cpp" />
     <ClCompile Include="src\Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rimfrost\Rimfrost.vcxproj">
       <Project>{DBDF24C1-C7AC-7FCC-F0C5-6D74DCF1B45A}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FpsPlayer.hpp" />
+    <ClInclude Include="src\Game.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

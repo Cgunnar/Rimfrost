@@ -85,9 +85,6 @@
     <ClInclude Include="src\Rimfrost\Graphics\DXAccess.hpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rimfrost\Graphics\Engine1.hpp">
-      <Filter>Rimfrost\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\Rimfrost\Graphics\ForwardRenderer.hpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClInclude>
@@ -146,9 +143,6 @@
       <Filter>Rimfrost\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\Rimfrost\Graphics\TextureRepo.hpp">
-      <Filter>Rimfrost\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Rimfrost\Graphics\Transform.hpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\Rimfrost\Graphics\VertexBuffer.hpp">
@@ -212,6 +206,12 @@
       <Filter>Rimfrost\external_headers</Filter>
     </ClInclude>
     <ClInclude Include="src\rfpch.hpp" />
+    <ClInclude Include="src\Rimfrost\Graphics\Engine1.hpp">
+      <Filter>Rimfrost</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\Transform.hpp">
+      <Filter>Rimfrost\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp">
@@ -313,9 +313,6 @@
     <ClCompile Include="src\Rimfrost\Graphics\TextureRepo.cpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rimfrost\Graphics\Transform.cpp">
-      <Filter>Rimfrost\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\Rimfrost\Graphics\VertexBuffer.cpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClCompile>
@@ -365,6 +362,9 @@
       <Filter>Rimfrost</Filter>
     </ClCompile>
     <ClCompile Include="src\rfpch.cpp" />
+    <ClCompile Include="src\Rimfrost\Graphics\Transform.cpp">
+      <Filter>Rimfrost\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\Rimfrost\Shaders\MousePickingPS.hlsl">

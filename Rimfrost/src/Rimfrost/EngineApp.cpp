@@ -39,7 +39,8 @@ namespace Rimfrost
 	}
 	void EngineApp::Run()
 	{
-
+		assert(m_isRunning == false); //can only be called once
+		m_isRunning = true;
 		FrameTimer timer;
 		Timer t = Timer(Duration::MICROSECONDS);
 
@@ -59,19 +60,10 @@ namespace Rimfrost
 
 			//pause
 			handlePauseAndFullscreen();
+
+			this->update(timer.dt());
+
 			m_window.getGraphics().beginFrame();
-
-			//if (!isPaused())
-			//{
-
-			//	//physics
-			//	deltaTime += timer.dt();
-			//	while (timeStep < deltaTime)
-			//	{
-
-			//		deltaTime -= timeStep;
-			//	}
-			//}
 			m_acticeScene->update(timer.dt());
 			m_renderer.renderScene(m_acticeScene);
 			m_window.getGraphics().endFrame();

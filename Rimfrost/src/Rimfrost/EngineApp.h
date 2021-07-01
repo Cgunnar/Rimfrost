@@ -27,6 +27,10 @@ namespace Rimfrost
 		Engine1::ForwardRenderer m_renderer;
 
 		int m_paused;
+		bool m_isRunning = false;
+
+	protected:
+		virtual void update(double dt) abstract;
 
 	private:
 		void setPaused(bool pause);
