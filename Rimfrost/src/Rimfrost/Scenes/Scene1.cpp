@@ -25,12 +25,12 @@ namespace Rimfrost
 		m_pointLightContainer->addPointLight(m_whiteLight);
 
 		auto brickWall = addModel("Models/brick_wall/brick_wall.obj");
-		brickWall->localMatrix.setPosition(0, -1, 0);
+		brickWall->localMatrix.setTranslation(0, -1, 0);
 		brickWall->localMatrix.setRotationDeg(90, 0, 0);
 		brickWall->localMatrix.setScale(4);
 
 		testHandle = new NodeHandle(addModel("Models/ring/red_ring.obj", Rimfrost::ModelSettings::WIREFRAME));
-		(*testHandle)->localMatrix.setPosition(0, 0, 4);
+		(*testHandle)->localMatrix.setTranslation(0, 0, 4);
 		//(*testHandle)->localMatrix.setRotationDeg(40, 0 );
 
 		//testHandle = new NodeHandle(addModel("Models/Arrows/DXRefSys.obj"));
@@ -48,14 +48,14 @@ namespace Rimfrost
 		m_lightSphere = new NodeHandle(addModel("Models/smallInvNormSphere.obj"));
 
 		auto nanoSuit2 = addModel("Models/nanosuit/nanosuit.obj");
-		nanoSuit2->localMatrix.setPosition(25, 0, 7);
+		nanoSuit2->localMatrix.setTranslation(25, 0, 7);
 		nanoSuit2->localMatrix.setRotationDeg(0, 0, 0);
 		nanoSuit2->localMatrix.setScale(0.7f);
 
 		auto cube2 = addModel("Models/orangeGlassCube.obj");
 
 		auto vectors = addModel("Models/Arrows/DXRefSys.obj");
-		vectors->localMatrix.setPosition(7, 4, 0);
+		vectors->localMatrix.setTranslation(7, 4, 0);
 		vectors->localMatrix.setScale(4.5f);
 
 	}
@@ -99,11 +99,11 @@ namespace Rimfrost
 			(*testHandle)->localMatrix.setRotationDeg(vec3[0], vec3[1], vec3[2]);
 			//(*testHandle)->localMatrix.setRotationDeg(vec3[1], vec3[0], vec3[2]);
 		}
-		auto r = (*m.getRotationMatrix());
+		/*auto r = (*m.getRotationMatrix());
 		ImGui::Text("Rotation matrix in column major");
 		ImGui::Text("%.2f %.2f %.2f", r._11, r._21, r._31);
 		ImGui::Text("%.2f %.2f %.2f", r._12, r._22, r._32);
-		ImGui::Text("%.2f %.2f %.2f", r._13, r._23, r._33);
+		ImGui::Text("%.2f %.2f %.2f", r._13, r._23, r._33);*/
 		//ImGui::Text();
 
 		if (ImGui::Button("Button"))

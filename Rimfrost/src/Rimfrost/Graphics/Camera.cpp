@@ -9,8 +9,11 @@ namespace Rimfrost
 {
 	Camera::Camera()
 	{
-		XMStoreFloat4x4(&this->m_worldMatrix, XMMatrixIdentity());
-		XMStoreFloat4x4(&this->m_perspective, XMMatrixPerspectiveFovLH(XM_PIDIV4, 16.0f / 9.0f, 0.01f, 1000.0f));
+		XMFLOAT4X4 pt;
+		XMStoreFloat4x4(&pt, XMMatrixPerspectiveFovLH(XM_PIDIV4, 16.0f / 9.0f, 0.01f, 1000.0f));
+
+		m_perspective = Matrix((float*)pt.m);
+		m_perspective = transpose(m_perspective);
 	}
 
 	Camera::~Camera()
@@ -20,7 +23,7 @@ namespace Rimfrost
 	void Camera::update(float dt, const std::shared_ptr<Keyboard>& keyboard, const std::shared_ptr<Mouse>& mouse)
 	{
 
-		if (keyboard)
+		/*if (keyboard)
 		{
 			DirectX::XMVECTOR moveDirection = { 0,0,0,0 };
 			DirectX::XMVECTOR moveUp = { 0,1,0,0 };
@@ -64,17 +67,15 @@ namespace Rimfrost
 			float speed = 0.3f * dt;
 			AddPitchAndYaw((float)mouse->GetMouseState().deltaY * speed, (float)mouse->GetMouseState().deltaX * speed);
 			SetAbsoluteEulerRotatation(GetPitch(), GetYaw(), GetRoll());
-		}
+		}*/
 	}
 
-	void Camera::SetPosition(XMFLOAT3 newPosition)
+	void Camera::SetPosition(Vector3 newPosition)
 	{
-		this->m_worldMatrix.m[3][0] = newPosition.x;
-		this->m_worldMatrix.m[3][1] = newPosition.y;
-		this->m_worldMatrix.m[3][2] = newPosition.z;
+		m_worldMatrix.setTranslation(newPosition);
 	}
 
-	void Camera::SetOrientation(XMFLOAT3X3 newOrientation)
+	/*void Camera::SetOrientation(XMFLOAT3X3 newOrientation)
 	{
 		this->m_worldMatrix.m[0][0] = newOrientation.m[0][0];
 		this->m_worldMatrix.m[0][1] = newOrientation.m[0][1];
@@ -85,16 +86,17 @@ namespace Rimfrost
 		this->m_worldMatrix.m[2][0] = newOrientation.m[2][0];
 		this->m_worldMatrix.m[2][1] = newOrientation.m[2][1];
 		this->m_worldMatrix.m[2][2] = newOrientation.m[2][2];
-	}
+	}*/
 
-	void Camera::SetWorldMatrix(DirectX::XMFLOAT4X4 newWorldMatrix)
+
+	void Camera::SetWorldMatrix(Matrix newWorldMatrix)
 	{
 		m_worldMatrix = newWorldMatrix;
 	}
 
 	void Camera::SetAbsoluteEulerRotatation(float x, float y, float z)
 	{
-		this->m_worldMatrix._11 = 1;
+		/*this->m_worldMatrix._11 = 1;
 		this->m_worldMatrix._21 = 0;
 		this->m_worldMatrix._31 = 0;
 
@@ -113,7 +115,7 @@ namespace Rimfrost
 		world = rot * world;
 
 
-		XMStoreFloat4x4(&this->m_worldMatrix, world);
+		XMStoreFloat4x4(&this->m_worldMatrix, world);*/
 
 	}
 
@@ -151,114 +153,96 @@ namespace Rimfrost
 
 	void Camera::MoveInLocalSpace(const float& distance, const XMFLOAT3& direction)
 	{
-		XMVECTOR dir = { direction.x, direction.y, direction.z , 0.0f };
+		/*XMVECTOR dir = { direction.x, direction.y, direction.z , 0.0f };
 		dir = XMVector4Normalize(dir);
 		dir = XMVector4Transform(dir, this->GetWorldMatrix());
 		dir = XMVector4Normalize(dir);
 		this->m_worldMatrix._41 = this->m_worldMatrix._41 + distance * dir.m128_f32[0];
 		this->m_worldMatrix._42 = this->m_worldMatrix._42 + distance * dir.m128_f32[1];
-		this->m_worldMatrix._43 = this->m_worldMatrix._43 + distance * dir.m128_f32[2];
+		this->m_worldMatrix._43 = this->m_worldMatrix._43 + distance * dir.m128_f32[2];*/
 	}
 
 	void Camera::MoveInLocalSpace(const float& distance, const DirectX::XMVECTOR& direction)
 	{
-		XMVECTOR dir = direction;
+		/*XMVECTOR dir = direction;
 		dir = XMVector4Normalize(dir);
 		dir = XMVector4Transform(dir, this->GetWorldMatrix());
 		dir = XMVector4Normalize(dir);
 		this->m_worldMatrix._41 = this->m_worldMatrix._41 + distance * dir.m128_f32[0];
 		this->m_worldMatrix._42 = this->m_worldMatrix._42 + distance * dir.m128_f32[1];
-		this->m_worldMatrix._43 = this->m_worldMatrix._43 + distance * dir.m128_f32[2];
+		this->m_worldMatrix._43 = this->m_worldMatrix._43 + distance * dir.m128_f32[2];*/
 	}
 
 	void Camera::MoveInWorldSpace(const float& distance, const DirectX::XMVECTOR& direction)
-	{
+	{/*
 		XMVECTOR dir = direction;
 		dir = XMVector4Normalize(dir);
 		this->m_worldMatrix._41 = this->m_worldMatrix._41 + distance * dir.m128_f32[0];
 		this->m_worldMatrix._42 = this->m_worldMatrix._42 + distance * dir.m128_f32[1];
-		this->m_worldMatrix._43 = this->m_worldMatrix._43 + distance * dir.m128_f32[2];
+		this->m_worldMatrix._43 = this->m_worldMatrix._43 + distance * dir.m128_f32[2];*/
 	}
 
-	//void Camera::RotateInLocalSpace(const float& angle, const XMFLOAT3& localAxis)
-	//{
-	//	XMVECTOR worldAxis = XMLoadFloat3(&localAxis);
-	//	worldAxis = XMVector4Transform(worldAxis, this->GetWorldMatrix());
-	//	XMMATRIX rotM =	XMMatrixRotationAxis(worldAxis, angle);
-	//	XMMATRIX translationM = XMMatrixTranslation(this->GetX(), this->GetY(), this->GetZ());
-	//	XMMATRIX invTranslationM = XMMatrixInverse(nullptr, translationM);
-	//	
-	//	XMMATRIX worldM = this->GetWorldMatrix() * invTranslationM * rotM * translationM;
-	//
-	//	XMStoreFloat4x4(&this->worldMatrix, worldM);
-	//}
-
-	XMMATRIX Camera::GetWorldMatrix() const
+	Matrix Camera::GetWorldMatrix() const
 	{
-		return XMLoadFloat4x4(&this->m_worldMatrix);
+		return this->m_worldMatrix;
 	}
 
-	XMMATRIX Camera::GetViewMatrix() const
+	Matrix Camera::GetViewMatrix() const
 	{
-		XMMATRIX viewMatrix = XMLoadFloat4x4(&this->m_worldMatrix);
+		/*XMMATRIX viewMatrix = XMLoadFloat4x4(&this->m_worldMatrix);
 		XMVECTOR det = XMMatrixDeterminant(viewMatrix);
-		viewMatrix = XMMatrixInverse(&det, viewMatrix);
+		viewMatrix = XMMatrixInverse(&det, viewMatrix);*/
 
-		return viewMatrix;
+		return inverse(m_worldMatrix);
 	}
 
-	DirectX::XMMATRIX Camera::GetPerspective() const
+	Matrix Camera::GetPerspective() const
 	{
-		return XMLoadFloat4x4(&this->m_perspective);
+		return m_perspective;
 	}
 
-	XMVECTOR Camera::GetPosition() const
+	Vector3 Camera::GetPosition() const
 	{
-		XMFLOAT4 vector = (XMFLOAT4)this->m_worldMatrix.m[3];
+		/*XMFLOAT4 vector = (XMFLOAT4)this->m_worldMatrix.m[3];
 		vector.w = 1;
-		return XMLoadFloat4(&vector);
+		return XMLoadFloat4(&vector);*/
+		return m_worldMatrix.getTranslation();
 	}
 
-	XMVECTOR Camera::GetAxisX() const
+	Vector3 Camera::GetAxisX() const
 	{
-		XMVECTOR vec;
+		/*XMVECTOR vec;
 		vec.m128_f32[0] = this->m_worldMatrix.m[0][0];
 		vec.m128_f32[1] = this->m_worldMatrix.m[0][1];
 		vec.m128_f32[2] = this->m_worldMatrix.m[0][2];
 		vec.m128_f32[3] = 0.0f;
-		return vec;
+		return vec;*/
+		return m_worldMatrix.right();
 	}
 
-	XMVECTOR Camera::GetAxisY() const
+	Vector3 Camera::GetAxisY() const
 	{
-		XMVECTOR vec;
+		/*XMVECTOR vec;
 		vec.m128_f32[0] = this->m_worldMatrix.m[1][0];
 		vec.m128_f32[1] = this->m_worldMatrix.m[1][1];
 		vec.m128_f32[2] = this->m_worldMatrix.m[1][2];
 		vec.m128_f32[3] = 0.0f;
-		return vec;
+		return vec;*/
+		return m_worldMatrix.up();
 	}
 
-	XMVECTOR Camera::GetAxisZ() const
+	Vector3 Camera::GetAxisZ() const
 	{
-		XMVECTOR vec;
+		/*XMVECTOR vec;
 		vec.m128_f32[0] = this->m_worldMatrix.m[2][0];
 		vec.m128_f32[1] = this->m_worldMatrix.m[2][1];
 		vec.m128_f32[2] = this->m_worldMatrix.m[2][2];
 		vec.m128_f32[3] = 0.0f;
-		return vec;
+		return vec;*/
+		return m_worldMatrix.forward();
 	}
 
-	XMFLOAT3 Camera::FgetAxisZ() const
-	{
-		XMFLOAT3 vec;
-		vec.x = this->m_worldMatrix.m[2][0];
-		vec.y = this->m_worldMatrix.m[2][1];
-		vec.z = this->m_worldMatrix.m[2][2];
-		return vec;
-	}
-
-	float Camera::GetX() const
+	/*float Camera::GetX() const
 	{
 		return this->m_worldMatrix._41;
 	}
@@ -269,7 +253,7 @@ namespace Rimfrost
 	float Camera::GetZ() const
 	{
 		return this->m_worldMatrix._43;
-	}
+	}*/
 
 	float Camera::GetPitch() const
 	{
@@ -285,4 +269,4 @@ namespace Rimfrost
 	{
 		return this->m_roll;
 	}
-}
+};

@@ -2,6 +2,7 @@
 #include <DirectXMath.h>
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
+#include "RimfrostMath.hpp"
 
 namespace Rimfrost
 {
@@ -11,9 +12,9 @@ namespace Rimfrost
 		Camera();
 		~Camera();
 		void update(float dt, const std::shared_ptr<Keyboard>& keyboard = nullptr, const std::shared_ptr<Mouse>& mouse = nullptr);
-		void SetPosition(DirectX::XMFLOAT3 newPosition);
-		void SetOrientation(DirectX::XMFLOAT3X3 newOrientation);
-		void SetWorldMatrix(DirectX::XMFLOAT4X4 newWorldMatrix);
+		void SetPosition(Vector3 newPosition);
+		//void SetOrientation(Matrix newOrientation);
+		void SetWorldMatrix(Matrix newWorldMatrix);
 		void SetAbsoluteEulerRotatation(float x, float y, float z);
 		void ApplyEulerRotatation();
 		void AddPitch(float deltaPitch);
@@ -29,18 +30,17 @@ namespace Rimfrost
 
 		//void RotateInLocalSpace(const float& angle, const XMFLOAT3& localAxis);
 
-		DirectX::XMMATRIX GetWorldMatrix() const;
-		DirectX::XMMATRIX GetViewMatrix() const;
-		DirectX::XMMATRIX GetPerspective() const;
+		Matrix GetWorldMatrix() const;
+		Matrix GetViewMatrix() const;
+		Matrix GetPerspective() const;
 
-		DirectX::XMVECTOR GetPosition() const;
-		DirectX::XMVECTOR GetAxisX() const;
-		DirectX::XMVECTOR GetAxisY() const;
-		DirectX::XMVECTOR GetAxisZ() const;
-		DirectX::XMFLOAT3 FgetAxisZ() const;
-		float GetX() const;
+		Vector3 GetPosition() const;
+		Vector3 GetAxisX() const;
+		Vector3 GetAxisY() const;
+		Vector3 GetAxisZ() const;
+		/*float GetX() const;
 		float GetY() const;
-		float GetZ() const;
+		float GetZ() const;*/
 
 		float GetPitch() const;
 		float GetYaw() const;
@@ -49,8 +49,8 @@ namespace Rimfrost
 	private:
 
 
-		DirectX::XMFLOAT4X4 m_perspective;
-		DirectX::XMFLOAT4X4 m_worldMatrix;
+		Matrix m_perspective;
+		Transform m_worldMatrix;
 		float m_pitch = 0;
 		float m_yaw = 0;
 		float m_roll = 0;

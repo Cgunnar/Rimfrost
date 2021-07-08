@@ -13,34 +13,34 @@ using namespace std;
 namespace Rimfrost
 {
 
-	void to_json(nlohmann::json& j, const Transform& t)
+	void to_json(nlohmann::json& j, const Matrix& t)
 	{
-		j = nlohmann::json{ {"11", t.m_matrix._11}, {"12", t.m_matrix._12}, {"13", t.m_matrix._13}, {"14", t.m_matrix._14},
-							{"21", t.m_matrix._21}, {"22", t.m_matrix._22}, {"23", t.m_matrix._23}, {"24", t.m_matrix._24},
-							{"31", t.m_matrix._31}, {"32", t.m_matrix._32}, {"33", t.m_matrix._33}, {"34", t.m_matrix._34},
-							{"41", t.m_matrix._41}, {"42", t.m_matrix._42}, {"43", t.m_matrix._43}, {"44", t.m_matrix._44} };
+		j = nlohmann::json{ {"00", t[0][0]}, {"01", t[0][1]}, {"02", t[0][2]}, {"03", t[0][3]},
+							{"10", t[1][0]}, {"11", t[1][1]}, {"12", t[1][2]}, {"13", t[1][3]},
+							{"20", t[2][0]}, {"21", t[2][1]}, {"22", t[2][2]}, {"23", t[2][3]},
+							{"30", t[3][0]}, {"31", t[3][1]}, {"32", t[3][2]}, {"33", t[3][3]} };
 	}
-	void from_json(const nlohmann::json& j, Transform& t)
+	void from_json(const nlohmann::json& j, Matrix& t)
 	{
-		j.at("11").get_to(t.m_matrix._11);
-		j.at("12").get_to(t.m_matrix._12);
-		j.at("13").get_to(t.m_matrix._13);
-		j.at("14").get_to(t.m_matrix._14);
+		j.at("00").get_to(t[0][0]);
+		j.at("01").get_to(t[0][1]);
+		j.at("02").get_to(t[0][2]);
+		j.at("03").get_to(t[0][3]);
 
-		j.at("21").get_to(t.m_matrix._21);
-		j.at("22").get_to(t.m_matrix._22);
-		j.at("23").get_to(t.m_matrix._23);
-		j.at("24").get_to(t.m_matrix._24);
+		j.at("10").get_to(t[1][0]);
+		j.at("11").get_to(t[1][1]);
+		j.at("12").get_to(t[1][2]);
+		j.at("13").get_to(t[1][3]);
 
-		j.at("31").get_to(t.m_matrix._31);
-		j.at("32").get_to(t.m_matrix._32);
-		j.at("33").get_to(t.m_matrix._33);
-		j.at("34").get_to(t.m_matrix._34);
+		j.at("20").get_to(t[2][0]);
+		j.at("21").get_to(t[2][1]);
+		j.at("22").get_to(t[2][2]);
+		j.at("23").get_to(t[2][3]);
 
-		j.at("41").get_to(t.m_matrix._41);
-		j.at("42").get_to(t.m_matrix._42);
-		j.at("43").get_to(t.m_matrix._43);
-		j.at("44").get_to(t.m_matrix._44);
+		j.at("30").get_to(t[3][0]);
+		j.at("31").get_to(t[3][1]);
+		j.at("32").get_to(t[3][2]);
+		j.at("33").get_to(t[3][3]);
 	}
 
 	struct JnodeStruct
@@ -86,7 +86,7 @@ namespace Rimfrost
 	{
 		nlohmann::json j;
 
-		j["camera"] = Rimfrost::Transform(scene.m_camera.GetWorldMatrix());
+		j["camera"] = Matrix(scene.m_camera.GetWorldMatrix());
 
 		Logger::getLogger().debugLog("serialize: numberOfNodes = " + std::to_string(scene.m_nodes.size()) + "\n");
 
@@ -131,8 +131,8 @@ namespace Rimfrost
 
 		auto j = nlohmann::json::parse(f);
 
-		Rimfrost::Transform cameraWoldMatrix = j["camera"];
-		scene->m_camera.SetWorldMatrix(*cameraWoldMatrix);
+		Rimfrost::Matrix cameraWoldMatrix = j["camera"];
+		scene->m_camera.SetWorldMatrix(cameraWoldMatrix);
 
 
 		scene->m_nodes.clear();

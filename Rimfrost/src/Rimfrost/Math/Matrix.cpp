@@ -7,7 +7,6 @@ using namespace DirectX;
 
 namespace Rimfrost
 {
-
 	Matrix::Matrix(float* mem)
 	{
 		memcpy(this, mem, 64);

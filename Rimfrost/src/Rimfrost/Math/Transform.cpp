@@ -22,7 +22,7 @@ namespace Rimfrost
 		m_matrix[3].x = position.x;
 		m_matrix[3].y = position.y;
 		m_matrix[3].z = position.z;
-		assert(abs(m_matrix[3].w - 1.0f) < 0.0000f);
+		assert(abs(m_matrix[3].w - 1.0f) < 0.00001f);
 	}
 
 	void Transform::translate(float x, float y, float z)
@@ -81,25 +81,37 @@ namespace Rimfrost
 		S = scaleMatrix(x, y, z);
 		m_matrix = T * R * S;
 	}
+	void Transform::setScale(float scale)
+	{
+		this->setScale(scale, scale, scale);
+	}
 	void Transform::scale(float x, float y, float z)
 	{
 		auto [T, R, S] = decomposeToTRS(m_matrix);
 		S = S * scaleMatrix(x, y, z);
 		m_matrix = T * R * S;
 	}
-	Vector3 Transform::forward()
+	void Transform::scale(float scale)
+	{
+		this->scale(scale, scale, scale);
+	}
+	Vector3 Transform::getTranslation() const
+	{
+		return m_matrix[3];
+	}
+	Vector3 Transform::forward() const
 	{
 		Vector3 v = m_matrix[2];
 		v.normalize();
 		return v;
 	}
-	Vector3 Transform::up()
+	Vector3 Transform::up() const
 	{
 		Vector3 v = m_matrix[1];
 		v.normalize();
 		return v;
 	}
-	Vector3 Transform::right()
+	Vector3 Transform::right() const
 	{
 		Vector3 v = m_matrix[0];
 		v.normalize();

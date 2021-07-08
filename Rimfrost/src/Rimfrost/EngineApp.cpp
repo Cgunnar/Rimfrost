@@ -7,8 +7,8 @@
 
 #include "Rimfrost\Scenes\Scene0.hpp"
 #include "Rimfrost\Scenes\Scene1.hpp"
-#include "Rimfrost\Scenes\LevelEditor.hpp"
-#include "Rimfrost\Scene\SceneSerializer.hpp"
+//#include "Rimfrost\Scenes\LevelEditor.hpp"
+//#include "Rimfrost\Scene\SceneSerializer.hpp"
 #include <Rimfrost\EventSystem\EventSystem.hpp>
 
 using namespace Rimfrost;
@@ -21,16 +21,16 @@ namespace Rimfrost
 
 		m_scenes.emplace_back(std::make_shared<Rimfrost::Scene0>());
 		m_scenes.emplace_back(std::make_shared<Rimfrost::Scene1>());
-		m_scenes.emplace_back(std::make_shared<Rimfrost::LevelEditor>());
+		//m_scenes.emplace_back(std::make_shared<Rimfrost::LevelEditor>());
 
 		//serializationTesting
 		//m_scenes[1]->setUpScene();
 		//Rimfrost::SceneSerializer::serialize("LEVEL.json", m_scenes[1]);
 
 
-		Rimfrost::SceneSerializer::deSerialize("LEVEL.json", m_scenes[2]);
+		//Rimfrost::SceneSerializer::deSerialize("LEVEL.json", m_scenes[2]);
 
-		m_acticeScene = m_scenes[2];
+		m_acticeScene = m_scenes[1];
 		m_acticeScene->bindInput(m_window.getKeyboard(), m_window.getMouse());
 		m_acticeScene->setUpScene();
 	}

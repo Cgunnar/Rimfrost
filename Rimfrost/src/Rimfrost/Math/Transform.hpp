@@ -28,11 +28,16 @@ namespace Rimfrost
 		void rotateDeg(float x, float y, float z);
 
 		void setScale(float x, float y, float z);
+		void setScale(float scale);
 		void scale(float x, float y, float z);
+		void scale(float scale);
 
-		Vector3 forward();
-		Vector3 up();
-		Vector3 right();
+		Vector3 getTranslation() const;
+
+
+		Vector3 forward() const;
+		Vector3 up() const;
+		Vector3 right() const;
 
 
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <DirectXMath.h>
+#include "RimfrostMath.hpp"
 #include <string>
 namespace Rimfrost
 {
@@ -73,11 +74,11 @@ namespace Rimfrost
 	}
 
 
-	struct alignas(16) PerFrameData
+	struct alignas(16) PerFrameData //gpu matrix fix transpose
 	{
-		DirectX::XMFLOAT4X4 v;
-		DirectX::XMFLOAT4X4 p;
-		DirectX::XMFLOAT3 pos;
+		Matrix v;
+		Matrix p;
+		Vector3 pos;
 		float padding;
 		int32_t mouseX;
 		int32_t mouseY;

@@ -290,7 +290,7 @@ namespace Rimfrost
 
 			D3D11_MAPPED_SUBRESOURCE mappedSubRes;
 			this->getContext()->Map(m_worldMatrixCBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubRes);
-			memcpy(mappedSubRes.pData, &nodes[r].worldMatrix.m_matrix, sizeof(DirectX::XMFLOAT4X4));
+			memcpy(mappedSubRes.pData, &nodes[r].worldMatrix, sizeof(Matrix)); //gpu matrix
 			this->getContext()->Unmap(m_worldMatrixCBuffer.Get(), 0);
 
 			m_subModelCBuffer.id = (int)r;
@@ -355,28 +355,28 @@ namespace Rimfrost
 
 	std::queue<int> ForwardRenderer::sortRenderSubmits(const Camera& camera, const std::vector<Node>& nodes, std::vector<NodeID>& submits)
 	{
-		XMFLOAT3 forward = camera.FgetAxisZ();
+		Vector3 forward = camera.GetAxisZ();
 
 		auto&& frontToBack = [&nodes, &forward](NodeID a, NodeID b)
 		{
-			const auto& posA = nodes[a].worldMatrix.getPositionFloat3();
-			const auto& posB = nodes[b].worldMatrix.getPositionFloat3();
+			const auto& posA = nodes[a].worldMatrix.getTranslation();
+			const auto& posB = nodes[b].worldMatrix.getTranslation();
 			//dot(cameraForward, meshPosition)
-			return forward.x * posA.x + forward.y * posA.y + forward.z * posA.z < forward.x* posB.x + forward.y * posB.y + forward.z * posB.z;;
+			return forward.x * posA.x + forward.y * posA.y + forward.z * posA.z < forward.x* posB.x + forward.y * posB.y + forward.z * posB.z;
 		};
 		auto&& backToFront = [&nodes, &forward](NodeID a, NodeID b)
 		{
-			const auto& posA = nodes[a].worldMatrix.getPositionFloat3();
-			const auto& posB = nodes[b].worldMatrix.getPositionFloat3();
+			const auto& posA = nodes[a].worldMatrix.getTranslation();
+			const auto& posB = nodes[b].worldMatrix.getTranslation();
 			//dot(cameraForward, meshPosition)
-			return forward.x * posA.x + forward.y * posA.y + forward.z * posA.z > forward.x * posB.x + forward.y * posB.y + forward.z * posB.z;;
+			return forward.x * posA.x + forward.y * posA.y + forward.z * posA.z > forward.x * posB.x + forward.y * posB.y + forward.z * posB.z;
 		};
 
 
 		auto&& transparency = [&nodes](NodeID a, NodeID b)
 		{
-			const auto& posA = nodes[a].worldMatrix.getPositionFloat3();
-			const auto& posB = nodes[b].worldMatrix.getPositionFloat3();
+			const auto& posA = nodes[a].worldMatrix.getTranslation();
+			const auto& posB = nodes[b].worldMatrix.getTranslation();
 
 			//dot(cameraForward, meshPosition)
 
