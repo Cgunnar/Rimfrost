@@ -45,11 +45,11 @@ namespace Rimfrost
 			}
 			if (keyboard->IsKeyPressed(DIK_SPACE))
 			{
-				moveDirection += GetViewMatrix() * moveUp;
+				moveDirection += GetViewMatrix() * Vector4(moveUp, 0);
 			}
 			if (keyboard->IsKeyPressed(DIK_LCONTROL))
 			{
-				moveDirection += GetViewMatrix() * (-1*moveUp);
+				moveDirection += GetViewMatrix() * Vector4(-1*moveUp, 0);
 			}
 			moveDirection.normalize();
 			if (keyboard->IsKeyPressed(DIK_LSHIFT))

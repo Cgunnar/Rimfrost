@@ -8,7 +8,7 @@ namespace Rimfrost
 	{
 	public:
 		Vector4(float x = 0, float y = 0, float z = 0, float w = 1);
-		Vector4(const Vector3& v3, float w = 1);
+		Vector4(const Vector3& v3, float w);
 		~Vector4() = default;
 
 		float& operator[] (int index) noexcept;
