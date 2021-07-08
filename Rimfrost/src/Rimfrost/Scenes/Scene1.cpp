@@ -24,11 +24,10 @@ namespace Rimfrost
 		m_pointLightContainer = std::make_shared<PointLightContainer>();
 		m_pointLightContainer->addPointLight(m_whiteLight);
 
-		//auto brickWall = addModel("Models/brick_wall/brick_wall.obj");
-		auto brickWall = addModel("Models/orangeGlassCube.obj");
-		brickWall->localMatrix.setTranslation(0, 0, 0);
-		//brickWall->localMatrix.setRotationDeg(90, 0, 0);
-		//brickWall->localMatrix.setScale(4);
+		auto brickWall = addModel("Models/brick_wall/brick_wall.obj");
+		brickWall->localMatrix.setTranslation(0, -1, 0);
+		brickWall->localMatrix.setRotationDeg(90, 0, 0);
+		brickWall->localMatrix.setScale(4);
 
 		testHandle = new NodeHandle(addModel("Models/ring/red_ring.obj", Rimfrost::ModelSettings::WIREFRAME));
 		(*testHandle)->localMatrix.setTranslation(0, 0, 4);

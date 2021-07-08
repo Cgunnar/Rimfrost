@@ -13,7 +13,6 @@ namespace Rimfrost
 		XMStoreFloat4x4(&pt, XMMatrixPerspectiveFovLH(XM_PIDIV4, 16.0f / 9.0f, 0.01f, 1000.0f));
 
 		m_perspective = Matrix((float*)pt.m);
-		m_perspective = transpose(m_perspective);
 		m_worldMatrix = Transform();
 	}
 
@@ -198,11 +197,7 @@ namespace Rimfrost
 
 	Matrix Camera::GetViewMatrix() const
 	{
-		/*XMMATRIX viewMatrix = XMLoadFloat4x4(&this->m_worldMatrix);
-		XMVECTOR det = XMMatrixDeterminant(viewMatrix);
-		viewMatrix = XMMatrixInverse(&det, viewMatrix);*/
-		Matrix v = inverse(m_worldMatrix);
-		return v;
+		return inverse(m_worldMatrix);
 	}
 
 	Matrix Camera::GetPerspective() const
