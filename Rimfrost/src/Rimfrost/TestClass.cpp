@@ -1,6 +1,6 @@
 #include "rfpch.hpp"
 #include "TestClass.hpp"
-#include "Math\Vector3.hpp"
+#include "Math\Vector.hpp"
 
 TestClass::TestClass(int num)
 {
@@ -9,6 +9,6 @@ TestClass::TestClass(int num)
 
 void TestClass::print()
 {
-	Vector3 v(5, 3, 5);
+	Rimfrost::Vector3 v(5, 3, 5);
 	std::cout << m_num << std::endl;
 }

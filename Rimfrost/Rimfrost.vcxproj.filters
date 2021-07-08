@@ -85,6 +85,9 @@
     <ClInclude Include="src\Rimfrost\Graphics\DXAccess.hpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\Engine1.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="src\Rimfrost\Graphics\ForwardRenderer.hpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClInclude>
@@ -145,11 +148,26 @@
     <ClInclude Include="src\Rimfrost\Graphics\TextureRepo.hpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rimfrost\Graphics\TransformOld.hpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="src\Rimfrost\Graphics\VertexBuffer.hpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\Rimfrost\Graphics\VertexShader.hpp">
       <Filter>Rimfrost\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Math\Matrix.hpp">
+      <Filter>Rimfrost\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Math\RimfrostMath.hpp">
+      <Filter>Rimfrost\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Math\Transform.hpp">
+      <Filter>Rimfrost\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Math\Vector.hpp">
+      <Filter>Rimfrost\Math</Filter>
     </ClInclude>
     <ClInclude Include="src\Rimfrost\Scene\Node.hpp">
       <Filter>Rimfrost\Scene</Filter>
@@ -203,12 +221,6 @@
       <Filter>Rimfrost\external_headers</Filter>
     </ClInclude>
     <ClInclude Include="src\rfpch.hpp" />
-    <ClInclude Include="src\Rimfrost\Graphics\Engine1.hpp">
-      <Filter>Rimfrost</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Rimfrost\Graphics\TransformOld.hpp">
-      <Filter>Rimfrost\Math</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp">
@@ -310,11 +322,23 @@
     <ClCompile Include="src\Rimfrost\Graphics\TextureRepo.cpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rimfrost\Graphics\TransformOld.cpp">
+      <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="src\Rimfrost\Graphics\VertexBuffer.cpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Rimfrost\Graphics\VertexShader.cpp">
       <Filter>Rimfrost\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Math\Matrix.cpp">
+      <Filter>Rimfrost\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Math\Transform.cpp">
+      <Filter>Rimfrost\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Math\Vector.cpp">
+      <Filter>Rimfrost\Math</Filter>
     </ClCompile>
     <ClCompile Include="src\Rimfrost\Scene\Node.cpp">
       <Filter>Rimfrost\Scene</Filter>
@@ -356,9 +380,6 @@
       <Filter>Rimfrost</Filter>
     </ClCompile>
     <ClCompile Include="src\rfpch.cpp" />
-    <ClCompile Include="src\Rimfrost\Graphics\TransformOld.cpp">
-      <Filter>Rimfrost\Math</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\Rimfrost\Shaders\MousePickingPS.hlsl">
