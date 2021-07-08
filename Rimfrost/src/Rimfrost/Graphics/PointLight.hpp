@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-namespace Engine1
+namespace Rimfrost
 {
 	class PointLightContainer;
 

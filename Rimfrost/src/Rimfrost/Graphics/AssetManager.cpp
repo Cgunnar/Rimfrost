@@ -3,7 +3,7 @@
 #include "AssimpLoader.hpp"
 #include <SubModel.hpp>
 
-namespace Engine1
+namespace Rimfrost
 {
 	using namespace std;
 

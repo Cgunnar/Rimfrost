@@ -2,7 +2,7 @@
 
 #include <DirectXMath.h>
 #include <string>
-namespace Engine1
+namespace Rimfrost
 {
 	typedef size_t SubModelID;
 	typedef size_t ModelID;

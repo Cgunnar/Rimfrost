@@ -12,7 +12,7 @@
 #include "Material.hpp"
 #include "Model.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	class SubModel : DXAccess
@@ -32,7 +32,7 @@ namespace Engine1
 		const uint32_t& getIndexCount() const noexcept;
 		const uint32_t& getStartIndexLocation() const noexcept;
 		const int32_t& getBaseVertexLocation() const noexcept;
-		const Engine1::MaterialProperties& getMaterialType() const noexcept;
+		const Rimfrost::MaterialProperties& getMaterialType() const noexcept;
 		SubModelID getSubModelID() const noexcept;
 
 	private:
@@ -50,7 +50,7 @@ namespace Engine1
 		Model::ModelData m_model;
 		std::shared_ptr<InputLayout> m_inputLayout;
 
-		Engine1::Material m_mat;
+		Rimfrost::Material m_mat;
 
 		//std::shared_ptr<Texture> m_diffTexture;
 		//std::shared_ptr<Texture> m_specTexture;

@@ -14,7 +14,7 @@
 #endif 
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-namespace Engine1
+namespace Rimfrost
 {
 	Window::SingletonWindow Window::SingletonWindow::m_singlWindo;
 
@@ -78,7 +78,7 @@ namespace Engine1
 		if (!RegisterRawInputDevices(&rid, 1, sizeof(RAWINPUTDEVICE))) assert(false); //failed to register device
 #endif
 
-		this->m_graphics = new Engine1::Graphics(this->m_hWnd, this->m_width, this->m_height);
+		this->m_graphics = new Rimfrost::Graphics(this->m_hWnd, this->m_width, this->m_height);
 		this->m_mouse = std::make_shared<Mouse>(this->m_hWnd, SingletonWindow::GetInstance(),
 			[this]()->std::pair<uint32_t, uint32_t> { return this->getClientSize(); },
 			[this]()->HWND { return this->getHwnd(); });
@@ -153,7 +153,7 @@ namespace Engine1
 		return this->m_isClosed;
 	}
 
-	Engine1::Graphics& Window::getGraphics()
+	Rimfrost::Graphics& Window::getGraphics()
 	{
 		return *m_graphics;
 	}

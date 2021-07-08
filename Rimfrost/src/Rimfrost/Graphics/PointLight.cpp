@@ -4,7 +4,7 @@
 #include <assert.h>
 
 using namespace DirectX;
-namespace Engine1
+namespace Rimfrost
 {
 	int PointLight::s_nameNumber = 0;
 

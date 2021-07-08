@@ -7,7 +7,7 @@
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	Keyboard::Keyboard(HWND hWnd, HINSTANCE hInst)

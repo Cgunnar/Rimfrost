@@ -7,7 +7,7 @@
 #include "Sampler.hpp"
 #include "Engine1.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	
 

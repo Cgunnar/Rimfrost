@@ -2,7 +2,7 @@
 #include "DXAccess.hpp"
 #include "Graphics.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 
     Graphics* DXAccess::s_graphics = nullptr;

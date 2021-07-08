@@ -1,7 +1,7 @@
 #pragma once
 #include "Event.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	class PreResizeEvent : public Event
 	{

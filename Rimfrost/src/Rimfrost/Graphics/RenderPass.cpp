@@ -7,7 +7,7 @@
 using namespace Microsoft::WRL;
 using namespace std;
 
-namespace Engine1
+namespace Rimfrost
 {
 	RenderPass::RenderPass()
 	{

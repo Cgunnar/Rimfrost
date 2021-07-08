@@ -1,7 +1,7 @@
 #include "rfpch.hpp"
 #include "SceneSerializer.hpp"
 #include "json.hpp"
-#include "TransformOld.hpp"
+#include "RimfrostMath.hpp"
 #include "Scene.hpp"
 #include "AssetManager.hpp"
 #include "Logger.hpp"
@@ -10,17 +10,17 @@
 
 using namespace std;
 
-namespace Engine1
+namespace Rimfrost
 {
 
-	void to_json(nlohmann::json& j, const TransformOld& t)
+	void to_json(nlohmann::json& j, const Transform& t)
 	{
 		j = nlohmann::json{ {"11", t.m_matrix._11}, {"12", t.m_matrix._12}, {"13", t.m_matrix._13}, {"14", t.m_matrix._14},
 							{"21", t.m_matrix._21}, {"22", t.m_matrix._22}, {"23", t.m_matrix._23}, {"24", t.m_matrix._24},
 							{"31", t.m_matrix._31}, {"32", t.m_matrix._32}, {"33", t.m_matrix._33}, {"34", t.m_matrix._34},
 							{"41", t.m_matrix._41}, {"42", t.m_matrix._42}, {"43", t.m_matrix._43}, {"44", t.m_matrix._44} };
 	}
-	void from_json(const nlohmann::json& j, TransformOld& t)
+	void from_json(const nlohmann::json& j, Transform& t)
 	{
 		j.at("11").get_to(t.m_matrix._11);
 		j.at("12").get_to(t.m_matrix._12);
@@ -49,7 +49,7 @@ namespace Engine1
 		NodeID parenID;
 		bool modelParent;
 		SubModelID subModelID;
-		TransformOld transform;
+		Transform transform;
 		std::string modelPath;
 		ModelSettings settings;
 		std::string materialName;
@@ -77,7 +77,7 @@ namespace Engine1
 
 
 
-	void SceneSerializer::serialize(const string& fileName, const shared_ptr<Engine1::Scene>& scene)
+	void SceneSerializer::serialize(const string& fileName, const shared_ptr<Rimfrost::Scene>& scene)
 	{
 		serialize(fileName, *scene);
 	}
@@ -86,7 +86,7 @@ namespace Engine1
 	{
 		nlohmann::json j;
 
-		j["camera"] = Engine1::TransformOld(scene.m_camera.GetWorldMatrix());
+		j["camera"] = Rimfrost::Transform(scene.m_camera.GetWorldMatrix());
 
 		Logger::getLogger().debugLog("serialize: numberOfNodes = " + std::to_string(scene.m_nodes.size()) + "\n");
 
@@ -125,13 +125,13 @@ namespace Engine1
 		o << std::setw(4) << j << std::endl;
 	}
 
-	void SceneSerializer::deSerialize(const string& fileName, shared_ptr<Engine1::Scene>& scene)
+	void SceneSerializer::deSerialize(const string& fileName, shared_ptr<Rimfrost::Scene>& scene)
 	{
 		std::ifstream f(fileName);
 
 		auto j = nlohmann::json::parse(f);
 
-		Engine1::TransformOld cameraWoldMatrix = j["camera"];
+		Rimfrost::Transform cameraWoldMatrix = j["camera"];
 		scene->m_camera.SetWorldMatrix(*cameraWoldMatrix);
 
 

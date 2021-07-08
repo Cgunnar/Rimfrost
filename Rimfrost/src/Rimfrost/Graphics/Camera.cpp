@@ -5,7 +5,7 @@
 #include <cmath>
 using namespace DirectX;
 
-namespace Engine1
+namespace Rimfrost
 {
 	Camera::Camera()
 	{

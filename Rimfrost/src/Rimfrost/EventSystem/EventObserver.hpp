@@ -3,7 +3,7 @@
 #include "PauseEvent.hpp"
 #include "Logger.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	class EventObserver
 	{

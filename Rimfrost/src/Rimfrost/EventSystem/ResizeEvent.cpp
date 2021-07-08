@@ -1,6 +1,6 @@
 #include "rfpch.hpp"
 #include "ResizeEvent.hpp"
-namespace Engine1
+namespace Rimfrost
 {
     PreResizeEvent::PreResizeEvent()
     {

@@ -2,7 +2,7 @@
 #include <wrl.h>
 #include <d3d11.h>
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	class Graphics;

@@ -25,7 +25,7 @@ using namespace Microsoft::WRL;
 using namespace DirectX;
 
 
-namespace Engine1
+namespace Rimfrost
 {
 	Graphics::Graphics(HWND hWnd, UINT width, UINT height) : m_width(width), m_height(height), m_nativeWidth(0), m_nativeHeight(0)
 	{

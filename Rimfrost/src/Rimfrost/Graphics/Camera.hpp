@@ -3,7 +3,7 @@
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	class Camera
 	{

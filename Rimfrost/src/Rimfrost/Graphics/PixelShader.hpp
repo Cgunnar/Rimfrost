@@ -1,7 +1,7 @@
 #pragma once
 #include "DXAccess.hpp"
 #include "BaseShader.hpp"
-namespace Engine1
+namespace Rimfrost
 {
 	class PixelShader : public BaseShader
 	{

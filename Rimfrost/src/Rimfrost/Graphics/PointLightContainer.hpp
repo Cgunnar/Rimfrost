@@ -6,7 +6,7 @@
 #include <utility>
 #include <string>
 
-namespace Engine1
+namespace Rimfrost
 {
 	class PointLightContainer : public std::enable_shared_from_this<PointLightContainer>
 	{

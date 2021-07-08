@@ -1,15 +1,13 @@
 #pragma once
 #include "SubModel.hpp"
 #include "Engine1.hpp"
-#include "TransformOld.hpp"
+#include "RimfrostMath.hpp"
 #include <optional>
 #include <vector>
 
 
-namespace Engine1
+namespace Rimfrost
 {
-
-	
 
 	class Scene;
 	class ForwardRenderer;
@@ -27,8 +25,8 @@ namespace Engine1
 		std::optional<SubModel>& operator->();
 		std::optional<SubModel>& operator*();
 
-		TransformOld localMatrix;
-		TransformOld worldMatrix;
+		Transform localMatrix;
+		Transform worldMatrix;
 
 		std::optional<SubModel> m_subModel;
 		bool m_isModelParent;
@@ -49,7 +47,7 @@ namespace Engine1
 		bool isValid() const;
 		Node& get() const;
 		void invalidateHandle();
-		TransformOld getParentWorldMatrix() const;
+		Transform getParentWorldMatrix() const;
 
 	private:
 		std::reference_wrapper<std::vector<Node>> m_sceneRef;

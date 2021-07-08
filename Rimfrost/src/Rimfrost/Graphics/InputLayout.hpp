@@ -2,7 +2,7 @@
 #include "DXAccess.hpp"
 #include "VertexShader.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	class InputLayout : public DXAccess
 	{

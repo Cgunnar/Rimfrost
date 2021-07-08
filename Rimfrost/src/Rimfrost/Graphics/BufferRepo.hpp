@@ -4,7 +4,7 @@
 #include <d3d11.h>
 #include <wrl.h>
 #include <unordered_map>
-namespace Engine1
+namespace Rimfrost
 {
 
 	struct BufferDescriptor

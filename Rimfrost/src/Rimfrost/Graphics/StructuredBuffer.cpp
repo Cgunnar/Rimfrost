@@ -2,7 +2,7 @@
 #include "StructuredBuffer.hpp"
 #include <assert.h>
 
-namespace Engine1
+namespace Rimfrost
 {
 	StructuredBuffer::StructuredBuffer(std::uint32_t structSize, std::uint32_t structCount)
 	{

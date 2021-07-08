@@ -3,7 +3,7 @@
 #include "Engine1.hpp"
 #include "DXAccess.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {	
 
 	namespace standardSamplers

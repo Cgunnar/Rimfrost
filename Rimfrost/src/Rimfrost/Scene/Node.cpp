@@ -2,7 +2,7 @@
 #include "Node.hpp"
 #include "Scene.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 
     Node::Node(NodeID ID, NodeID parentID, bool modelParent) : m_ID(ID), m_parentID(parentID), m_isModelParent(modelParent)
@@ -50,9 +50,9 @@ namespace Engine1
     {
         m_nodeID = -1;
     }
-    TransformOld NodeHandle::getParentWorldMatrix() const
+    Transform NodeHandle::getParentWorldMatrix() const
     {
-        TransformOld M;
+        Transform M;
         NodeID parentID = this->get().m_parentID;
         if (parentID != rootNode)
         {

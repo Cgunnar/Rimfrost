@@ -4,7 +4,7 @@
 
 
 using namespace DirectX;
-namespace Engine1
+namespace Rimfrost
 {
 
 	NodeEditGUI::NodeEditGUI(NodeHandle handle, std::function<void(RadioButtonRefSystem)> selectTranslate,
@@ -81,13 +81,13 @@ namespace Engine1
 	{
 		switch (m_radioTRS)
 		{
-		case Engine1::NodeEditGUI::RadioButtonTRS::TRANSLATE:
+		case Rimfrost::NodeEditGUI::RadioButtonTRS::TRANSLATE:
 			m_selectTranslate(m_radioRefSys);
 			break;
-		case Engine1::NodeEditGUI::RadioButtonTRS::ROTATE:
+		case Rimfrost::NodeEditGUI::RadioButtonTRS::ROTATE:
 			m_selectRotate(m_radioRefSys);
 			break;
-		case Engine1::NodeEditGUI::RadioButtonTRS::SCALE:
+		case Rimfrost::NodeEditGUI::RadioButtonTRS::SCALE:
 			m_selectScale();
 			break;
 		default:

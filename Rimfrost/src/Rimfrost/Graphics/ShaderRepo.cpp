@@ -3,7 +3,7 @@
 
 using namespace std;
 
-namespace Engine1
+namespace Rimfrost
 {
     unordered_map<ShaderID, unique_ptr<BaseShader>> ShaderRepo::s_shaders;
 
@@ -21,7 +21,7 @@ namespace Engine1
         return *s_shaders[id];
     }
 
-    ShaderID ShaderRepo::addShader(const ShaderID& filePath, Engine1::ShaderEnum shaderType)
+    ShaderID ShaderRepo::addShader(const ShaderID& filePath, Rimfrost::ShaderEnum shaderType)
     {
         if (s_shaders.contains(filePath)) return filePath; //shader exists
 
@@ -29,21 +29,21 @@ namespace Engine1
 
         switch (shaderType)
         {
-        case Engine1::ShaderEnum::NONE:
+        case Rimfrost::ShaderEnum::NONE:
             break;
-        case Engine1::ShaderEnum::VERTEXSHADER:
+        case Rimfrost::ShaderEnum::VERTEXSHADER:
             newShader = make_unique<VertexShader>();
             break;
-        case Engine1::ShaderEnum::HULLSHADER:
+        case Rimfrost::ShaderEnum::HULLSHADER:
             break;
-        case Engine1::ShaderEnum::DOMAINSHADER:
+        case Rimfrost::ShaderEnum::DOMAINSHADER:
             break;
-        case Engine1::ShaderEnum::GEOMETRYSHADER:
+        case Rimfrost::ShaderEnum::GEOMETRYSHADER:
             break;
-        case Engine1::ShaderEnum::PIXELSHADER:
+        case Rimfrost::ShaderEnum::PIXELSHADER:
             newShader = make_unique<PixelShader>();
             break;
-        case Engine1::ShaderEnum::COMPUTESHADER:
+        case Rimfrost::ShaderEnum::COMPUTESHADER:
             break;
         default:
             break;

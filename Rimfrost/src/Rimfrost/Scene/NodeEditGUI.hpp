@@ -1,7 +1,7 @@
 #pragma once
 #include "Node.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	class NodeEditGUI

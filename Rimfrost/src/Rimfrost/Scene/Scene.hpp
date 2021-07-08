@@ -1,14 +1,14 @@
 #pragma once
 #include "Node.hpp"
 #include "Engine1.hpp"
-#include "TransformOld.hpp"
+#include "RimfrostMath.hpp"
 #include "Camera.hpp"
 #include "PointLightContainer.hpp"
 #include "EventObserver.hpp"
 
 class SceneSerializer;
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	class Scene : public EventObserver
@@ -42,8 +42,8 @@ namespace Engine1
 		[[nodiscard]] NodeHandle addModel(const std::string& filePath, ModelSettings modelSettings);
 		[[nodiscard]] NodeHandle addModel(const std::string& filePath, NodeID parentNodeID = rootNode, ModelSettings modelSettings = ModelSettings::NONE);
 		[[nodiscard]] NodeHandle addModel(const std::string& filePath, const NodeHandle& parenthandle, ModelSettings modelSettings = ModelSettings::NONE);
-		[[nodiscard]] NodeHandle addNode(const TransformOld& offset = TransformOld(), NodeID parentNodeID = rootNode);
-		[[nodiscard]] NodeHandle addNode(const TransformOld& offset, const NodeHandle& parenthandle);
+		[[nodiscard]] NodeHandle addNode(const Transform& offset = Transform(), NodeID parentNodeID = rootNode);
+		[[nodiscard]] NodeHandle addNode(const Transform& offset, const NodeHandle& parenthandle);
 
 		void removeNode(NodeID id);
 		void hideNode(NodeID id, bool isHidden);
@@ -74,7 +74,7 @@ namespace Engine1
 		
 
 		void updateWorldMatrices();
-		void updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const TransformOld& parentMatrix);
+		void updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const Transform& parentMatrix);
 		virtual void derivedSceneUpdate(double dt) {}
 		void packSceneGraph();
 

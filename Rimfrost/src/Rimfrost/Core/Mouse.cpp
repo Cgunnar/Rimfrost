@@ -10,7 +10,7 @@
 #pragma comment (lib, "dxguid.lib")
 
 
-namespace Engine1
+namespace Rimfrost
 {
 	Mouse::Mouse(HWND hWnd, HINSTANCE hInst, std::function<std::pair<uint32_t, uint32_t>()> getSizeCallback, std::function<HWND()> getHWNDCallback)
 	{

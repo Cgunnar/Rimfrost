@@ -1,6 +1,6 @@
 #pragma once
 #include "DXAccess.hpp"
-namespace Engine1
+namespace Rimfrost
 {
 	class IndexBuffer : DXAccess
 	{

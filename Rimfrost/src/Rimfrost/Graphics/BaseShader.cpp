@@ -1,8 +1,8 @@
 #include "rfpch.hpp"
 #include "BaseShader.hpp"
-namespace Engine1
+namespace Rimfrost
 {
-	BaseShader::BaseShader(Engine1::ShaderEnum shaderType) : m_shaderType(shaderType)
+	BaseShader::BaseShader(Rimfrost::ShaderEnum shaderType) : m_shaderType(shaderType)
 	{
 	}
 

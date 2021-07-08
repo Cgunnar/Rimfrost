@@ -5,7 +5,7 @@
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	class Window
 	{
@@ -42,7 +42,7 @@ namespace Engine1
 
 		bool isClosed() const;
 
-		Engine1::Graphics& getGraphics();
+		Rimfrost::Graphics& getGraphics();
 		const std::shared_ptr<Mouse>& getMouse() const noexcept;
 		const std::shared_ptr<Keyboard>& getKeyboard() const noexcept;
 
@@ -54,7 +54,7 @@ namespace Engine1
 		HWND m_hWnd;
 		bool m_isClosed;
 
-		Engine1::Graphics* m_graphics;
+		Rimfrost::Graphics* m_graphics;
 		std::shared_ptr<Mouse> m_mouse;
 		std::shared_ptr<Keyboard> m_pKeyboard;
 

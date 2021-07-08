@@ -2,7 +2,7 @@
 #include "DXAccess.hpp"
 #include "Engine1.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	class StructuredBuffer : public DXAccess
 	{

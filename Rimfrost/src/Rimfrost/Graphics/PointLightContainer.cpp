@@ -1,6 +1,6 @@
 #include "rfpch.hpp"
 #include "PointLightContainer.hpp"
-namespace Engine1
+namespace Rimfrost
 {
 	PointLightContainer::PointLightContainer()//cosnt ref
 	{

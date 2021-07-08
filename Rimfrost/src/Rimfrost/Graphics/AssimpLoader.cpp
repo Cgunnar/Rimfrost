@@ -170,7 +170,7 @@ EngineMeshSubset AssimpLoader::processMesh(aiMesh* mesh, const aiScene* scene, c
 
 	}
 
-	Engine1::Material newMat;
+	Rimfrost::Material newMat;
 	aiReturn errorCheck;
 
 	// Get material

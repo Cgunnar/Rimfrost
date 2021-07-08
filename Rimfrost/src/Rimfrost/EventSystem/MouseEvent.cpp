@@ -1,7 +1,7 @@
 #include "rfpch.hpp"
 #include "MouseEvent.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
     MouseButtonsEvent::MouseButtonsEvent(const MouseState& ms)
     {
@@ -13,7 +13,7 @@ namespace Engine1
         return eventType;
     }
 
-    MousePickingEvent::MousePickingEvent(Engine1::NodeID id, DirectX::XMFLOAT3 pos)
+    MousePickingEvent::MousePickingEvent(Rimfrost::NodeID id, DirectX::XMFLOAT3 pos)
     {
         this->nodeID = id;
         this->position = pos;

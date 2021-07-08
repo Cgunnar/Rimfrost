@@ -1,7 +1,7 @@
 #pragma once
 #include "DXAccess.hpp"
 #include <cstdint>
-namespace Engine1
+namespace Rimfrost
 {
 	class VertexBuffer : public DXAccess
 	{

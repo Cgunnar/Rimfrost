@@ -130,7 +130,6 @@
     <ClInclude Include="src\Rimfrost\Graphics\SubModel.hpp" />
     <ClInclude Include="src\Rimfrost\Graphics\Texture.hpp" />
     <ClInclude Include="src\Rimfrost\Graphics\TextureRepo.hpp" />
-    <ClInclude Include="src\Rimfrost\Graphics\TransformOld.hpp" />
     <ClInclude Include="src\Rimfrost\Graphics\VertexBuffer.hpp" />
     <ClInclude Include="src\Rimfrost\Graphics\VertexShader.hpp" />
     <ClInclude Include="src\Rimfrost\Math\Matrix.hpp" />
@@ -190,7 +189,6 @@
     <ClCompile Include="src\Rimfrost\Graphics\SubModel.cpp" />
     <ClCompile Include="src\Rimfrost\Graphics\Texture.cpp" />
     <ClCompile Include="src\Rimfrost\Graphics\TextureRepo.cpp" />
-    <ClCompile Include="src\Rimfrost\Graphics\TransformOld.cpp" />
     <ClCompile Include="src\Rimfrost\Graphics\VertexBuffer.cpp" />
     <ClCompile Include="src\Rimfrost\Graphics\VertexShader.cpp" />
     <ClCompile Include="src\Rimfrost\Math\Matrix.cpp" />

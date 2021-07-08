@@ -4,7 +4,7 @@
 using namespace std;
 using namespace Microsoft::WRL;
 
-namespace Engine1
+namespace Rimfrost
 {
 	BufferID BufferRepo::IDFromName(const std::string& name)
 	{

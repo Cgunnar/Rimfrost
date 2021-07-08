@@ -1,6 +1,6 @@
 #include "rfpch.hpp"
 #include "ForwardRenderer.hpp"
-#include "TransformOld.hpp"
+#include "RimfrostMath.hpp"
 #include "Scene.hpp"
 #include "Geometry.hpp"
 #include "EventSystem.hpp"
@@ -11,7 +11,7 @@
 
 using namespace DirectX;
 using namespace std;
-namespace Engine1
+namespace Rimfrost
 {
 
 	struct MousePickingStruct
@@ -307,11 +307,11 @@ namespace Engine1
 			subModel->bind();
 
 			//set rasterizer
-			if ((subModel->getMaterialType() & Engine1::MaterialProperties::WIREFRAME) == Engine1::MaterialProperties::WIREFRAME)
+			if ((subModel->getMaterialType() & Rimfrost::MaterialProperties::WIREFRAME) == Rimfrost::MaterialProperties::WIREFRAME)
 			{
 				this->getContext()->RSSetState(m_wireFrameRZ.Get());
 			}
-			else if ((subModel->getMaterialType() & Engine1::MaterialProperties::NO_BACKFACE_CULLING) == Engine1::MaterialProperties::NO_BACKFACE_CULLING)
+			else if ((subModel->getMaterialType() & Rimfrost::MaterialProperties::NO_BACKFACE_CULLING) == Rimfrost::MaterialProperties::NO_BACKFACE_CULLING)
 			{
 				this->getContext()->RSSetState(m_noBackFaceCullRZ.Get());
 			}

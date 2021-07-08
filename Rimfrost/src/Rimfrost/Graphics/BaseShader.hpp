@@ -3,13 +3,13 @@
 #include "DXAccess.hpp"
 #include <string>
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	class BaseShader : public DXAccess
 	{
 	public:
-		BaseShader(ShaderEnum shaderType/* = Engine1::ShaderEnum::NONE*/);
+		BaseShader(ShaderEnum shaderType/* = Rimfrost::ShaderEnum::NONE*/);
 		virtual ~BaseShader();
 
 		virtual void compile(const std::string& filePath) = 0;

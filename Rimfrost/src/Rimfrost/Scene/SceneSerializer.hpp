@@ -1,6 +1,6 @@
 #pragma once
 #include "Scene.hpp"
-namespace Engine1
+namespace Rimfrost
 {
 
 	class SceneSerializer

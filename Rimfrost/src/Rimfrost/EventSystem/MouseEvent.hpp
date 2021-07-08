@@ -3,7 +3,7 @@
 #include "Engine1.hpp"
 #include "Mouse.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	class MouseButtonsEvent : public Event
 	{

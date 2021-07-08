@@ -1,7 +1,7 @@
 #include "rfpch.hpp"
 #include "IndexBuffer.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	void IndexBuffer::initialize(uint32_t* indices, uint32_t count)

@@ -1,7 +1,7 @@
 #include "rfpch.hpp"
 #include "Sampler.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 
 

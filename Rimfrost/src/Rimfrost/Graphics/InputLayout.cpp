@@ -1,7 +1,7 @@
 #include "rfpch.hpp"
 #include "InputLayout.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	void InputLayout::init(VertexShader& vs, Layout layout)
 	{

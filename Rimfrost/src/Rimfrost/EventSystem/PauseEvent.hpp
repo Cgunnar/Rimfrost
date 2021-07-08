@@ -1,6 +1,6 @@
 #pragma once
 #include "Event.hpp"
-namespace Engine1
+namespace Rimfrost
 {
 	class PauseEvent : public Event
 	{

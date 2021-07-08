@@ -148,9 +148,6 @@
     <ClInclude Include="src\Rimfrost\Graphics\TextureRepo.hpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rimfrost\Graphics\TransformOld.hpp">
-      <Filter>Rimfrost\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\Rimfrost\Graphics\VertexBuffer.hpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClInclude>
@@ -320,9 +317,6 @@
       <Filter>Rimfrost\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Rimfrost\Graphics\TextureRepo.cpp">
-      <Filter>Rimfrost\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Rimfrost\Graphics\TransformOld.cpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Rimfrost\Graphics\VertexBuffer.cpp">

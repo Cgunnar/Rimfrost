@@ -11,7 +11,7 @@ using namespace DirectX;
 
 
 
-namespace Engine1
+namespace Rimfrost
 {
 	XMVECTOR closestPointOnLineFromPoint(const XMVECTOR& segmentEndPoint1, const XMVECTOR& segmentEndPoint2, const XMVECTOR& point);
 	XMVECTOR rayFromMouse(float x, float y, float w, float h, XMFLOAT4X4 projectionMatrix);
@@ -21,7 +21,7 @@ namespace Engine1
 	
 
 
-	LevelEditor::LevelEditor(bool saveOnExit) : Engine1::Scene(), m_whiteLight({ 0, 8, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
+	LevelEditor::LevelEditor(bool saveOnExit) : Rimfrost::Scene(), m_whiteLight({ 0, 8, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
 	{
 		m_saveOnExit = saveOnExit;
 		
@@ -34,7 +34,7 @@ namespace Engine1
 			if (m_gizmoRootNode.isValid()) removeNode(m_gizmoRootNode->m_ID);
 			packSceneGraph();
 			OutputDebugString(L"save level from leveleditor destructor\n");
-			Engine1::SceneSerializer::serialize("Scene2Save.json", *this);
+			Rimfrost::SceneSerializer::serialize("Scene2Save.json", *this);
 		}
 		if (m_lightSphere) delete m_lightSphere;
 		OutputDebugString(L"~LevelEditor\n");
@@ -85,7 +85,7 @@ namespace Engine1
 
 	void LevelEditor::translateSelectedNode()
 	{
-		TransformOld parentWorldMatrixInv = m_selectedNode.getParentWorldMatrix().getInverse();
+		Transform parentWorldMatrixInv = m_selectedNode.getParentWorldMatrix().getInverse();
 
 		XMFLOAT3 p = closestPointOnLineFromMouseCursor(m_translationInfo.translateDirectionWorldSpace, m_translationInfo.onStartNodePositionWorldSpace, m_camera, m_mouseState);
 		XMVECTOR deltaOnLine = XMLoadFloat3(&p) - XMLoadFloat3(&m_translationInfo.onStartLinePointWorldSpace);
@@ -125,9 +125,9 @@ namespace Engine1
 
 		float angle = (mouseTravelDistanceTangent - m_rotationInfo.lastFrameRotationAngle);
 
-		TransformOld parentRotMatrixInv = m_selectedNode.getParentWorldMatrix().getRotationMatrix().getInverse();
+		Transform parentRotMatrixInv = m_selectedNode.getParentWorldMatrix().getRotationMatrix().getInverse();
 		XMMATRIX deltaRotation = XMMatrixRotationNormal(normalWorldSpace, signOfTravelDistance * angle);
-		TransformOld rot =  m_selectedNode->worldMatrix.getRotationMatrix() * deltaRotation;
+		Transform rot =  m_selectedNode->worldMatrix.getRotationMatrix() * deltaRotation;
 		m_selectedNode->localMatrix.setRotation( rot * parentRotMatrixInv);
 		m_rotationInfo.lastFrameRotationAngle = mouseTravelDistanceTangent;
 	}
@@ -138,7 +138,7 @@ namespace Engine1
 		selectTranslate(getRefSysFromEnum(refSys));
 	}
 
-	void LevelEditor::selectTranslate(TransformOld referenceSystem)
+	void LevelEditor::selectTranslate(Transform referenceSystem)
 	{
 		deSelectTranslate();
 		deSelectRotate();
@@ -170,7 +170,7 @@ namespace Engine1
 		selectRotate(getRefSysFromEnum(refSys));
 	}
 
-	void LevelEditor::selectRotate(TransformOld referenceSystem)
+	void LevelEditor::selectRotate(Transform referenceSystem)
 	{
 		deSelectRotate();
 		deSelectTranslate();
@@ -211,18 +211,18 @@ namespace Engine1
 	}
 
 
-	TransformOld LevelEditor::getRefSysFromEnum(NodeEditGUI::RadioButtonRefSystem refSys) const
+	Transform LevelEditor::getRefSysFromEnum(NodeEditGUI::RadioButtonRefSystem refSys) const
 	{
 		switch (refSys)
 		{
-		case Engine1::NodeEditGUI::RadioButtonRefSystem::WORLD:
-			return TransformOld();
-		case Engine1::NodeEditGUI::RadioButtonRefSystem::LOCAL:
+		case Rimfrost::NodeEditGUI::RadioButtonRefSystem::WORLD:
+			return Transform();
+		case Rimfrost::NodeEditGUI::RadioButtonRefSystem::LOCAL:
 			return m_selectedNode->worldMatrix;
-		case Engine1::NodeEditGUI::RadioButtonRefSystem::PARENT:
+		case Rimfrost::NodeEditGUI::RadioButtonRefSystem::PARENT:
 			return m_selectedNode.getParentWorldMatrix();
 		default:
-			return TransformOld();
+			return Transform();
 		}
 	}
 
@@ -255,7 +255,7 @@ namespace Engine1
 
 	void LevelEditor::startRotate(XMVECTOR rotationNormalLocalSpace)
 	{
-		TransformOld refSys = getRefSysFromEnum(m_selecteRefSysEnum);
+		Transform refSys = getRefSysFromEnum(m_selecteRefSysEnum);
 
 		XMMATRIX refSysRot = refSys.getRotationMatrix().getXMMatrix();
 		XMVECTOR rotationNormalWorldSpace = XMVector4Transform(rotationNormalLocalSpace, refSysRot);
@@ -364,7 +364,7 @@ namespace Engine1
 		{
 			updateWorldMatrices();
 			m_gizmoRootNode->localMatrix.setPosition(m_selectedNode->worldMatrix.getPositionFloat3());
-			TransformOld refSys = getRefSysFromEnum(m_selecteRefSysEnum);
+			Transform refSys = getRefSysFromEnum(m_selecteRefSysEnum);
 			m_gizmoRootNode->localMatrix.setRotation(refSys.getRotationMatrix());
 		}
 	}

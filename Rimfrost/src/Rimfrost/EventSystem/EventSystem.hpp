@@ -3,7 +3,7 @@
 #include "Event.hpp"
 #include "EventObserver.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	class EventSystem
 	{

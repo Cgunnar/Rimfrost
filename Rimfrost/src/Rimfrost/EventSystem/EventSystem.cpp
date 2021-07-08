@@ -1,7 +1,7 @@
 #include "rfpch.hpp"
 #include "EventSystem.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	EventSystem::EventDispatcher EventSystem::s_evenDisp;
 

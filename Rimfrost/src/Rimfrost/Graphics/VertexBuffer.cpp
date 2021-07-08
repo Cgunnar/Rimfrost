@@ -5,7 +5,7 @@
 
 using namespace Microsoft::WRL;
 
-namespace Engine1
+namespace Rimfrost
 {
 	VertexBuffer::VertexBuffer()
 	{

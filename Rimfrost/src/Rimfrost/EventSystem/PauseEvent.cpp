@@ -1,6 +1,6 @@
 #include "rfpch.hpp"
 #include "PauseEvent.hpp"
-namespace Engine1
+namespace Rimfrost
 {
     PauseEvent::PauseEvent(bool state) : m_isPaused(state)
     {

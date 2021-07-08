@@ -29,7 +29,7 @@ struct EngineMeshSubset
 {
 	std::string name;
 	TextureTypes texTypes;
-	Engine1::Material material;
+	Rimfrost::Material material;
 
 	unsigned int vertexCount;
 	unsigned int vertexStart;

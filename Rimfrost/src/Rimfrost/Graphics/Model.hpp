@@ -6,7 +6,7 @@
 #include <memory>
 #include <vector>
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	struct Model
@@ -21,7 +21,7 @@ namespace Engine1
 			std::shared_ptr<VertexBuffer> m_vertexBuffer;
 			std::shared_ptr<IndexBuffer> m_indexBuffer;
 			InputLayout::Layout layout = InputLayout::Layout::POS_TEX_NOR;
-			Engine1::ModelSettings m_settings = Engine1::ModelSettings::NONE;
+			Rimfrost::ModelSettings m_settings = Rimfrost::ModelSettings::NONE;
 			std::string m_filePath;
 
 		} commonData;

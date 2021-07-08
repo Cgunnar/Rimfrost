@@ -3,7 +3,7 @@
 #include "DXAccess.hpp"
 #include "BaseShader.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	class VertexShader : public BaseShader
 	{

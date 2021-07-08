@@ -4,7 +4,7 @@
 #include "Engine1.hpp"
 
 
-namespace Engine1
+namespace Rimfrost
 {
 	class Texture : public DXAccess
 	{
@@ -16,7 +16,7 @@ namespace Engine1
 		//Texture& operator =(const Texture&) = delete;
 		~Texture();
 
-		void bind(std::uint32_t texBindSlot = 0, Engine1::ShaderEnum shader = Engine1::ShaderEnum::PIXELSHADER);
+		void bind(std::uint32_t texBindSlot = 0, Rimfrost::ShaderEnum shader = Rimfrost::ShaderEnum::PIXELSHADER);
 		void unBind();
 
 
@@ -36,7 +36,7 @@ namespace Engine1
 
 		std::uint32_t m_texBindSlot = 0;
 
-		Engine1::ShaderEnum m_eShader;
+		Rimfrost::ShaderEnum m_eShader;
 
 		D3D11_TEXTURE2D_DESC m_texture2dDesc;
 

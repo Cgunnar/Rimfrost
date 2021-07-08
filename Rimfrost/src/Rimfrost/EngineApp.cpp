@@ -11,7 +11,7 @@
 #include "Rimfrost\Scene\SceneSerializer.hpp"
 #include <Rimfrost\EventSystem\EventSystem.hpp>
 
-using namespace Engine1;
+using namespace Rimfrost;
 namespace Rimfrost
 {
 	EngineApp::EngineApp() : m_window(L"MyWindow", 1280, 720)
@@ -19,16 +19,16 @@ namespace Rimfrost
 		m_paused = 0;
 		m_window.getGraphics().useImGui(true);
 
-		m_scenes.emplace_back(std::make_shared<Engine1::Scene0>());
-		m_scenes.emplace_back(std::make_shared<Engine1::Scene1>());
-		m_scenes.emplace_back(std::make_shared<Engine1::LevelEditor>());
+		m_scenes.emplace_back(std::make_shared<Rimfrost::Scene0>());
+		m_scenes.emplace_back(std::make_shared<Rimfrost::Scene1>());
+		m_scenes.emplace_back(std::make_shared<Rimfrost::LevelEditor>());
 
 		//serializationTesting
 		//m_scenes[1]->setUpScene();
-		//Engine1::SceneSerializer::serialize("LEVEL.json", m_scenes[1]);
+		//Rimfrost::SceneSerializer::serialize("LEVEL.json", m_scenes[1]);
 
 
-		Engine1::SceneSerializer::deSerialize("LEVEL.json", m_scenes[2]);
+		Rimfrost::SceneSerializer::deSerialize("LEVEL.json", m_scenes[2]);
 
 		m_acticeScene = m_scenes[2];
 		m_acticeScene->bindInput(m_window.getKeyboard(), m_window.getMouse());
@@ -90,14 +90,14 @@ namespace Rimfrost
 		if (!isPaused() && m_window.getKeyboard()->IsKeyPressed(DIK_ESCAPE) && !m_window.getKeyboard()->WasKeyPressed(DIK_ESCAPE))
 		{
 			this->setPaused(true);
-			Engine1::EventSystem::post(Engine1::PauseEvent(true));
+			Rimfrost::EventSystem::post(Rimfrost::PauseEvent(true));
 			m_window.getMouse()->confineCursor(false);
 			m_window.getMouse()->showCursor(true);
 		}
 		else if (isPaused() && m_window.getKeyboard()->IsKeyPressed(DIK_ESCAPE) && !m_window.getKeyboard()->WasKeyPressed(DIK_ESCAPE))
 		{
 			this->setPaused(false);
-			Engine1::EventSystem::post(Engine1::PauseEvent(false));
+			Rimfrost::EventSystem::post(Rimfrost::PauseEvent(false));
 			m_window.getMouse()->confineCursor(true);
 			m_window.getMouse()->showCursor(false);
 		}

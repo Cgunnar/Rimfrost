@@ -19,12 +19,12 @@ namespace Rimfrost
 
 		void Run();
 	private:
-		Engine1::Window m_window;
+		Rimfrost::Window m_window;
 
-		std::vector<std::shared_ptr<Engine1::Scene>> m_scenes;
-		std::shared_ptr<Engine1::Scene> m_acticeScene;
+		std::vector<std::shared_ptr<Rimfrost::Scene>> m_scenes;
+		std::shared_ptr<Rimfrost::Scene> m_acticeScene;
 
-		Engine1::ForwardRenderer m_renderer;
+		Rimfrost::ForwardRenderer m_renderer;
 
 		int m_paused;
 		bool m_isRunning = false;

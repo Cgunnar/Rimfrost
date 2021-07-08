@@ -3,7 +3,7 @@
 #include <ReadImg.hpp>
 
 using namespace std;
-namespace Engine1
+namespace Rimfrost
 {
 	unordered_map<TextureID, Texture> TextureRepo::s_textures;
 

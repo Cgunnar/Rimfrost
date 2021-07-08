@@ -8,7 +8,7 @@
 #include <queue>
 
 
-namespace Engine1
+namespace Rimfrost
 {
 	
 
@@ -21,7 +21,7 @@ namespace Engine1
 		uint32_t renderScene(const std::shared_ptr<Scene>& scene);
 
 	private:
-		std::queue<int> sortRenderSubmits(const Camera& camera, const std::vector<Engine1::Node>& nodes, std::vector<Engine1::NodeID>& submits);
+		std::queue<int> sortRenderSubmits(const Camera& camera, const std::vector<Rimfrost::Node>& nodes, std::vector<Rimfrost::NodeID>& submits);
 	private:
 		Timer m_timer;
 

@@ -1,9 +1,9 @@
 #include "rfpch.hpp"
 #include "PixelShader.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
-	PixelShader::PixelShader(std::string entryPoint, std::string shaderModel) : BaseShader(Engine1::ShaderEnum::PIXELSHADER)
+	PixelShader::PixelShader(std::string entryPoint, std::string shaderModel) : BaseShader(Rimfrost::ShaderEnum::PIXELSHADER)
 	{
 		this->m_entryPoint = entryPoint;
 		this->m_shaderModel = shaderModel;

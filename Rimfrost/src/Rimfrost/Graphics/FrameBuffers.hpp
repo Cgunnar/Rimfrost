@@ -3,7 +3,7 @@
 #include "DXAccess.hpp"
 #include "EventObserver.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	enum class FrameBufferSetting
 	{

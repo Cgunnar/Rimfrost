@@ -4,7 +4,7 @@
 using namespace DirectX;
 using namespace std;
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	SubModel::SubModel(const EngineMeshSubset& meshInfo, const Model::ModelData& model, SubModelID id)
@@ -139,7 +139,7 @@ namespace Engine1
 		return m_baseVertexLocation;
 	}
 
-	const Engine1::MaterialProperties& SubModel::getMaterialType() const noexcept
+	const Rimfrost::MaterialProperties& SubModel::getMaterialType() const noexcept
 	{
 		return m_mat.getType();
 	}

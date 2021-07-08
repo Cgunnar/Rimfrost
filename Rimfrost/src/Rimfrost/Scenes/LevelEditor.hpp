@@ -3,10 +3,10 @@
 #include "PointLight.hpp"
 #include "NodeEditGUI.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 
-	class LevelEditor : public Engine1::Scene
+	class LevelEditor : public Rimfrost::Scene
 	{
 	public:
 		LevelEditor(bool saveOnExit = false);
@@ -61,8 +61,8 @@ namespace Engine1
 		NodeHandle m_selectedNode{ m_nodes };
 		NodeHandle m_gizmoRootNode{ m_nodes };
 
-		TransformOld m_selectedNodeTransformOnStart;
-		TransformOld m_selectedReferencSystem;
+		Transform m_selectedNodeTransformOnStart;
+		Transform m_selectedReferencSystem;
 		NodeEditGUI::RadioButtonRefSystem m_selecteRefSysEnum = NodeEditGUI::RadioButtonRefSystem::WORLD;
 
 
@@ -87,11 +87,11 @@ namespace Engine1
 		void rotateSelectedNode(float dt);
 
 		void selectTranslateFromGui(NodeEditGUI::RadioButtonRefSystem refSys);
-		void selectTranslate(TransformOld referenceSystem);
+		void selectTranslate(Transform referenceSystem);
 		void deSelectTranslate();
 
 		void selectRotateFromGui(NodeEditGUI::RadioButtonRefSystem refSys);
-		void selectRotate(TransformOld referenceSystem);
+		void selectRotate(Transform referenceSystem);
 		void deSelectRotate();
 
 		void selectScale();
@@ -106,7 +106,7 @@ namespace Engine1
 		void startScaling();
 		void stopScaling(bool keeoNewScale = true);
 
-		bool handleArrowSelection(Engine1::NodeID id);
+		bool handleArrowSelection(Rimfrost::NodeID id);
 		GizmoXYZ handleRingSelection(NodeID id);
 
 		void derivedOnEvent(const Event& e) override;
@@ -114,7 +114,7 @@ namespace Engine1
 		void updateGizmo();
 
 		DirectX::XMVECTOR rayFromView(float x, float y);
-		TransformOld getRefSysFromEnum(NodeEditGUI::RadioButtonRefSystem refSys) const;
+		Transform getRefSysFromEnum(NodeEditGUI::RadioButtonRefSystem refSys) const;
 	};
 
 }

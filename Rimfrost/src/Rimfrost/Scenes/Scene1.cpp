@@ -5,7 +5,7 @@
 #include "imgui.h"
 
 using namespace DirectX;
-namespace Engine1
+namespace Rimfrost
 {
 
 	Scene1::Scene1() : Scene(), m_whiteLight({ 4, 6, 8 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
@@ -29,7 +29,7 @@ namespace Engine1
 		brickWall->localMatrix.setRotationDeg(90, 0, 0);
 		brickWall->localMatrix.setScale(4);
 
-		testHandle = new NodeHandle(addModel("Models/ring/red_ring.obj", Engine1::ModelSettings::WIREFRAME));
+		testHandle = new NodeHandle(addModel("Models/ring/red_ring.obj", Rimfrost::ModelSettings::WIREFRAME));
 		(*testHandle)->localMatrix.setPosition(0, 0, 4);
 		//(*testHandle)->localMatrix.setRotationDeg(40, 0 );
 

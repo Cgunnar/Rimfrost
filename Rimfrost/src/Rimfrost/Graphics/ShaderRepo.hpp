@@ -6,7 +6,7 @@
 #include <memory>
 
 
-namespace Engine1
+namespace Rimfrost
 {
 	typedef std::string ShaderID;
 
@@ -17,7 +17,7 @@ namespace Engine1
 		~ShaderRepo();
 
 		static BaseShader& getShader(const ShaderID& id);
-		static ShaderID addShader(const ShaderID& filePath, Engine1::ShaderEnum shaderType);
+		static ShaderID addShader(const ShaderID& filePath, Rimfrost::ShaderEnum shaderType);
 
 	private:
 		static std::unordered_map<ShaderID, std::unique_ptr<BaseShader>> s_shaders;

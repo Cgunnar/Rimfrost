@@ -4,7 +4,7 @@
 #include <functional>
 
 //#define DirectInput
-namespace Engine1
+namespace Rimfrost
 {
 
 	struct MouseState

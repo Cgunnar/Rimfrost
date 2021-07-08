@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Engine1
+namespace Rimfrost
 {
 	namespace Geometry
 	{

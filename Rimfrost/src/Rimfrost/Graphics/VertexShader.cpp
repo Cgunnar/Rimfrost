@@ -5,9 +5,9 @@
 //{
 //	this->compileShader(shaderFileName);
 //}
-namespace Engine1
+namespace Rimfrost
 {
-	VertexShader::VertexShader(std::string entryPoint, std::string shaderModel) : BaseShader(Engine1::ShaderEnum::VERTEXSHADER)
+	VertexShader::VertexShader(std::string entryPoint, std::string shaderModel) : BaseShader(Rimfrost::ShaderEnum::VERTEXSHADER)
 	{
 		this->m_entryPoint = entryPoint;
 		this->m_shaderModel = shaderModel;

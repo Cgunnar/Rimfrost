@@ -4,7 +4,7 @@
 #include "ResizeEvent.hpp"
 #include "Logger.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	FrameBuffers::FrameBuffers()
 	{

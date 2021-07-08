@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	enum class MaterialProperties

@@ -1,7 +1,7 @@
 #include "rfpch.hpp"
 #include "Material.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 	void Material::createConstantBuffer(Microsoft::WRL::ComPtr<ID3D11Device>& device)
 	{

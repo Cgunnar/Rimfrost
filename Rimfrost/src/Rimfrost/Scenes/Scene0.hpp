@@ -2,7 +2,7 @@
 #include "Scene.hpp"
 #include "PointLight.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	class Scene0 : public Scene

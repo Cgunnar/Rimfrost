@@ -4,8 +4,8 @@
 #include <assert.h>
 
 using namespace Microsoft::WRL;
-using namespace Engine1;
-namespace Engine1
+using namespace Rimfrost;
+namespace Rimfrost
 {
 	Texture::Texture(bool srgb, const void* data, int width, int height, bool alphaBlending, bool alphaTesting) : m_alphaBlending(alphaBlending), m_alphaTesting(alphaTesting)
 	{

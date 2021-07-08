@@ -3,7 +3,7 @@
 #include <optional>
 #include <unordered_map>
 
-namespace Engine1
+namespace Rimfrost
 {
 	typedef std::string TextureID;
 

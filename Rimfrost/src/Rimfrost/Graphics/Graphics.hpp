@@ -4,7 +4,7 @@
 #include "FrameBufferRepo.hpp"
 #include "BufferRepo.hpp"
 
-namespace Engine1
+namespace Rimfrost
 {
 
 	class Graphics

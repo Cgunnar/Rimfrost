@@ -6,10 +6,10 @@
 
 using namespace DirectX;
 
-namespace Engine1
+namespace Rimfrost
 {
 
-	Scene0::Scene0() : Engine1::Scene(), m_whiteLight({ 0, 0, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
+	Scene0::Scene0() : Rimfrost::Scene(), m_whiteLight({ 0, 0, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
 	{
 	}
 
@@ -43,7 +43,7 @@ namespace Engine1
 			m_pointLightContainer->addPointLight(m_randomLights.back());
 		}
 
-		auto sponza = addModel("Models/Sponza2/sponza.obj", Engine1::ModelSettings::TRANSPARENCY_IS_TWOSIDED);
+		auto sponza = addModel("Models/Sponza2/sponza.obj", Rimfrost::ModelSettings::TRANSPARENCY_IS_TWOSIDED);
 		sponza->localMatrix.setPosition(4.0f, 0, -2.0f);
 		sponza->localMatrix.scale(0.07f);
 
@@ -87,7 +87,7 @@ namespace Engine1
 
 
 
-		auto nanoSuit5 = addModel("Models/nanosuit/nanosuit.obj", Engine1::ModelSettings::WIREFRAME);
+		auto nanoSuit5 = addModel("Models/nanosuit/nanosuit.obj", Rimfrost::ModelSettings::WIREFRAME);
 		nanoSuit5->localMatrix.setPosition(-8, 0, -7);
 		nanoSuit5->localMatrix.setRotationDeg(0, -90, 0);
 		nanoSuit5->localMatrix.setScale(0.7f);

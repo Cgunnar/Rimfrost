@@ -12,7 +12,7 @@
 
 using namespace std;
 
-namespace Engine1
+namespace Rimfrost
 {
 
 
@@ -62,7 +62,7 @@ namespace Engine1
 		}
 	}
 
-	void Scene::bindInput(const std::shared_ptr<Engine1::Keyboard>& keyboard, const std::shared_ptr<Engine1::Mouse>& mouse)
+	void Scene::bindInput(const std::shared_ptr<Rimfrost::Keyboard>& keyboard, const std::shared_ptr<Rimfrost::Mouse>& mouse)
 	{
 		m_keyboard = keyboard;
 		m_mouse = mouse;
@@ -144,7 +144,7 @@ namespace Engine1
 
 
 
-	NodeHandle Scene::addNode(const TransformOld& offset, NodeID parentNodeID)
+	NodeHandle Scene::addNode(const Transform& offset, NodeID parentNodeID)
 	{
 
 		NodeID newNodeID = m_nodes.size();
@@ -158,12 +158,12 @@ namespace Engine1
 		return NodeHandle(m_nodes, newNodeID);
 	}
 
-	NodeHandle Engine1::Scene::addNode(const TransformOld& offset, const NodeHandle& parenthandle)
+	NodeHandle Rimfrost::Scene::addNode(const Transform& offset, const NodeHandle& parenthandle)
 	{
 		return addNode(offset, parenthandle->m_ID);
 	}
 
-	void Engine1::Scene::removeNode(NodeID id)
+	void Rimfrost::Scene::removeNode(NodeID id)
 	{
 		assert(id != rootNode);
 		for (auto childID : m_nodes[id].m_childIDs)
@@ -183,18 +183,18 @@ namespace Engine1
 		m_nodes[id].m_isHidden = isHidden;
 	}
 
-	void Engine1::Scene::updateWorldMatrices()
+	void Rimfrost::Scene::updateWorldMatrices()
 	{
 		for (auto& node : m_nodes)
 		{
 			if (node.m_parentID == rootNode)
 			{
-				updatedChildWorldMatrix(m_nodes, node.m_ID, TransformOld());
+				updatedChildWorldMatrix(m_nodes, node.m_ID, Transform());
 			}
 		}
 	}
 
-	void Engine1::Scene::updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const TransformOld& parentMatrix)
+	void Rimfrost::Scene::updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const Transform& parentMatrix)
 	{
 		nodes[ID].worldMatrix = nodes[ID].localMatrix * parentMatrix;
 		for (auto& childID : nodes[ID].m_childIDs)
@@ -203,7 +203,7 @@ namespace Engine1
 		}
 	}
 
-	NodeID Engine1::Scene::traverseSubMeshTree(SubMeshTree tree, const Model& model, NodeID nodeID)
+	NodeID Rimfrost::Scene::traverseSubMeshTree(SubMeshTree tree, const Model& model, NodeID nodeID)
 	{
 		//every recursion is a new node
 
@@ -235,7 +235,7 @@ namespace Engine1
 
 	}
 
-	NodeID Engine1::Scene::addSubModel(SubModel subModel, NodeID parentID)
+	NodeID Rimfrost::Scene::addSubModel(SubModel subModel, NodeID parentID)
 	{
 		assert(!m_nodes[parentID].m_subModel);
 		NodeID newNodeID = m_nodes.size();
@@ -247,7 +247,7 @@ namespace Engine1
 		return newNodeID;
 	}
 
-	NodeID Engine1::Scene::addNode(NodeID parentNodeID)
+	NodeID Rimfrost::Scene::addNode(NodeID parentNodeID)
 	{
 		NodeID newNodeID = m_nodes.size();
 
@@ -260,7 +260,7 @@ namespace Engine1
 	}
 
 	//remove deleted nodes from the graph and make it compact
-	void Engine1::Scene::packSceneGraph()
+	void Rimfrost::Scene::packSceneGraph()
 	{
 		//find first invalid node
 		int firstInvalidIndex = -1;
@@ -311,7 +311,7 @@ namespace Engine1
 
 	}
 
-	void Engine1::Scene::onEvent(const Event& e)
+	void Rimfrost::Scene::onEvent(const Event& e)
 	{
 		if (e.type() == PauseEvent::eventType)
 		{
@@ -349,13 +349,13 @@ namespace Engine1
 	//	return m_sceneRef.get().m_nodes[m_nodeID];
 	//}
 	//
-	//Node* Engine1::Scene::NodeHandle::operator->() const
+	//Node* Rimfrost::Scene::NodeHandle::operator->() const
 	//{
 	//	assert(m_nodeID != rootNode);
 	//	return &m_sceneRef.get().m_nodes[m_nodeID];
 	//}
 	//
-	//bool Engine1::Scene::NodeHandle::isValid() const
+	//bool Rimfrost::Scene::NodeHandle::isValid() const
 	//{
 	//	return m_nodeID != rootNode;
 	//}

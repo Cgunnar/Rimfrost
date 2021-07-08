@@ -5,7 +5,7 @@
 
 #include <unordered_map>
 #include <string>
-namespace Engine1
+namespace Rimfrost
 {
 	class Graphics;
 	
