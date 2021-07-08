@@ -23,35 +23,35 @@ namespace Rimfrost
 	void Camera::update(float dt, const std::shared_ptr<Keyboard>& keyboard, const std::shared_ptr<Mouse>& mouse)
 	{
 
-		/*if (keyboard)
+		if (keyboard)
 		{
-			DirectX::XMVECTOR moveDirection = { 0,0,0,0 };
-			DirectX::XMVECTOR moveUp = { 0,1,0,0 };
+			Vector3 moveDirection = { 0,0,0 };
+			Vector3 moveUp = { 0,1,0 };
 			if (keyboard->IsKeyPressed(DIK_A))
 			{
-				moveDirection += {-1, 0, 0, 0};
+				moveDirection += {-1, 0, 0};
 			}
 			if (keyboard->IsKeyPressed(DIK_D))
 			{
-				moveDirection += {1, 0, 0, 0};
+				moveDirection += {1, 0, 0};
 			}
 			if (keyboard->IsKeyPressed(DIK_W))
 			{
-				moveDirection += {0, 0, 1, 0};
+				moveDirection += {0, 0, 1};
 			}
 			if (keyboard->IsKeyPressed(DIK_S))
 			{
-				moveDirection += {0, 0, -1, 0};
+				moveDirection += {0, 0, -1};
 			}
 			if (keyboard->IsKeyPressed(DIK_SPACE))
 			{
-				moveDirection += XMVector4Transform(moveUp, GetViewMatrix());
+				moveDirection += GetViewMatrix() * moveUp;
 			}
 			if (keyboard->IsKeyPressed(DIK_LCONTROL))
 			{
-				moveDirection += XMVector4Transform(-moveUp, GetViewMatrix());
+				moveDirection += GetViewMatrix() * (-1*moveUp);
 			}
-			moveDirection = XMVector4Normalize(moveDirection);
+			moveDirection.normalize();
 			if (keyboard->IsKeyPressed(DIK_LSHIFT))
 			{
 				MoveInLocalSpace(dt * 8.0f, moveDirection);
@@ -67,7 +67,7 @@ namespace Rimfrost
 			float speed = 0.3f * dt;
 			AddPitchAndYaw((float)mouse->GetMouseState().deltaY * speed, (float)mouse->GetMouseState().deltaX * speed);
 			SetAbsoluteEulerRotatation(GetPitch(), GetYaw(), GetRoll());
-		}*/
+		}
 	}
 
 	void Camera::SetPosition(Vector3 newPosition)
@@ -151,7 +151,7 @@ namespace Rimfrost
 	}
 
 
-	void Camera::MoveInLocalSpace(const float& distance, const XMFLOAT3& direction)
+	void Camera::MoveInLocalSpace(const float& distance, const Vector3& direction)
 	{
 		/*XMVECTOR dir = { direction.x, direction.y, direction.z , 0.0f };
 		dir = XMVector4Normalize(dir);
@@ -160,6 +160,12 @@ namespace Rimfrost
 		this->m_worldMatrix._41 = this->m_worldMatrix._41 + distance * dir.m128_f32[0];
 		this->m_worldMatrix._42 = this->m_worldMatrix._42 + distance * dir.m128_f32[1];
 		this->m_worldMatrix._43 = this->m_worldMatrix._43 + distance * dir.m128_f32[2];*/
+		Vector3 dir = direction;
+		dir.normalize();
+		
+		dir = m_worldMatrix * Vector4(dir, 0);
+		dir.normalize();
+		m_worldMatrix.translate(distance * dir);
 	}
 
 	void Camera::MoveInLocalSpace(const float& distance, const DirectX::XMVECTOR& direction)

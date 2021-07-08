@@ -23,7 +23,7 @@ namespace Rimfrost
 		void AddPitchAndYaw(float deltaPitch, float deltaYaw);
 
 
-		void MoveInLocalSpace(const float& distance, const DirectX::XMFLOAT3& direction);
+		void MoveInLocalSpace(const float& distance, const Vector3& direction);
 		void MoveInLocalSpace(const float& distance, const DirectX::XMVECTOR& direction);
 
 		void MoveInWorldSpace(const float& distance, const DirectX::XMVECTOR& direction);

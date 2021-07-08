@@ -40,6 +40,7 @@ namespace Rimfrost
 		~Vector3() = default;
 
 		float& operator[] (int index) noexcept;
+		Vector3& operator +=(const Vector3& other);
 		float length() const;
 		void normalize();
 		float x, y, z;

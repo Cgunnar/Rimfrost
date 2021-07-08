@@ -96,6 +96,13 @@ namespace Rimfrost
 			return this->x;
 		}
 	}
+	Vector3& Vector3::operator+=(const Vector3& other)
+	{
+		this->x = this->x + other.x;
+		this->y = this->y + other.y;
+		this->z = this->z + other.z;
+		return *this;
+	}
 	float Vector3::length() const
 	{
 		return sqrt(x * x + y * y + z * z);
