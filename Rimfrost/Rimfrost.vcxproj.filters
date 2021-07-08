@@ -175,6 +175,12 @@
     <ClInclude Include="src\Rimfrost\Scene\Scene.hpp">
       <Filter>Rimfrost\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rimfrost\Scene\SceneSerializer.hpp">
+      <Filter>Rimfrost\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\Scenes\LevelEditor.hpp">
+      <Filter>Rimfrost\Scenes</Filter>
+    </ClInclude>
     <ClInclude Include="src\Rimfrost\Scenes\Scene0.hpp">
       <Filter>Rimfrost\Scenes</Filter>
     </ClInclude>
@@ -331,8 +337,17 @@
     <ClCompile Include="src\Rimfrost\Scene\Node.cpp">
       <Filter>Rimfrost\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rimfrost\Scene\NodeEditGUI.cpp">
+      <Filter>Rimfrost\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Rimfrost\Scene\Scene.cpp">
       <Filter>Rimfrost\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Scene\SceneSerializer.cpp">
+      <Filter>Rimfrost\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rimfrost\Scenes\LevelEditor.cpp">
+      <Filter>Rimfrost\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="src\Rimfrost\Scenes\Scene0.cpp">
       <Filter>Rimfrost\Scenes</Filter>

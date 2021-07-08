@@ -34,6 +34,7 @@ namespace Rimfrost
 
 		Vector3 getTranslation() const;
 
+		Matrix getRotationMatrix() const;
 
 		Vector3 forward() const;
 		Vector3 up() const;

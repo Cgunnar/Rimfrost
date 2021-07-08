@@ -101,6 +101,10 @@ namespace Rimfrost
 	{
 		return m_matrix[3];
 	}
+	Matrix Transform::getRotationMatrix() const
+	{
+		return std::get<1>(decomposeToTRS(m_matrix));
+	}
 	Vector3 Transform::forward() const
 	{
 		Vector3 v = m_matrix[2];

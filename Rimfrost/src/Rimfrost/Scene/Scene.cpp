@@ -196,7 +196,8 @@ namespace Rimfrost
 
 	void Rimfrost::Scene::updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const Transform& parentMatrix)
 	{
-		nodes[ID].worldMatrix = nodes[ID].localMatrix * parentMatrix;
+		nodes[ID].worldMatrix = parentMatrix * nodes[ID].localMatrix;
+		//nodes[ID].worldMatrix = nodes[ID].localMatrix * parentMatrix;
 		for (auto& childID : nodes[ID].m_childIDs)
 		{
 			updatedChildWorldMatrix(nodes, childID, nodes[ID].worldMatrix);
