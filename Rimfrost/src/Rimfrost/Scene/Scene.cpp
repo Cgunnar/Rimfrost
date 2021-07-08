@@ -144,7 +144,7 @@ namespace Engine1
 
 
 
-	NodeHandle Scene::addNode(const Transform& offset, NodeID parentNodeID)
+	NodeHandle Scene::addNode(const TransformOld& offset, NodeID parentNodeID)
 	{
 
 		NodeID newNodeID = m_nodes.size();
@@ -158,7 +158,7 @@ namespace Engine1
 		return NodeHandle(m_nodes, newNodeID);
 	}
 
-	NodeHandle Engine1::Scene::addNode(const Transform& offset, const NodeHandle& parenthandle)
+	NodeHandle Engine1::Scene::addNode(const TransformOld& offset, const NodeHandle& parenthandle)
 	{
 		return addNode(offset, parenthandle->m_ID);
 	}
@@ -189,12 +189,12 @@ namespace Engine1
 		{
 			if (node.m_parentID == rootNode)
 			{
-				updatedChildWorldMatrix(m_nodes, node.m_ID, Transform());
+				updatedChildWorldMatrix(m_nodes, node.m_ID, TransformOld());
 			}
 		}
 	}
 
-	void Engine1::Scene::updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const Transform& parentMatrix)
+	void Engine1::Scene::updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const TransformOld& parentMatrix)
 	{
 		nodes[ID].worldMatrix = nodes[ID].localMatrix * parentMatrix;
 		for (auto& childID : nodes[ID].m_childIDs)

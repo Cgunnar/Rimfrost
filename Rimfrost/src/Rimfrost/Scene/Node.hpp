@@ -1,7 +1,7 @@
 #pragma once
 #include "SubModel.hpp"
 #include "Engine1.hpp"
-#include "Transform.hpp"
+#include "TransformOld.hpp"
 #include <optional>
 #include <vector>
 
@@ -27,8 +27,8 @@ namespace Engine1
 		std::optional<SubModel>& operator->();
 		std::optional<SubModel>& operator*();
 
-		Transform localMatrix;
-		Transform worldMatrix;
+		TransformOld localMatrix;
+		TransformOld worldMatrix;
 
 		std::optional<SubModel> m_subModel;
 		bool m_isModelParent;
@@ -49,7 +49,7 @@ namespace Engine1
 		bool isValid() const;
 		Node& get() const;
 		void invalidateHandle();
-		Transform getParentWorldMatrix() const;
+		TransformOld getParentWorldMatrix() const;
 
 	private:
 		std::reference_wrapper<std::vector<Node>> m_sceneRef;

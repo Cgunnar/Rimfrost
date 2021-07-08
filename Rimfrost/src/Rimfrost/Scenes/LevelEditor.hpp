@@ -61,8 +61,8 @@ namespace Engine1
 		NodeHandle m_selectedNode{ m_nodes };
 		NodeHandle m_gizmoRootNode{ m_nodes };
 
-		Transform m_selectedNodeTransformOnStart;
-		Transform m_selectedReferencSystem;
+		TransformOld m_selectedNodeTransformOnStart;
+		TransformOld m_selectedReferencSystem;
 		NodeEditGUI::RadioButtonRefSystem m_selecteRefSysEnum = NodeEditGUI::RadioButtonRefSystem::WORLD;
 
 
@@ -87,11 +87,11 @@ namespace Engine1
 		void rotateSelectedNode(float dt);
 
 		void selectTranslateFromGui(NodeEditGUI::RadioButtonRefSystem refSys);
-		void selectTranslate(Transform referenceSystem);
+		void selectTranslate(TransformOld referenceSystem);
 		void deSelectTranslate();
 
 		void selectRotateFromGui(NodeEditGUI::RadioButtonRefSystem refSys);
-		void selectRotate(Transform referenceSystem);
+		void selectRotate(TransformOld referenceSystem);
 		void deSelectRotate();
 
 		void selectScale();
@@ -114,7 +114,7 @@ namespace Engine1
 		void updateGizmo();
 
 		DirectX::XMVECTOR rayFromView(float x, float y);
-		Transform getRefSysFromEnum(NodeEditGUI::RadioButtonRefSystem refSys) const;
+		TransformOld getRefSysFromEnum(NodeEditGUI::RadioButtonRefSystem refSys) const;
 	};
 
 }

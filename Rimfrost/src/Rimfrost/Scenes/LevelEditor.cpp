@@ -85,7 +85,7 @@ namespace Engine1
 
 	void LevelEditor::translateSelectedNode()
 	{
-		Transform parentWorldMatrixInv = m_selectedNode.getParentWorldMatrix().getInverse();
+		TransformOld parentWorldMatrixInv = m_selectedNode.getParentWorldMatrix().getInverse();
 
 		XMFLOAT3 p = closestPointOnLineFromMouseCursor(m_translationInfo.translateDirectionWorldSpace, m_translationInfo.onStartNodePositionWorldSpace, m_camera, m_mouseState);
 		XMVECTOR deltaOnLine = XMLoadFloat3(&p) - XMLoadFloat3(&m_translationInfo.onStartLinePointWorldSpace);
@@ -125,9 +125,9 @@ namespace Engine1
 
 		float angle = (mouseTravelDistanceTangent - m_rotationInfo.lastFrameRotationAngle);
 
-		Transform parentRotMatrixInv = m_selectedNode.getParentWorldMatrix().getRotationMatrix().getInverse();
+		TransformOld parentRotMatrixInv = m_selectedNode.getParentWorldMatrix().getRotationMatrix().getInverse();
 		XMMATRIX deltaRotation = XMMatrixRotationNormal(normalWorldSpace, signOfTravelDistance * angle);
-		Transform rot =  m_selectedNode->worldMatrix.getRotationMatrix() * deltaRotation;
+		TransformOld rot =  m_selectedNode->worldMatrix.getRotationMatrix() * deltaRotation;
 		m_selectedNode->localMatrix.setRotation( rot * parentRotMatrixInv);
 		m_rotationInfo.lastFrameRotationAngle = mouseTravelDistanceTangent;
 	}
@@ -138,7 +138,7 @@ namespace Engine1
 		selectTranslate(getRefSysFromEnum(refSys));
 	}
 
-	void LevelEditor::selectTranslate(Transform referenceSystem)
+	void LevelEditor::selectTranslate(TransformOld referenceSystem)
 	{
 		deSelectTranslate();
 		deSelectRotate();
@@ -170,7 +170,7 @@ namespace Engine1
 		selectRotate(getRefSysFromEnum(refSys));
 	}
 
-	void LevelEditor::selectRotate(Transform referenceSystem)
+	void LevelEditor::selectRotate(TransformOld referenceSystem)
 	{
 		deSelectRotate();
 		deSelectTranslate();
@@ -211,18 +211,18 @@ namespace Engine1
 	}
 
 
-	Transform LevelEditor::getRefSysFromEnum(NodeEditGUI::RadioButtonRefSystem refSys) const
+	TransformOld LevelEditor::getRefSysFromEnum(NodeEditGUI::RadioButtonRefSystem refSys) const
 	{
 		switch (refSys)
 		{
 		case Engine1::NodeEditGUI::RadioButtonRefSystem::WORLD:
-			return Transform();
+			return TransformOld();
 		case Engine1::NodeEditGUI::RadioButtonRefSystem::LOCAL:
 			return m_selectedNode->worldMatrix;
 		case Engine1::NodeEditGUI::RadioButtonRefSystem::PARENT:
 			return m_selectedNode.getParentWorldMatrix();
 		default:
-			return Transform();
+			return TransformOld();
 		}
 	}
 
@@ -255,7 +255,7 @@ namespace Engine1
 
 	void LevelEditor::startRotate(XMVECTOR rotationNormalLocalSpace)
 	{
-		Transform refSys = getRefSysFromEnum(m_selecteRefSysEnum);
+		TransformOld refSys = getRefSysFromEnum(m_selecteRefSysEnum);
 
 		XMMATRIX refSysRot = refSys.getRotationMatrix().getXMMatrix();
 		XMVECTOR rotationNormalWorldSpace = XMVector4Transform(rotationNormalLocalSpace, refSysRot);
@@ -364,7 +364,7 @@ namespace Engine1
 		{
 			updateWorldMatrices();
 			m_gizmoRootNode->localMatrix.setPosition(m_selectedNode->worldMatrix.getPositionFloat3());
-			Transform refSys = getRefSysFromEnum(m_selecteRefSysEnum);
+			TransformOld refSys = getRefSysFromEnum(m_selecteRefSysEnum);
 			m_gizmoRootNode->localMatrix.setRotation(refSys.getRotationMatrix());
 		}
 	}

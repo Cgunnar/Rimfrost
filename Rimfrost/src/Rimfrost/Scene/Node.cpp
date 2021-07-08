@@ -50,9 +50,9 @@ namespace Engine1
     {
         m_nodeID = -1;
     }
-    Transform NodeHandle::getParentWorldMatrix() const
+    TransformOld NodeHandle::getParentWorldMatrix() const
     {
-        Transform M;
+        TransformOld M;
         NodeID parentID = this->get().m_parentID;
         if (parentID != rootNode)
         {

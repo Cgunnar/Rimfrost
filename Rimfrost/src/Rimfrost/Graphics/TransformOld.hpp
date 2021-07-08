@@ -5,19 +5,19 @@
 #include "Engine1.hpp"
 namespace Engine1
 {
-	class Transform
+	class TransformOld
 	{
 	public:
-		Transform();
+		TransformOld();
 		//Transform(float x, float y, float z);
 		//Transform(const DirectX::XMVECTOR& position);
 		//Transform(const DirectX::XMFLOAT3& position);
-		Transform(const DirectX::XMMATRIX& other);
-		Transform(const DirectX::XMFLOAT4X4& other);
-		~Transform();
+		TransformOld(const DirectX::XMMATRIX& other);
+		TransformOld(const DirectX::XMFLOAT4X4& other);
+		~TransformOld();
 		void operator=(const DirectX::XMMATRIX& other);
 		void operator=(const DirectX::XMFLOAT4X4& other);
-		void operator *=(const Transform& other);
+		void operator *=(const TransformOld& other);
 		DirectX::XMFLOAT4X4& operator*();
 
 		void setPosition(float x, float y, float z);
@@ -27,7 +27,7 @@ namespace Engine1
 		void setRotation(float x, float y, float z);
 		void setRotation(const DirectX::XMVECTOR& rotation);
 		void setRotationDeg(float x, float y, float z);
-		void setRotation(Transform rotationMatrix);
+		void setRotation(TransformOld rotationMatrix);
 
 		void rotate(const DirectX::XMVECTOR& rotation);
 		void rotate(float x, float y, float z);
@@ -38,12 +38,12 @@ namespace Engine1
 		void setScale(float scale);
 		void setScale(float x, float y, float z);
 
-		std::tuple<Transform, Transform, Transform> decomposeToSRT() const;
-		std::tuple<Transform, Transform, Transform> decomposeToSRTInverse() const;
+		std::tuple<TransformOld, TransformOld, TransformOld> decomposeToSRT() const;
+		std::tuple<TransformOld, TransformOld, TransformOld> decomposeToSRTInverse() const;
 
 		
 
-		Transform getRotationMatrix() const;
+		TransformOld getRotationMatrix() const;
 
 		void setZero();
 
@@ -60,17 +60,17 @@ namespace Engine1
 
 		DirectX::XMMATRIX getXMMatrix() const;
 
-		Transform getInverse() const;
+		TransformOld getInverse() const;
 
 		DirectX::XMFLOAT4X4 m_matrix;
 	};
 
-	Transform operator *(const Transform& l, const Transform& r);
+	TransformOld operator *(const TransformOld& l, const TransformOld& r);
 
-	Transform operator *(const Transform& l, const DirectX::XMMATRIX& r);
-	Transform operator *(const DirectX::XMMATRIX& l, const Transform& r);
+	TransformOld operator *(const TransformOld& l, const DirectX::XMMATRIX& r);
+	TransformOld operator *(const DirectX::XMMATRIX& l, const TransformOld& r);
 
-	Transform operator *(const Transform& l, const DirectX::XMFLOAT4X4& r);
-	Transform operator *(const DirectX::XMFLOAT4X4& l, const Transform& r);
+	TransformOld operator *(const TransformOld& l, const DirectX::XMFLOAT4X4& r);
+	TransformOld operator *(const DirectX::XMFLOAT4X4& l, const TransformOld& r);
 
 }

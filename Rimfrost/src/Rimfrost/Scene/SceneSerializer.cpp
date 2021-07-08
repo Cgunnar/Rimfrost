@@ -1,7 +1,7 @@
 #include "rfpch.hpp"
 #include "SceneSerializer.hpp"
 #include "json.hpp"
-#include "Transform.hpp"
+#include "TransformOld.hpp"
 #include "Scene.hpp"
 #include "AssetManager.hpp"
 #include "Logger.hpp"
@@ -13,14 +13,14 @@ using namespace std;
 namespace Engine1
 {
 
-	void to_json(nlohmann::json& j, const Transform& t)
+	void to_json(nlohmann::json& j, const TransformOld& t)
 	{
 		j = nlohmann::json{ {"11", t.m_matrix._11}, {"12", t.m_matrix._12}, {"13", t.m_matrix._13}, {"14", t.m_matrix._14},
 							{"21", t.m_matrix._21}, {"22", t.m_matrix._22}, {"23", t.m_matrix._23}, {"24", t.m_matrix._24},
 							{"31", t.m_matrix._31}, {"32", t.m_matrix._32}, {"33", t.m_matrix._33}, {"34", t.m_matrix._34},
 							{"41", t.m_matrix._41}, {"42", t.m_matrix._42}, {"43", t.m_matrix._43}, {"44", t.m_matrix._44} };
 	}
-	void from_json(const nlohmann::json& j, Transform& t)
+	void from_json(const nlohmann::json& j, TransformOld& t)
 	{
 		j.at("11").get_to(t.m_matrix._11);
 		j.at("12").get_to(t.m_matrix._12);
@@ -49,7 +49,7 @@ namespace Engine1
 		NodeID parenID;
 		bool modelParent;
 		SubModelID subModelID;
-		Transform transform;
+		TransformOld transform;
 		std::string modelPath;
 		ModelSettings settings;
 		std::string materialName;
@@ -86,7 +86,7 @@ namespace Engine1
 	{
 		nlohmann::json j;
 
-		j["camera"] = Engine1::Transform(scene.m_camera.GetWorldMatrix());
+		j["camera"] = Engine1::TransformOld(scene.m_camera.GetWorldMatrix());
 
 		Logger::getLogger().debugLog("serialize: numberOfNodes = " + std::to_string(scene.m_nodes.size()) + "\n");
 
@@ -131,7 +131,7 @@ namespace Engine1
 
 		auto j = nlohmann::json::parse(f);
 
-		Engine1::Transform cameraWoldMatrix = j["camera"];
+		Engine1::TransformOld cameraWoldMatrix = j["camera"];
 		scene->m_camera.SetWorldMatrix(*cameraWoldMatrix);
 
 

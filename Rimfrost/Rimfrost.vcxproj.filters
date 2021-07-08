@@ -151,9 +151,6 @@
     <ClInclude Include="src\Rimfrost\Graphics\VertexShader.hpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rimfrost\Math\Vector3.hpp">
-      <Filter>Rimfrost\Math</Filter>
-    </ClInclude>
     <ClInclude Include="src\Rimfrost\Scene\Node.hpp">
       <Filter>Rimfrost\Scene</Filter>
     </ClInclude>
@@ -209,7 +206,7 @@
     <ClInclude Include="src\Rimfrost\Graphics\Engine1.hpp">
       <Filter>Rimfrost</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rimfrost\Graphics\Transform.hpp">
+    <ClInclude Include="src\Rimfrost\Graphics\TransformOld.hpp">
       <Filter>Rimfrost\Math</Filter>
     </ClInclude>
   </ItemGroup>
@@ -319,9 +316,6 @@
     <ClCompile Include="src\Rimfrost\Graphics\VertexShader.cpp">
       <Filter>Rimfrost\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rimfrost\Math\Vector3.cpp">
-      <Filter>Rimfrost\Math</Filter>
-    </ClCompile>
     <ClCompile Include="src\Rimfrost\Scene\Node.cpp">
       <Filter>Rimfrost\Scene</Filter>
     </ClCompile>
@@ -362,7 +356,7 @@
       <Filter>Rimfrost</Filter>
     </ClCompile>
     <ClCompile Include="src\rfpch.cpp" />
-    <ClCompile Include="src\Rimfrost\Graphics\Transform.cpp">
+    <ClCompile Include="src\Rimfrost\Graphics\TransformOld.cpp">
       <Filter>Rimfrost\Math</Filter>
     </ClCompile>
   </ItemGroup>
