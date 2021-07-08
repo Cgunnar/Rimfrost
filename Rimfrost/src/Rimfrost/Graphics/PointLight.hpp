@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include "RimfrostMath.hpp"
 namespace Rimfrost
 {
 	class PointLightContainer;
@@ -13,8 +14,8 @@ namespace Rimfrost
 
 		struct PointLightResource
 		{
-			DirectX::XMFLOAT4 m_position;
-			DirectX::XMFLOAT3 m_color;
+			Vector4 m_position;
+			Vector3 m_color;
 			float m_strength;
 		} m_PointLightData;
 
@@ -31,25 +32,25 @@ namespace Rimfrost
 		void updateRepo();
 	public:
 
-		PointLight(const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& color, float strength, const std::string& name = "");
-		PointLight(const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& color, const std::string& name = "");
-		PointLight(DirectX::XMFLOAT3 position, std::string name = "");
+		PointLight(const Vector3& position, const Vector3& color, float strength, const std::string& name = "");
+		PointLight(const Vector3& position, const Vector3& color, const std::string& name = "");
+		PointLight(Vector3 position, std::string name = "");
 		~PointLight() = default;
 
 
 
 		void setColor(float r, float g, float b);
-		void setColor(const DirectX::XMFLOAT3& rgb);
+		void setColor(const Vector3& rgb);
 		void setColor(unsigned char r, unsigned char g, unsigned char b);
 
-		void setPosition(const DirectX::XMFLOAT3& position);
+		void setPosition(const Vector3& position);
 		void setPosition(float x, float y, float z);
 
 		void setStrength(float strength);
 
 		void setOnOff(bool on);
 
-		DirectX::XMVECTOR getPosition() const noexcept;
+		Vector4 getPosition() const noexcept;
 
 		//getters??
 

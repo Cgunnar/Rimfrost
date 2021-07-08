@@ -8,6 +8,7 @@
 #include <fstream>
 #include <Windows.h>
 #include <stdexcept>
+#include <DirectXMath.h>
 
 Logger Logger::instance = Logger();
 

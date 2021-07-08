@@ -39,7 +39,7 @@ namespace Rimfrost
 			float g = RandGen::GenRandomFloat(0.3f, 1, 4 + numLights + i);
 			float b = RandGen::GenRandomFloat(0.3f, 1, 5 + numLights + i);
 
-			m_randomLights.emplace_back(PointLight(XMFLOAT3(x, y, z), XMFLOAT3(r, g, b), 5));
+			m_randomLights.emplace_back(PointLight(Vector3(x, y, z), Vector3(r, g, b), 5));
 			m_pointLightContainer->addPointLight(m_randomLights.back());
 		}
 

@@ -1,8 +1,6 @@
 #pragma once
 
-#include <DirectXMath.h>
 #include <tuple>
-
 #include "Vector.hpp"
 
 namespace Rimfrost
@@ -31,7 +29,6 @@ namespace Rimfrost
 							Vector4(0, 0, 1, 0),
 							Vector4(0, 0, 0, 1) };
 	};
-	DirectX::XMMATRIX getXMMatrix(const Matrix& matrix);
 	Matrix transpose(const Matrix& matrix);
 	Matrix inverse(const Matrix& matrix);
 	std::tuple<Matrix, Matrix, Matrix> decomposeToTRS(const Matrix& matrix);

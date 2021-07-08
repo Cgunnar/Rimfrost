@@ -10,7 +10,7 @@
 
 #include <d3dcompiler.h>
 
-#include <DirectXMath.h>
+//#include <DirectXMath.h>
 
 #include <assert.h>
 #include <iosfwd>

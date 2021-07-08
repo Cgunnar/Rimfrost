@@ -1,5 +1,5 @@
 #pragma once
-
+#include "RimfrostMath.hpp"
 
 namespace Rimfrost
 {
@@ -36,11 +36,11 @@ namespace Rimfrost
 
 		struct alignas(16) materialBuffer
 		{
-			DirectX::XMFLOAT3 spec;
+			Vector3 spec;
 			float shininess;
-			DirectX::XMFLOAT3 diff;
+			Vector3 diff;
 			float opacity;
-			DirectX::XMFLOAT3 emis;
+			Vector3 emis;
 		};
 
 		void createConstantBuffer(Microsoft::WRL::ComPtr<ID3D11Device>& device);
@@ -64,10 +64,10 @@ namespace Rimfrost
 		bool m_bindable = false;
 		MaterialProperties m_materialType = MaterialProperties::NONE;
 
-		DirectX::XMFLOAT3 m_colorDiffuse = { 0,0,0 };
-		DirectX::XMFLOAT3 m_colorSpecular = { 0,0,0 }; // what does this have to do with the material?, it should be a property of the light source
-		DirectX::XMFLOAT3 m_colorEmissive = { 0,0,0 }; //fix later
-		DirectX::XMFLOAT3 m_colorTransparent = { 0,0,0 }; //what is this?, is this not the same color as the diffuse, but with alpha blendign?
+		Vector3 m_colorDiffuse = { 0,0,0 };
+		Vector3 m_colorSpecular = { 0,0,0 }; // what does this have to do with the material?, it should be a property of the light source
+		Vector3 m_colorEmissive = { 0,0,0 }; //fix later
+		Vector3 m_colorTransparent = { 0,0,0 }; //what is this?, is this not the same color as the diffuse, but with alpha blendign?
 
 		float m_opacity = 1; // why do i need this?
 		float m_shininess = 0;

@@ -26,22 +26,22 @@ namespace Rimfrost
 		}
 	}
 
-	PointLight::PointLight(const XMFLOAT3& position, const XMFLOAT3& color, float strength, const std::string& name) : PointLight(position, name)
+	PointLight::PointLight(const Vector3& position, const Vector3& color, float strength, const std::string& name) : PointLight(position, name)
 	{
 		m_PointLightData.m_color = color;
 		m_PointLightData.m_strength = strength;
 	}
 
-	PointLight::PointLight(const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& color, const std::string& name) : PointLight(position, name)
+	PointLight::PointLight(const Vector3& position, const Vector3& color, const std::string& name) : PointLight(position, name)
 	{
 		m_PointLightData.m_color = color;
 	}
 
-	PointLight::PointLight(XMFLOAT3 position, std::string name)
+	PointLight::PointLight(Vector3 position, std::string name)
 	{
-		m_PointLightData.m_color = XMFLOAT3(1, 1, 1);
+		m_PointLightData.m_color = Vector3(1, 1, 1);
 		m_PointLightData.m_strength = 1.0f;
-		m_PointLightData.m_position = XMFLOAT4(position.x, position.y, position.z, 1.0f);
+		m_PointLightData.m_position = Vector4(position.x, position.y, position.z, 1.0f);
 		m_lit = true;
 		m_name = name;
 		m_repo = nullptr;
@@ -55,11 +55,11 @@ namespace Rimfrost
 
 	void PointLight::setColor(float r, float g, float b)
 	{
-		m_PointLightData.m_color = XMFLOAT3(r, g, b);
+		m_PointLightData.m_color = Vector3(r, g, b);
 		updateRepo();
 	}
 
-	void PointLight::setColor(const XMFLOAT3& rgb)
+	void PointLight::setColor(const Vector3& rgb)
 	{
 		m_PointLightData.m_color = rgb;
 		updateRepo();
@@ -67,19 +67,19 @@ namespace Rimfrost
 
 	void PointLight::setColor(unsigned char r, unsigned char g, unsigned char b)
 	{
-		m_PointLightData.m_color = XMFLOAT3(r / 255.0f, g / 255.0f, b / 255.0f);
+		m_PointLightData.m_color = Vector3(r / 255.0f, g / 255.0f, b / 255.0f);
 		updateRepo();
 	}
 
-	void PointLight::setPosition(const XMFLOAT3& position)
+	void PointLight::setPosition(const Vector3& position)
 	{
-		m_PointLightData.m_position = XMFLOAT4(position.x, position.y, position.z, 1.0f);
+		m_PointLightData.m_position = Vector4(position.x, position.y, position.z, 1.0f);
 		updateRepo();
 	}
 
 	void PointLight::setPosition(float x, float y, float z)
 	{
-		m_PointLightData.m_position = XMFLOAT4(x, y, z, 1.0f);
+		m_PointLightData.m_position = Vector4(x, y, z, 1.0f);
 		updateRepo();
 	}
 
@@ -99,8 +99,8 @@ namespace Rimfrost
 		}
 	}
 
-	XMVECTOR PointLight::getPosition() const noexcept
+	Vector4 PointLight::getPosition() const noexcept
 	{
-		return XMLoadFloat4(&m_PointLightData.m_position);
+		return m_PointLightData.m_position;
 	}
 }

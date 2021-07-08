@@ -1,5 +1,6 @@
 #include "rfpch.hpp"
 #include "Transform.hpp"
+#include <DirectXMath.h>
 
 namespace Rimfrost
 {

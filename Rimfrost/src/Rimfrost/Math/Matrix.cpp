@@ -2,11 +2,16 @@
 #include "Matrix.hpp"
 #include "Transform.hpp"
 #include <cstring>
-
+#include <DirectXMath.h>
 using namespace DirectX;
 
 namespace Rimfrost
 {
+	XMMATRIX getXMMatrix(const Matrix& matrix)
+	{
+		return XMMATRIX((float*)(&matrix[0]));
+	}
+
 	Matrix::Matrix(float* mem)
 	{
 		memcpy(this, mem, 64);
@@ -32,10 +37,7 @@ namespace Rimfrost
 
 
 
-	DirectX::XMMATRIX getXMMatrix(const Matrix& matrix)
-	{
-		return DirectX::XMMATRIX((float*)(&matrix[0]));
-	}
+	
 	Matrix transpose(const Matrix& m)
 	{
 		Matrix t;
