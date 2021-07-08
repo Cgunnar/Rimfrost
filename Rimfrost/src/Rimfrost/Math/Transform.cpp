@@ -46,7 +46,8 @@ namespace Rimfrost
 	{
 		auto [T, R, S] = decomposeToTRS(m_matrix);
 
-		m_matrix = T * rotationMatrix * S;
+		Matrix newMatrix = T * rotationMatrix * S;
+		m_matrix = newMatrix;
 	}
 
 	void Transform::setRotationDeg(float x, float y, float z)

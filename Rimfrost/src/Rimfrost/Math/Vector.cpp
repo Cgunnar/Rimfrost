@@ -110,7 +110,11 @@ namespace Rimfrost
 
 	void Vector3::normalize()
 	{
-		*this = (1.0f / length()) * *this;
+
+		float f = length();
+		if (f == 0) return;
+		f = 1.0f / f;
+		*this = f * *this;
 	}
 
 	float dot(const Vector3& v, const Vector3& u)
