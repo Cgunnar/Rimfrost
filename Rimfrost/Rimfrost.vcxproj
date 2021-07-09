@@ -91,6 +91,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Rimfrost\EntCom\BaseComponent.hpp" />
+    <ClInclude Include="src\Rimfrost\EntCom\Entity.hpp" />
+    <ClInclude Include="src\Rimfrost\EntCom\EntityRegistry.hpp" />
     <ClInclude Include="src\Rimfrost.h" />
     <ClInclude Include="src\Rimfrost\Core.h" />
     <ClInclude Include="src\Rimfrost\Core\Keyboard.hpp" />
@@ -157,6 +160,9 @@
     <ClInclude Include="src\rfpch.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rimfrost\EntCom\BaseComponent.cpp" />
+    <ClCompile Include="src\Rimfrost\EntCom\Entity.cpp" />
+    <ClCompile Include="src\Rimfrost\EntCom\EntityRegistry.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Mouse.cpp" />
     <ClCompile Include="src\Rimfrost\EngineApp.cpp" />

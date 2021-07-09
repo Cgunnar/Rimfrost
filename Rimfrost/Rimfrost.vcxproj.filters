@@ -219,6 +219,9 @@
     </ClInclude>
     <ClInclude Include="src\rfpch.hpp" />
     <ClInclude Include="src\Rimfrost\Math\RfextendedMath.hpp" />
+    <ClInclude Include="src\Rimfrost\EntCom\Entity.hpp" />
+    <ClInclude Include="src\Rimfrost\EntCom\EntityRegistry.hpp" />
+    <ClInclude Include="src\Rimfrost\EntCom\BaseComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp">
@@ -376,6 +379,9 @@
     </ClCompile>
     <ClCompile Include="src\rfpch.cpp" />
     <ClCompile Include="src\Rimfrost\Math\RfextendedMath.cpp" />
+    <ClCompile Include="src\Rimfrost\EntCom\Entity.cpp" />
+    <ClCompile Include="src\Rimfrost\EntCom\EntityRegistry.cpp" />
+    <ClCompile Include="src\Rimfrost\EntCom\BaseComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\Rimfrost\Shaders\MousePickingPS.hlsl">

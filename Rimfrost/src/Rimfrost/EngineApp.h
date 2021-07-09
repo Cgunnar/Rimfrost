@@ -7,6 +7,8 @@
 
 
 #include "Rimfrost\Scene\Scene.hpp"
+#include "Rimfrost\EntCom\EntityRegistry.hpp"
+
 namespace Rimfrost
 {
 
@@ -26,10 +28,13 @@ namespace Rimfrost
 
 		Rimfrost::ForwardRenderer m_renderer;
 
+		
+
 		int m_paused;
 		bool m_isRunning = false;
 
 	protected:
+		EntityRegistry m_entityReg;
 		virtual void update(double dt) abstract;
 
 	private:
