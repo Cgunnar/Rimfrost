@@ -23,7 +23,7 @@ struct PointMass : Rimfrost::Component<PointMass>
 {
 	Rimfrost::Vector3 force = { 0,0,0 };
 	Rimfrost::Vector3 velocity = { 0,0,0 };
-	float mass = 1;
+	float mass = 1.0f;
 };
 
 struct SphereCollider : Rimfrost::Component<SphereCollider>
