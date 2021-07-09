@@ -4,5 +4,7 @@
 
 namespace Rimfrost
 {
-
+    Entity::Entity(EntityIndex ID) : entityIndex(ID)
+    {
+    }
 }

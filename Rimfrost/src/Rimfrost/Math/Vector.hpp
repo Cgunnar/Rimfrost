@@ -52,7 +52,7 @@ namespace Rimfrost
 	};
 	float dot(const Vector3& v, const Vector3& u);
 	Vector3 cross(const Vector3& v, const Vector3& u);
-
+	Vector3 normalize(const Vector3& v);
 	
 	Vector3 operator +(const Vector3& l, const Vector3& r);
 	Vector3 operator -(const Vector3& l, const Vector3& r);

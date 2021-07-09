@@ -1,5 +1,5 @@
 #include "Game.hpp"
-
+#include "Components\TestComponents.hpp"
 
 Rimfrost::EngineApp* Rimfrost::CreateApp()
 {
@@ -8,6 +8,9 @@ Rimfrost::EngineApp* Rimfrost::CreateApp()
 
 Game::Game()
 {
+	Rimfrost::Entity player = m_entityReg.createEntity();
+	SphereCollider* sp = m_entityReg.addComponent<SphereCollider>(player, SphereCollider());
+	m_entities.push_back(player);
 }
 
 Game::~Game()
@@ -16,5 +19,5 @@ Game::~Game()
 
 void Game::update(double dt)
 {
-	//this->
+	this->m_entityReg.update(dt);
 }

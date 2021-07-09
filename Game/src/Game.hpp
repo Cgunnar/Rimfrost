@@ -10,5 +10,8 @@ public:
 protected:
 	void update(double dt) override;
 
+private:
+
+	std::vector<Rimfrost::Entity> m_entities;
 
 };

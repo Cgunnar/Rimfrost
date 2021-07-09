@@ -138,6 +138,19 @@ namespace Rimfrost
 		return { v.y * u.z - v.z * u.y, v.z * u.x - v.x * u.z, v.x * u.y - v.y * u.x };
 	}
 
+	Vector3 normalize(const Vector3& v)
+	{
+		float f = v.length();
+		if (f == 0)
+		{
+			assert(false);
+			return Vector3();
+		};
+
+		f = 1.0f / f;
+		return f * v;
+	}
+
 	Vector3 operator+(const Vector3& l, const Vector3& r)
 	{
 		return Vector3(l.x + r.x, l.y + r.y, l.z + r.z);

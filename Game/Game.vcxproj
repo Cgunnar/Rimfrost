@@ -91,10 +91,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\TestComponents.hpp" />
+    <ClInclude Include="src\FpsPlayer.hpp" />
     <ClInclude Include="src\Game.hpp" />
+    <ClInclude Include="src\SimpleCollision.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\FpsPlayer.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\SimpleCollision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rimfrost\Rimfrost.vcxproj">
