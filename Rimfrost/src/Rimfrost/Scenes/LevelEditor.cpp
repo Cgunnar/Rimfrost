@@ -137,8 +137,10 @@ namespace Rimfrost
 		Transform parentRotMatrixInv = inverse(m_selectedNode.getParentWorldMatrix().getRotationMatrix());
 		
 		Matrix deltaRotation = rotationMatrixFromNormal(normalWorldSpace, signOfTravelDistance * angle);
-		Transform rot =  m_selectedNode->worldMatrix.getRotationMatrix() * deltaRotation;
-		m_selectedNode->localMatrix.setRotation( rot * parentRotMatrixInv); //flip order?
+		Transform rot = deltaRotation * m_selectedNode->worldMatrix.getRotationMatrix();
+		//Transform rot = m_selectedNode->worldMatrix.getRotationMatrix() * deltaRotation;
+		//m_selectedNode->localMatrix.setRotation(rot * parentRotMatrixInv); //flip order?
+		m_selectedNode->localMatrix.setRotation(parentRotMatrixInv*rot); //flip order?
 		m_rotationInfo.lastFrameRotationAngle = mouseTravelDistanceTangent;
 	}
 

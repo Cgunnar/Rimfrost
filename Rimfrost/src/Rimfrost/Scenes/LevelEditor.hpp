@@ -3,7 +3,6 @@
 #include "PointLight.hpp"
 #include "NodeEditGUI.hpp"
 #include "RimfrostMath.hpp"
-#include <DirectXMath.h>
 
 namespace Rimfrost
 {
@@ -76,8 +75,8 @@ namespace Rimfrost
 		NodeHandle m_ringY{ m_nodes };
 		NodeHandle m_ringZ{ m_nodes };
 		
-		DirectX::XMFLOAT2 m_mouseCoord = { 0, 0 };
-		DirectX::XMFLOAT2 m_mouseCoordOnClick = { 0, 0 };
+		Vector2 m_mouseCoord = { 0, 0 };
+		Vector2 m_mouseCoordOnClick = { 0, 0 };
 		MouseState m_mouseState;
 		uint32_t m_winWidth = 0;
 		uint32_t m_winHeight = 0;
