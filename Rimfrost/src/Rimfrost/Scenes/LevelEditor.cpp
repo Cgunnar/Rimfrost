@@ -9,15 +9,12 @@
 
 #include "RfextendedMath.hpp"
 
-using namespace DirectX;
-
 
 
 namespace Rimfrost
 {
-	Vector3 closestPointOnLineFromPoint(const Vector3& segmentEndPoint1, const Vector3& segmentEndPoint2, const Vector3& point);
+	
 	Vector3 rayFromMouse(float x, float y, float w, float h, Matrix projectionMatrix);
-	std::pair<Vector3, Vector3> closestPointsBetweenLines(Vector3 line1Direction, Vector3 line1Point, Vector3 line2Direction, Vector3 line2Point);
 	Vector3 closestPointOnLineFromMouseCursor(Vector3 lineDirection, Vector3 pointOnLine, const Camera& cam, MouseState ms);
 	Vector3 intersectionWithPlaneFromMouseCursor(Vector4 plane, const Camera& cam, MouseState ms);
 	
@@ -116,7 +113,7 @@ namespace Rimfrost
 
 		Vector2 mousePointView = onStartMousePointView + m_rotationInfo.accRawMouseDelta;
 
-		Vector3 closestPointOnLineView = closestPointOnLineFromPoint(Vector3(onStartMousePointView, 0), Vector3(onStartMousePointView + tangentWithoutZ, 0), Vector3(mousePointView, 0));
+		Vector3 closestPointOnLineView = rfm::closestPointOnLineFromPoint(Vector3(onStartMousePointView, 0), Vector3(onStartMousePointView + tangentWithoutZ, 0), Vector3(mousePointView, 0));
 		float mouseTravelDistanceTangent = (onStartMousePointView - closestPointOnLineView).length();
 
 
@@ -127,20 +124,11 @@ namespace Rimfrost
 
 		float angle = (mouseTravelDistanceTangent - m_rotationInfo.lastFrameRotationAngle);
 
-		//Transform parentRotMatrixInv = inverse(m_selectedNode.getParentWorldMatrix().getRotationMatrix());
-		//Matrix deltaRotation = XMMatrixRotationNormal(normalWorldSpace, signOfTravelDistance * angle);
-		//Transform rot =  m_selectedNode->worldMatrix.getRotationMatrix() * deltaRotation;
-		//m_selectedNode->localMatrix.setRotation( rot * parentRotMatrixInv); //flip order?
-		//m_rotationInfo.lastFrameRotationAngle = mouseTravelDistanceTangent;
-
-
 		Transform parentRotMatrixInv = inverse(m_selectedNode.getParentWorldMatrix().getRotationMatrix());
-		
+
 		Matrix deltaRotation = rotationMatrixFromNormal(normalWorldSpace, signOfTravelDistance * angle);
 		Transform rot = deltaRotation * m_selectedNode->worldMatrix.getRotationMatrix();
-		//Transform rot = m_selectedNode->worldMatrix.getRotationMatrix() * deltaRotation;
-		//m_selectedNode->localMatrix.setRotation(rot * parentRotMatrixInv); //flip order?
-		m_selectedNode->localMatrix.setRotation(parentRotMatrixInv*rot); //flip order?
+		m_selectedNode->localMatrix.setRotation(parentRotMatrixInv*rot);
 		m_rotationInfo.lastFrameRotationAngle = mouseTravelDistanceTangent;
 	}
 
@@ -462,34 +450,14 @@ namespace Rimfrost
 		return { viewSpaceX, viewSpaceY, 1 };
 	}
 
-	std::pair<Vector3, Vector3> closestPointsBetweenLines(Vector3 L1Dir, Vector3 L1P, Vector3 L2Dir, Vector3 L2P)
-	{
-		float L3P[3] = { L1P.x - L2P.x, L1P.y - L2P.y, L1P.z - L2P.z };
-
-		float B[2] = { -(L1Dir.x * L3P[0] + L1Dir.y * L3P[1] + L1Dir.z * L3P[2]),
-						-(L2Dir.x * L3P[0] + L2Dir.y * L3P[1] + L2Dir.z * L3P[2]) };
-
-		float A[4] = { L1Dir.x * L1Dir.x + L1Dir.y * L1Dir.y + L1Dir.z * L1Dir.z,
-						L1Dir.x * -L2Dir.x + L1Dir.y * -L2Dir.y + L1Dir.z * -L2Dir.z,
-						L1Dir.x * L2Dir.x + L1Dir.y * L2Dir.y + L1Dir.z * L2Dir.z,
-						L2Dir.x * -L2Dir.x + L2Dir.y * -L2Dir.y + L2Dir.z * -L2Dir.z };
-
-		float detInv = 1.0f / (A[0] * A[3] - A[1] * A[2]);
-
-		float x0 = detInv * A[3] * B[0] + detInv * -A[1] * B[1];
-		float x1 = detInv * -A[2] * B[0] + detInv * A[0] * B[1];
-
-		Vector3 L1CP = { L1Dir.x * x0 + L1P.x, L1Dir.y * x0 + L1P.y, L1Dir.z * x0 + L1P.z };
-		Vector3 L2CP = { L2Dir.x * x1 + L2P.x, L2Dir.y * x1 + L2P.y, L2Dir.z * x1 + L2P.z };
-		return std::pair<Vector3, Vector3>(L1CP, L2CP);
-	}
+	
 
 	Vector3 closestPointOnLineFromMouseCursor(Vector3 lineDirection, Vector3 pointOnLine, const Camera& cam, MouseState ms)
 	{
 		Vector3 ray = rayFromMouse(static_cast<float>(ms.x), static_cast<float>(ms.y), static_cast<float>(ms.width), static_cast<float>(ms.height), cam.GetPerspective());
 
 		Vector3 V2 = cam.GetWorldMatrix()* Vector4(ray, 0); 
-		auto [CP1, CP2] = closestPointsBetweenLines(lineDirection, pointOnLine, V2, cam.GetPosition());
+		auto [CP1, CP2] = rfm::closestPointsBetweenLines(lineDirection, pointOnLine, V2, cam.GetPosition());
 		return CP1;
 	}
 	Vector3 intersectionWithPlaneFromMouseCursor(Vector4 plane, const Camera& cam, MouseState ms)
@@ -500,26 +468,6 @@ namespace Rimfrost
 		rayDirInWorldSpace.normalize(); //not needed, i think
 
 		return rfm::planeIntersectLine(plane, cam.GetPosition(), cam.GetPosition() + rayDirInWorldSpace);
-	}
-
-	
-
-	Vector3 closestPointOnLineFromPoint(const Vector3& segmentEndPoint1, const Vector3& segmentEndPoint2, const Vector3& point)
-	{
-		//closest point on linesegment to point
-		//från boken Real time collision detection
-
-		Vector3 ab = segmentEndPoint1 - segmentEndPoint2;
-		//XMVECTOR t = ab.Dot(point - segmentEndPoint2) / ab.Dot(ab);
-		Vector3 t = dot(ab, point - segmentEndPoint2) / dot(ab, ab);
-
-		/*if (t < 0.0f) t = 0.0f;
-		if (t > 1.0f) t = 1.0f;*/
-
-		Vector3 result = segmentEndPoint2 + ab * t;
-		/*auto test = XMVector3Dot(segmentEndPoint1 - segmentEndPoint2, result - point).m128_f32[0];*/
-
-		return result;
 	}
 }
 

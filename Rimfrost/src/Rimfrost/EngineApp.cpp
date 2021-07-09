@@ -24,8 +24,9 @@ namespace Rimfrost
 		m_scenes.emplace_back(std::make_shared<Rimfrost::LevelEditor>());
 
 		//serializationTesting
-		m_scenes[1]->setUpScene();
-		Rimfrost::SceneSerializer::serialize("LEVEL.json", m_scenes[1]);
+		int loadScene = 1;
+		m_scenes[loadScene]->setUpScene();
+		Rimfrost::SceneSerializer::serialize("LEVEL.json", m_scenes[loadScene]);
 
 
 		Rimfrost::SceneSerializer::deSerialize("LEVEL.json", m_scenes[2]);
