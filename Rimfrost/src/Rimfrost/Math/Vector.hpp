@@ -45,6 +45,7 @@ namespace Rimfrost
 
 		float& operator[] (int index) noexcept;
 		Vector3& operator +=(const Vector3& other);
+		//operator DirectX::XMVECTOR() const { return { x, y, z, 0 }; };
 		float length() const;
 		void normalize();
 		float x, y, z;

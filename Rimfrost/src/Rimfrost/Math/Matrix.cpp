@@ -129,6 +129,16 @@ namespace Rimfrost
 		a = XMConvertToRadians(a);
 		return rotationZFromAngles(a);
 	}
+	Matrix rotationMatrixFromNormal(Vector3 normal, float angle)
+	{
+		assert(abs(normal.length() - 1) < 0.00001f);
+		XMVECTOR XMnormal{ normal.x, normal.y, normal.z };
+		XMFLOAT4X4 XMrot;
+		XMStoreFloat4x4(&XMrot, DirectX::XMMatrixRotationNormal(XMnormal, angle));
+
+		Matrix rot = Matrix((float*)XMrot.m); //transpose???
+		return rot;
+	}
 	Matrix operator*(const Matrix& l, const Matrix& r)
 	{
 		Matrix lt = transpose(l);

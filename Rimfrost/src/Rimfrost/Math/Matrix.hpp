@@ -41,6 +41,7 @@ namespace Rimfrost
 	Matrix rotationXFromAnglesDeg(float a);
 	Matrix rotationYFromAnglesDeg(float a);
 	Matrix rotationZFromAnglesDeg(float a);
+	Matrix rotationMatrixFromNormal(Vector3 normal, float angle);
 	Matrix operator*(const Matrix& l, const Matrix& r);
 	Matrix operator+(const Matrix& l, const Matrix& r);
 	Matrix operator-(const Matrix& l, const Matrix& r);

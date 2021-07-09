@@ -218,6 +218,7 @@
       <Filter>Rimfrost\external_headers</Filter>
     </ClInclude>
     <ClInclude Include="src\rfpch.hpp" />
+    <ClInclude Include="src\Rimfrost\Math\RfextendedMath.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp">
@@ -374,6 +375,7 @@
       <Filter>Rimfrost</Filter>
     </ClCompile>
     <ClCompile Include="src\rfpch.cpp" />
+    <ClCompile Include="src\Rimfrost\Math\RfextendedMath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\Rimfrost\Shaders\MousePickingPS.hlsl">

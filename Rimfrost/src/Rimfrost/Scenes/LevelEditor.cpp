@@ -7,6 +7,8 @@
 #include "SceneSerializer.hpp"
 #include <imgui.h>
 
+#include "RfextendedMath.hpp"
+
 using namespace DirectX;
 
 
@@ -15,9 +17,9 @@ namespace Rimfrost
 {
 	Vector3 closestPointOnLineFromPoint(const Vector3& segmentEndPoint1, const Vector3& segmentEndPoint2, const Vector3& point);
 	Vector3 rayFromMouse(float x, float y, float w, float h, Matrix projectionMatrix);
-	std::pair<XMFLOAT3, XMFLOAT3> closestPointsBetweenLines(XMFLOAT3 line1Direction, XMFLOAT3 line1Point, XMFLOAT3 line2Direction, XMFLOAT3 line2Point);
+	std::pair<Vector3, Vector3> closestPointsBetweenLines(Vector3 line1Direction, Vector3 line1Point, Vector3 line2Direction, Vector3 line2Point);
 	Vector3 closestPointOnLineFromMouseCursor(Vector3 lineDirection, Vector3 pointOnLine, const Camera& cam, MouseState ms);
-	XMVECTOR intersectionWithPlaneFromMouseCursor(XMVECTOR plane, const Camera& cam, MouseState ms);
+	Vector3 intersectionWithPlaneFromMouseCursor(Vector4 plane, const Camera& cam, MouseState ms);
 	
 
 
@@ -125,8 +127,16 @@ namespace Rimfrost
 
 		float angle = (mouseTravelDistanceTangent - m_rotationInfo.lastFrameRotationAngle);
 
+		//Transform parentRotMatrixInv = inverse(m_selectedNode.getParentWorldMatrix().getRotationMatrix());
+		//Matrix deltaRotation = XMMatrixRotationNormal(normalWorldSpace, signOfTravelDistance * angle);
+		//Transform rot =  m_selectedNode->worldMatrix.getRotationMatrix() * deltaRotation;
+		//m_selectedNode->localMatrix.setRotation( rot * parentRotMatrixInv); //flip order?
+		//m_rotationInfo.lastFrameRotationAngle = mouseTravelDistanceTangent;
+
+
 		Transform parentRotMatrixInv = inverse(m_selectedNode.getParentWorldMatrix().getRotationMatrix());
-		Matrix deltaRotation = XMMatrixRotationNormal(normalWorldSpace, signOfTravelDistance * angle);
+		
+		Matrix deltaRotation = rotationMatrixFromNormal(normalWorldSpace, signOfTravelDistance * angle);
 		Transform rot =  m_selectedNode->worldMatrix.getRotationMatrix() * deltaRotation;
 		m_selectedNode->localMatrix.setRotation( rot * parentRotMatrixInv); //flip order?
 		m_rotationInfo.lastFrameRotationAngle = mouseTravelDistanceTangent;
@@ -264,19 +274,18 @@ namespace Rimfrost
 		m_rotationInfo.lastFrameRotationAngle = 0;
 		m_rotationInfo.accRawMouseDelta = { 0,0 };
 
-		Vector3 selNodePosW = m_selectedNode->worldMatrix.getTranslation();
-		XMVECTOR selectedNodePosWorld = { selNodePosW.x, selNodePosW.y, selNodePosW.z };
-		XMVECTOR rotationNormalWorldSpaceXM = { rotationNormalWorldSpace.x, rotationNormalWorldSpace.y, rotationNormalWorldSpace.z };
-		XMVECTOR planeOfRotation = DirectX::XMPlaneFromPointNormal(selectedNodePosWorld, rotationNormalWorldSpaceXM);
+		Vector4 planeOfRotation = rfm::planeFromPointNormal(m_selectedNode->worldMatrix.getTranslation(), rotationNormalWorldSpace);
 
-		XMVECTOR mouseIntersectRotationPlaneOnStartRotate = intersectionWithPlaneFromMouseCursor(
+		Vector3 mouseIntersectRotationPlaneOnStartRotate = intersectionWithPlaneFromMouseCursor(
 			planeOfRotation, m_camera, m_mouseState);
 
-		XMVECTOR clickPoint = mouseIntersectRotationPlaneOnStartRotate - m_selectedNode->worldMatrix.getPositionVector();
-		clickPoint = XMVector3Normalize(clickPoint);
+		Vector3 clickPoint = mouseIntersectRotationPlaneOnStartRotate - m_selectedNode->worldMatrix.getTranslation();
+		//clickPoint = XMVector3Normalize(clickPoint);
 
-		XMVECTOR tangentWorldSpace = XMVector3Cross(rotationNormalWorldSpace, clickPoint);
-		XMStoreFloat3(&m_rotationInfo.tangentWorldSpace, tangentWorldSpace);
+		Vector3 tangentWorldSpace = cross(rotationNormalWorldSpace, clickPoint);
+		tangentWorldSpace.normalize();
+
+		m_rotationInfo.tangentWorldSpace = tangentWorldSpace;
 	}
 
 	void LevelEditor::stopRotate(bool keepNewAngle)
@@ -330,7 +339,7 @@ namespace Rimfrost
 	LevelEditor::GizmoXYZ LevelEditor::handleRingSelection(NodeID id)
 	{
 		LevelEditor::GizmoXYZ clickedRing = LevelEditor::GizmoXYZ::NONE;
-		XMVECTOR rotationNormal;
+		Vector3 rotationNormal;
 		if (m_ringX.isValid() && m_ringX->m_ID == id)
 		{
 			Logger::getLogger().debugLog("klick on ringX\n");
@@ -451,7 +460,7 @@ namespace Rimfrost
 		return { viewSpaceX, viewSpaceY, 1 };
 	}
 
-	std::pair<XMFLOAT3, XMFLOAT3> closestPointsBetweenLines(XMFLOAT3 L1Dir, XMFLOAT3 L1P, XMFLOAT3 L2Dir, XMFLOAT3 L2P)
+	std::pair<Vector3, Vector3> closestPointsBetweenLines(Vector3 L1Dir, Vector3 L1P, Vector3 L2Dir, Vector3 L2P)
 	{
 		float L3P[3] = { L1P.x - L2P.x, L1P.y - L2P.y, L1P.z - L2P.z };
 
@@ -468,31 +477,27 @@ namespace Rimfrost
 		float x0 = detInv * A[3] * B[0] + detInv * -A[1] * B[1];
 		float x1 = detInv * -A[2] * B[0] + detInv * A[0] * B[1];
 
-		XMFLOAT3 L1CP = { L1Dir.x * x0 + L1P.x, L1Dir.y * x0 + L1P.y, L1Dir.z * x0 + L1P.z };
-		XMFLOAT3 L2CP = { L2Dir.x * x1 + L2P.x, L2Dir.y * x1 + L2P.y, L2Dir.z * x1 + L2P.z };
-		return std::pair<XMFLOAT3, XMFLOAT3>(L1CP, L2CP);
+		Vector3 L1CP = { L1Dir.x * x0 + L1P.x, L1Dir.y * x0 + L1P.y, L1Dir.z * x0 + L1P.z };
+		Vector3 L2CP = { L2Dir.x * x1 + L2P.x, L2Dir.y * x1 + L2P.y, L2Dir.z * x1 + L2P.z };
+		return std::pair<Vector3, Vector3>(L1CP, L2CP);
 	}
 
 	Vector3 closestPointOnLineFromMouseCursor(Vector3 lineDirection, Vector3 pointOnLine, const Camera& cam, MouseState ms)
 	{
-		XMFLOAT4X4 P;
-		XMStoreFloat4x4(&P, cam.GetPerspective());
-		XMVECTOR ray = rayFromMouse(static_cast<float>(ms.x), static_cast<float>(ms.y), static_cast<float>(ms.width), static_cast<float>(ms.height), P);
+		Vector3 ray = rayFromMouse(static_cast<float>(ms.x), static_cast<float>(ms.y), static_cast<float>(ms.width), static_cast<float>(ms.height), cam.GetPerspective());
 
-		XMFLOAT3 V2;
-		XMStoreFloat3(&V2, XMVector4Transform(ray, cam.GetWorldMatrix()));
-		XMFLOAT3 P2;
-		XMStoreFloat3(&P2, cam.GetPosition());
-		auto [CP1, CP2] = closestPointsBetweenLines(lineDirection, pointOnLine, V2, P2);
+		Vector3 V2 = cam.GetWorldMatrix()* Vector4(ray, 0); 
+		auto [CP1, CP2] = closestPointsBetweenLines(lineDirection, pointOnLine, V2, cam.GetPosition());
 		return CP1;
 	}
-	XMVECTOR intersectionWithPlaneFromMouseCursor(XMVECTOR plane, const Camera& cam, MouseState ms)
+	Vector3 intersectionWithPlaneFromMouseCursor(Vector4 plane, const Camera& cam, MouseState ms)
 	{
-		XMFLOAT4X4 P;
-		XMStoreFloat4x4(&P, cam.GetPerspective());
-		XMVECTOR ray = rayFromMouse(static_cast<float>(ms.x), static_cast<float>(ms.y), static_cast<float>(ms.width), static_cast<float>(ms.height), P);
-		XMVECTOR rayDirInWorldSpace = XMVector4Transform(ray, cam.GetWorldMatrix());
-		return DirectX::XMPlaneIntersectLine(plane, cam.GetPosition(), cam.GetPosition() + rayDirInWorldSpace);
+		Vector3 ray = rayFromMouse(static_cast<float>(ms.x), static_cast<float>(ms.y), static_cast<float>(ms.width), static_cast<float>(ms.height), cam.GetPerspective());
+		Vector3 rayDirInWorldSpace = cam.GetWorldMatrix() * Vector4(ray, 0);
+
+		rayDirInWorldSpace.normalize(); //not needed, i think
+
+		return rfm::planeIntersectLine(plane, cam.GetPosition(), cam.GetPosition() + rayDirInWorldSpace);
 	}
 
 	
