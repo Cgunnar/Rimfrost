@@ -17,6 +17,8 @@ Game::Game()
 
 	auto p = m_entityReg.getComponent<PointMass>(player);
 	float mass = p->mass;
+
+	
 }
 
 Game::~Game()

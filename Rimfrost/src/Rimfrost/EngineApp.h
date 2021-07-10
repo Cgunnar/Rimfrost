@@ -24,7 +24,6 @@ namespace Rimfrost
 		Rimfrost::Window m_window;
 
 		std::vector<std::shared_ptr<Rimfrost::Scene>> m_scenes;
-		std::shared_ptr<Rimfrost::Scene> m_acticeScene;
 
 		Rimfrost::ForwardRenderer m_renderer;
 
@@ -34,6 +33,7 @@ namespace Rimfrost
 		bool m_isRunning = false;
 
 	protected:
+		std::shared_ptr<Rimfrost::Scene> m_acticeScene;
 		EntityRegistry m_entityReg;
 		virtual void update(double dt) abstract;
 

@@ -35,8 +35,6 @@ namespace Rimfrost
 
 
 	private:
-		/*template<typename T>
-		size_t internalAddComponent<T>()*/
 	};
 
 
