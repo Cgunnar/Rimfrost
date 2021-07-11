@@ -36,7 +36,7 @@ namespace Rimfrost
 		PointLightContainer& getPointLights();
 		std::vector<NodeID>& getRenderSubmits();
 		const std::vector<Node>& getNodes() const;
-		const Camera& getCamera() const noexcept;
+		const std::shared_ptr<Camera>& getCamera() const noexcept;
 		const PerFrameData& getFrameCBufferData() const noexcept;
 		
 		[[nodiscard]] NodeHandle addModel(const std::string& filePath, ModelSettings modelSettings);
@@ -53,7 +53,7 @@ namespace Rimfrost
 		virtual void derivedOnEvent(const Event& e) {}
 
 	protected:
-		Camera m_camera;
+		std::shared_ptr<Camera> m_camera;
 		std::vector<Node> m_nodes;
 		std::vector<NodeID> m_renderSubmits;
 

@@ -86,7 +86,7 @@ namespace Rimfrost
 	{
 		Transform parentWorldMatrixInv = inverse(m_selectedNode.getParentWorldMatrix());
 
-		Vector3 p = closestPointOnLineFromMouseCursor(m_translationInfo.translateDirectionWorldSpace, m_translationInfo.onStartNodePositionWorldSpace, m_camera, m_mouseState);
+		Vector3 p = closestPointOnLineFromMouseCursor(m_translationInfo.translateDirectionWorldSpace, m_translationInfo.onStartNodePositionWorldSpace, *m_camera, m_mouseState);
 		Vector3 deltaOnLine = p - m_translationInfo.onStartLinePointWorldSpace;
 		Vector3 newPosWorldSpace = p - m_translationInfo.mouseToNodeOffsetWorldSpace;
 
@@ -101,7 +101,7 @@ namespace Rimfrost
 		Vector3 normalWorldSpace = m_rotationInfo.rotationNormalWorldSpace;
 		normalWorldSpace.normalize();
 		Vector3 tangentWorldSpace = m_rotationInfo.tangentWorldSpace;
-		Vector3 tangentViewSpace =  m_camera.GetViewMatrix() * Vector4(tangentWorldSpace, 0);
+		Vector3 tangentViewSpace =  m_camera->GetViewMatrix() * Vector4(tangentWorldSpace, 0);
 
 		Vector2 tangentWithoutZ = Vector2(tangentViewSpace.x, tangentViewSpace.y);
 		tangentWithoutZ.normalize();
@@ -237,7 +237,7 @@ namespace Rimfrost
 		Vector3 worldPosition = m_selectedNode->worldMatrix.getTranslation();
 
 		Vector3 closestPointOnLineWorldSpace = closestPointOnLineFromMouseCursor(m_translationInfo.translateDirectionWorldSpace,
-			m_selectedNode->worldMatrix.getTranslation(), m_camera, m_mouseState);
+			m_selectedNode->worldMatrix.getTranslation(), *m_camera, m_mouseState);
 
 		m_translationInfo.onStartNodePositionWorldSpace = worldPosition;
 		m_translationInfo.deltaTransformToParentOnMove = worldPosition - m_selectedNode->localMatrix.getTranslation();
@@ -267,7 +267,7 @@ namespace Rimfrost
 		Vector4 planeOfRotation = rfm::planeFromPointNormal(m_selectedNode->worldMatrix.getTranslation(), rotationNormalWorldSpace);
 
 		Vector3 mouseIntersectRotationPlaneOnStartRotate = intersectionWithPlaneFromMouseCursor(
-			planeOfRotation, m_camera, m_mouseState);
+			planeOfRotation, *m_camera, m_mouseState);
 
 		Vector3 clickPoint = mouseIntersectRotationPlaneOnStartRotate - m_selectedNode->worldMatrix.getTranslation();
 		//clickPoint = XMVector3Normalize(clickPoint);
@@ -370,7 +370,7 @@ namespace Rimfrost
 
 	Vector3 LevelEditor::rayFromView(float x, float y)
 	{
-		return rayFromMouse(x, y, static_cast<float>(m_mouseState.width), static_cast<float>(m_mouseState.height), m_camera.GetPerspective());
+		return rayFromMouse(x, y, static_cast<float>(m_mouseState.width), static_cast<float>(m_mouseState.height), m_camera->GetPerspective());
 	}
 
 	void LevelEditor::derivedOnEvent(const Event& e)

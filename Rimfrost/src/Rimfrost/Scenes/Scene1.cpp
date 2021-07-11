@@ -20,7 +20,7 @@ namespace Rimfrost
 
 	void Scene1::setUpScene()
 	{
-		m_camera.SetPosition({ 0, 0, -4 });
+		m_camera->SetPosition({ 0, 0, -4 });
 		m_pointLightContainer = std::make_shared<PointLightContainer>();
 		m_pointLightContainer->addPointLight(m_whiteLight);
 

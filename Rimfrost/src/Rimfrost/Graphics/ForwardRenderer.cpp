@@ -263,7 +263,7 @@ namespace Rimfrost
 
 		
 
-		auto indexToChangeRenderPass = sortRenderSubmits(camera, nodes, renderSubmits);
+		auto indexToChangeRenderPass = sortRenderSubmits(*camera, nodes, renderSubmits);
 
 		D3D11_MAPPED_SUBRESOURCE mappedSubRes;
 

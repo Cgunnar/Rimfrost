@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "Components\TestComponents.hpp"
+#include "Rimfrost\EventSystem\MouseEvent.hpp"
 
 Rimfrost::EngineApp* Rimfrost::CreateApp()
 {
@@ -11,14 +12,12 @@ using namespace Rimfrost;
 Game::Game()
 {
 	Entity player = EC::createEntity();
-	SphereCollider hej;
-	hej.radius = 4245;
-	SphereCollider* sp = EC::addComponent<SphereCollider>(player, hej);
-	PointMass* y = EC::addComponent<PointMass>(player, PointMass());
-	m_entities.push_back(std::move(player));
 
-	auto p = EC::getComponent<PointMass>(m_entities.back());
-	float mass = p->mass;
+	SphereCollider sp;
+	sp.radius = 2;
+	EC::addComponent<SphereCollider>(player, sp);
+
+	m_entities.push_back(std::move(player));
 }
 
 Game::~Game()
@@ -28,4 +27,21 @@ Game::~Game()
 void Game::update(double dt)
 {
 	EC::update(dt);
+
+	//m_acticeScene->
+
+}
+
+void Game::onEvent(const Event& e)
+{
+	if (e.type() == MouseButtonsEvent::eventType)
+	{
+		auto& mouse = static_cast<const MouseButtonsEvent&>(e).mouseState;
+		if (mouse.RMBClicked)
+		{
+		}
+		else
+		{
+		}
+	}
 }

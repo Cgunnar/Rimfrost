@@ -23,6 +23,8 @@ namespace Rimfrost
 		m_frameData = {};
 		m_frameData.mouseX = -1;
 		m_frameData.mouseY = -1;
+
+		m_camera = std::make_shared<Camera>();
 	}
 
 	Scene::~Scene()
@@ -40,14 +42,14 @@ namespace Rimfrost
 		{
 			static float ang = 0;
 			ang += (float)dt;
-			m_camera.update(static_cast<float>(dt), m_keyboard, m_mouse);
+			m_camera->update(static_cast<float>(dt), m_keyboard, m_mouse);
 		}
 
 		updateWorldMatrices();
 
-		m_frameData.v = m_camera.GetViewMatrix();
-		m_frameData.p = m_camera.GetPerspective();
-		m_frameData.pos = m_camera.GetPosition();
+		m_frameData.v = m_camera->GetViewMatrix();
+		m_frameData.p = m_camera->GetPerspective();
+		m_frameData.pos = m_camera->GetPosition();
 
 		size_t prevSize = m_renderSubmits.size();
 		m_renderSubmits.clear();
@@ -83,7 +85,7 @@ namespace Rimfrost
 		return m_nodes;
 	}
 
-	const Camera& Scene::getCamera() const noexcept
+	const std::shared_ptr<Camera>& Scene::getCamera() const noexcept
 	{
 		return m_camera;
 	}

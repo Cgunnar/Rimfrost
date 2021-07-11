@@ -86,7 +86,7 @@ namespace Rimfrost
 	{
 		nlohmann::json j;
 
-		j["camera"] = Matrix(scene.m_camera.GetWorldMatrix());
+		j["camera"] = Matrix(scene.m_camera->GetWorldMatrix());
 
 		Logger::getLogger().debugLog("serialize: numberOfNodes = " + std::to_string(scene.m_nodes.size()) + "\n");
 
@@ -132,7 +132,7 @@ namespace Rimfrost
 		auto j = nlohmann::json::parse(f);
 
 		Rimfrost::Matrix cameraWoldMatrix = j["camera"];
-		scene->m_camera.SetWorldMatrix(cameraWoldMatrix);
+		scene->m_camera->SetWorldMatrix(cameraWoldMatrix);
 
 
 		scene->m_nodes.clear();
