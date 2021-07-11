@@ -31,7 +31,6 @@ project "Rimfrost"
         "%{prj.name}/src",
         "%{prj.name}/src/**",
         "ImGui/",
-        "%{prj.name}/vendor/includes"
     }
 
     defines
@@ -81,11 +80,9 @@ project "Game"
 
     includedirs
     {
-        "Rimfrost/vendor/includes",
         "Rimfrost/src",
         "Rimfrost/src/**",
         "Rimfrost/src/Rimfrost",
-        "Rimfrost/src/Rimfrost/Scene",
     }
 
     defines
