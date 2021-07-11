@@ -7,7 +7,6 @@
 
 
 #include "Rimfrost\Scene\Scene.hpp"
-#include "Rimfrost\EntCom\EntityRegistry.hpp"
 
 namespace Rimfrost
 {
@@ -34,7 +33,6 @@ namespace Rimfrost
 
 	protected:
 		std::shared_ptr<Rimfrost::Scene> m_acticeScene;
-		EntityRegistry m_entityReg;
 		virtual void update(double dt) abstract;
 
 	private:

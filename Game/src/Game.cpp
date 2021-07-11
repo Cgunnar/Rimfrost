@@ -6,19 +6,19 @@ Rimfrost::EngineApp* Rimfrost::CreateApp()
 	return new Game();
 }
 
+using namespace Rimfrost;
+
 Game::Game()
 {
-	Rimfrost::Entity player = m_entityReg.createEntity();
+	Entity player = EC::createEntity();
 	SphereCollider hej;
 	hej.radius = 4245;
-	SphereCollider* sp = m_entityReg.addComponent<SphereCollider>(player, hej);
-	PointMass* y = m_entityReg.addComponent<PointMass>(player, PointMass());
-	m_entities.push_back(player);
+	SphereCollider* sp = EC::addComponent<SphereCollider>(player, hej);
+	PointMass* y = EC::addComponent<PointMass>(player, PointMass());
+	m_entities.push_back(std::move(player));
 
-	auto p = m_entityReg.getComponent<PointMass>(player);
+	auto p = EC::getComponent<PointMass>(m_entities.back());
 	float mass = p->mass;
-
-	
 }
 
 Game::~Game()
@@ -27,5 +27,5 @@ Game::~Game()
 
 void Game::update(double dt)
 {
-	this->m_entityReg.update(dt);
+	EC::update(dt);
 }

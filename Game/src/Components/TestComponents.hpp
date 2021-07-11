@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Rimfrost\EntCom\BaseComponent.hpp"
+#include "Rimfrost\EntCom\rfEntity.hpp"
 #include "Rimfrost\Math\RimfrostMath.hpp"
 
 

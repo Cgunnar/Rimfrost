@@ -58,7 +58,7 @@
       <PrecompiledHeaderFile>rfpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EventSystem;src\Rimfrost\external_headers;src\Rimfrost\Graphics;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Scenes;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;vendor\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\external_headers;src\Rimfrost\Graphics;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Scenes;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;vendor\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -75,7 +75,7 @@
       <PrecompiledHeaderFile>rfpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_NDEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EventSystem;src\Rimfrost\external_headers;src\Rimfrost\Graphics;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Scenes;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;vendor\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\external_headers;src\Rimfrost\Graphics;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Scenes;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;vendor\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -91,14 +91,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Rimfrost\EntCom\BaseComponent.hpp" />
-    <ClInclude Include="src\Rimfrost\EntCom\Entity.hpp" />
-    <ClInclude Include="src\Rimfrost\EntCom\EntityRegistry.hpp" />
     <ClInclude Include="src\Rimfrost.h" />
     <ClInclude Include="src\Rimfrost\Core.h" />
     <ClInclude Include="src\Rimfrost\Core\Keyboard.hpp" />
     <ClInclude Include="src\Rimfrost\Core\Mouse.hpp" />
     <ClInclude Include="src\Rimfrost\EngineApp.h" />
+    <ClInclude Include="src\Rimfrost\EntCom\rfEntity.hpp" />
     <ClInclude Include="src\Rimfrost\EntryPoint.h" />
     <ClInclude Include="src\Rimfrost\EventSystem\Event.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\EventObserver.hpp" />
@@ -160,9 +158,6 @@
     <ClInclude Include="src\rfpch.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Rimfrost\EntCom\BaseComponent.cpp" />
-    <ClCompile Include="src\Rimfrost\EntCom\Entity.cpp" />
-    <ClCompile Include="src\Rimfrost\EntCom\EntityRegistry.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Mouse.cpp" />
     <ClCompile Include="src\Rimfrost\EngineApp.cpp" />

@@ -7,6 +7,9 @@
     <Filter Include="Rimfrost\Core">
       <UniqueIdentifier>{13255B48-7FE5-D67E-4820-20FCB49F1B5B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rimfrost\EntCom">
+      <UniqueIdentifier>{708551D0-DC10-BF94-E521-4289512C1B95}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Rimfrost\EventSystem">
       <UniqueIdentifier>{11C67237-FD54-FC00-A673-10FC92E10CA7}</UniqueIdentifier>
     </Filter>
@@ -45,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="src\Rimfrost\EngineApp.h">
       <Filter>Rimfrost</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rimfrost\EntCom\rfEntity.hpp">
+      <Filter>Rimfrost\EntCom</Filter>
     </ClInclude>
     <ClInclude Include="src\Rimfrost\EntryPoint.h">
       <Filter>Rimfrost</Filter>
@@ -157,6 +163,9 @@
     <ClInclude Include="src\Rimfrost\Math\Matrix.hpp">
       <Filter>Rimfrost\Math</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rimfrost\Math\RfextendedMath.hpp">
+      <Filter>Rimfrost\Math</Filter>
+    </ClInclude>
     <ClInclude Include="src\Rimfrost\Math\RimfrostMath.hpp">
       <Filter>Rimfrost\Math</Filter>
     </ClInclude>
@@ -218,10 +227,6 @@
       <Filter>Rimfrost\external_headers</Filter>
     </ClInclude>
     <ClInclude Include="src\rfpch.hpp" />
-    <ClInclude Include="src\Rimfrost\Math\RfextendedMath.hpp" />
-    <ClInclude Include="src\Rimfrost\EntCom\Entity.hpp" />
-    <ClInclude Include="src\Rimfrost\EntCom\EntityRegistry.hpp" />
-    <ClInclude Include="src\Rimfrost\EntCom\BaseComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp">
@@ -332,6 +337,9 @@
     <ClCompile Include="src\Rimfrost\Math\Matrix.cpp">
       <Filter>Rimfrost\Math</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rimfrost\Math\RfextendedMath.cpp">
+      <Filter>Rimfrost\Math</Filter>
+    </ClCompile>
     <ClCompile Include="src\Rimfrost\Math\Transform.cpp">
       <Filter>Rimfrost\Math</Filter>
     </ClCompile>
@@ -378,10 +386,6 @@
       <Filter>Rimfrost</Filter>
     </ClCompile>
     <ClCompile Include="src\rfpch.cpp" />
-    <ClCompile Include="src\Rimfrost\Math\RfextendedMath.cpp" />
-    <ClCompile Include="src\Rimfrost\EntCom\Entity.cpp" />
-    <ClCompile Include="src\Rimfrost\EntCom\EntityRegistry.cpp" />
-    <ClCompile Include="src\Rimfrost\EntCom\BaseComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\Rimfrost\Shaders\MousePickingPS.hlsl">
