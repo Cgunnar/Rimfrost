@@ -58,7 +58,7 @@
       <PrecompiledHeaderFile>rfpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\external_headers;src\Rimfrost\Graphics;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Scenes;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\Graphics;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Scenes;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;..\external_headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -75,7 +75,7 @@
       <PrecompiledHeaderFile>rfpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_NDEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\external_headers;src\Rimfrost\Graphics;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Scenes;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\Graphics;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Scenes;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;..\external_headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -91,7 +91,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Rimfrost\EventSystem\KeyboardEvents.hpp" />
     <ClInclude Include="src\Rimfrost.h" />
     <ClInclude Include="src\Rimfrost\Core.h" />
     <ClInclude Include="src\Rimfrost\Core\Keyboard.hpp" />
@@ -102,6 +101,7 @@
     <ClInclude Include="src\Rimfrost\EventSystem\Event.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\EventObserver.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\EventSystem.hpp" />
+    <ClInclude Include="src\Rimfrost\EventSystem\KeyboardEvents.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\MouseEvent.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\PauseEvent.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\ResizeEvent.hpp" />
@@ -154,18 +154,16 @@
     <ClInclude Include="src\Rimfrost\Utilities\ReadImg.hpp" />
     <ClInclude Include="src\Rimfrost\Utilities\Timer.hpp" />
     <ClInclude Include="src\Rimfrost\Window.hpp" />
-    <ClInclude Include="src\Rimfrost\external_headers\json.hpp" />
-    <ClInclude Include="src\Rimfrost\external_headers\stb_image.h" />
     <ClInclude Include="src\rfpch.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Rimfrost\EventSystem\KeyboardEvents.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Mouse.cpp" />
     <ClCompile Include="src\Rimfrost\EngineApp.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\Event.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\EventObserver.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\EventSystem.cpp" />
+    <ClCompile Include="src\Rimfrost\EventSystem\KeyboardEvents.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\MouseEvent.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\PauseEvent.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\ResizeEvent.cpp" />

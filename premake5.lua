@@ -31,6 +31,7 @@ project "Rimfrost"
         "%{prj.name}/src",
         "%{prj.name}/src/**",
         "ImGui/",
+        "external_headers/",
     }
 
     defines
