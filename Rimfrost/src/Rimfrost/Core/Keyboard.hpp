@@ -12,6 +12,8 @@ namespace Rimfrost
 		A, S, D, F, G, H, J, K, L,
 		Z, X, C, V, B, N, M,
 
+		_1, _2, _3, _4, _5, _6, _7, _8, _9, _0,
+
 		SPACE, LCTRL, LSHIFT, ESC, ENTER, BACK_SPACE,
 		TAB, RIGHT, LEFT, UP, DOWN,
 	};

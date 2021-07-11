@@ -11,7 +11,6 @@
 
 namespace Rimfrost
 {
-
 	Keyboard::Keyboard(HWND hWnd, HINSTANCE hInst)
 	{
 		HRESULT hr = DirectInput8Create(hInst, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_directInput, NULL);
@@ -221,6 +220,157 @@ namespace Rimfrost
 			EventSystem::postTOQueue(KeyboardEvent({ Key::LEFT, KeyState::KEY_RELEASED }));
 		}
 
+		//numbers
+		//1
+		if (IsKeyPressed(DIK_1) && WasKeyPressed(DIK_1))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_1, KeyState::KEY_DOWN }, '1'));
+		}
+		else if (IsKeyPressed(DIK_1) && !WasKeyPressed(DIK_1))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_1, KeyState::KEY_CLICKED }, '1'));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_1, KeyState::KEY_DOWN }, '1'));
+		}
+		else if (!IsKeyPressed(DIK_1) && WasKeyPressed(DIK_1))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_1, KeyState::KEY_RELEASED }));
+		}
+
+		//2
+		if (IsKeyPressed(DIK_2) && WasKeyPressed(DIK_2))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_2, KeyState::KEY_DOWN }, '2'));
+		}
+		else if (IsKeyPressed(DIK_2) && !WasKeyPressed(DIK_2))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_2, KeyState::KEY_CLICKED }, '2'));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_2, KeyState::KEY_DOWN }, '2'));
+		}
+		else if (!IsKeyPressed(DIK_2) && WasKeyPressed(DIK_2))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_2, KeyState::KEY_RELEASED }));
+		}
+
+		//3
+		if (IsKeyPressed(DIK_3) && WasKeyPressed(DIK_3))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_3, KeyState::KEY_DOWN }, '3'));
+		}
+		else if (IsKeyPressed(DIK_3) && !WasKeyPressed(DIK_3))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_3, KeyState::KEY_CLICKED }, '3'));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_3, KeyState::KEY_DOWN }, '3'));
+		}
+		else if (!IsKeyPressed(DIK_3) && WasKeyPressed(DIK_3))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_3, KeyState::KEY_RELEASED }));
+		}
+
+		//4
+		if (IsKeyPressed(DIK_4) && WasKeyPressed(DIK_4))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_4, KeyState::KEY_DOWN }, '4'));
+		}
+		else if (IsKeyPressed(DIK_4) && !WasKeyPressed(DIK_4))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_4, KeyState::KEY_CLICKED }, '4'));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_4, KeyState::KEY_DOWN }, '4'));
+		}
+		else if (!IsKeyPressed(DIK_4) && WasKeyPressed(DIK_4))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_4, KeyState::KEY_RELEASED }));
+		}
+
+		//5
+		if (IsKeyPressed(DIK_5) && WasKeyPressed(DIK_5))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_5, KeyState::KEY_DOWN }, '5'));
+		}
+		else if (IsKeyPressed(DIK_5) && !WasKeyPressed(DIK_5))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_5, KeyState::KEY_CLICKED }, '5'));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_5, KeyState::KEY_DOWN }, '5'));
+		}
+		else if (!IsKeyPressed(DIK_5) && WasKeyPressed(DIK_5))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_5, KeyState::KEY_RELEASED }));
+		}
+
+		//6
+		if (IsKeyPressed(DIK_6) && WasKeyPressed(DIK_6))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_6, KeyState::KEY_DOWN }, '6'));
+		}
+		else if (IsKeyPressed(DIK_6) && !WasKeyPressed(DIK_6))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_6, KeyState::KEY_CLICKED }, '6'));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_6, KeyState::KEY_DOWN }, '6'));
+		}
+		else if (!IsKeyPressed(DIK_6) && WasKeyPressed(DIK_6))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_6, KeyState::KEY_RELEASED }));
+		}
+
+		//7
+		if (IsKeyPressed(DIK_7) && WasKeyPressed(DIK_7))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_7, KeyState::KEY_DOWN }, '7'));
+		}
+		else if (IsKeyPressed(DIK_7) && !WasKeyPressed(DIK_7))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_7, KeyState::KEY_CLICKED }, '7'));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_7, KeyState::KEY_DOWN }, '7'));
+		}
+		else if (!IsKeyPressed(DIK_7) && WasKeyPressed(DIK_7))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_7, KeyState::KEY_RELEASED }));
+		}
+
+		//8
+		if (IsKeyPressed(DIK_8) && WasKeyPressed(DIK_8))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_8, KeyState::KEY_DOWN }, '8'));
+		}
+		else if (IsKeyPressed(DIK_8) && !WasKeyPressed(DIK_8))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_8, KeyState::KEY_CLICKED }, '8'));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_8, KeyState::KEY_DOWN }, '8'));
+		}
+		else if (!IsKeyPressed(DIK_8) && WasKeyPressed(DIK_8))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_8, KeyState::KEY_RELEASED }));
+		}
+
+		//9
+		if (IsKeyPressed(DIK_9) && WasKeyPressed(DIK_9))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_9, KeyState::KEY_DOWN }, '9'));
+		}
+		else if (IsKeyPressed(DIK_9) && !WasKeyPressed(DIK_9))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_9, KeyState::KEY_CLICKED }, '9'));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_9, KeyState::KEY_DOWN }, '9'));
+		}
+		else if (!IsKeyPressed(DIK_9) && WasKeyPressed(DIK_9))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_9, KeyState::KEY_RELEASED }));
+		}
+
+		//0
+		if (IsKeyPressed(DIK_0) && WasKeyPressed(DIK_0))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_0, KeyState::KEY_DOWN }, '0'));
+		}
+		else if (IsKeyPressed(DIK_0) && !WasKeyPressed(DIK_0))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_0, KeyState::KEY_CLICKED }, '0'));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_0, KeyState::KEY_DOWN }, '0'));
+		}
+		else if (!IsKeyPressed(DIK_0) && WasKeyPressed(DIK_0))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::_0, KeyState::KEY_RELEASED }));
+		}
+
 		// characters----------------------------
 		
 		//A
@@ -328,8 +478,140 @@ namespace Rimfrost
 			EventSystem::postTOQueue(KeyboardEvent({ Key::G, KeyState::KEY_RELEASED }));
 		}
 
-		//fix rest later this is boring to write
-		// h, i, j, k, l m, m, o, p
+		//H
+		if (IsKeyPressed(DIK_H) && WasKeyPressed(DIK_H))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::H, KeyState::KEY_DOWN }, 'h' - shift));
+		}
+		else if (IsKeyPressed(DIK_H) && !WasKeyPressed(DIK_H))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::H, KeyState::KEY_CLICKED }, 'h' - shift));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::H, KeyState::KEY_DOWN }, 'h' - shift));
+		}
+		else if (!IsKeyPressed(DIK_H) && WasKeyPressed(DIK_H))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::H, KeyState::KEY_RELEASED }));
+		}
+
+		//I
+		if (IsKeyPressed(DIK_I) && WasKeyPressed(DIK_I))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::I, KeyState::KEY_DOWN }, 'i' - shift));
+		}
+		else if (IsKeyPressed(DIK_I) && !WasKeyPressed(DIK_I))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::I, KeyState::KEY_CLICKED }, 'i' - shift));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::I, KeyState::KEY_DOWN }, 'i' - shift));
+		}
+		else if (!IsKeyPressed(DIK_I) && WasKeyPressed(DIK_I))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::I, KeyState::KEY_RELEASED }));
+		}
+
+		//J
+		if (IsKeyPressed(DIK_J) && WasKeyPressed(DIK_J))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::J, KeyState::KEY_DOWN }, 'j' - shift));
+		}
+		else if (IsKeyPressed(DIK_J) && !WasKeyPressed(DIK_J))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::J, KeyState::KEY_CLICKED }, 'j' - shift));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::J, KeyState::KEY_DOWN }, 'j' - shift));
+		}
+		else if (!IsKeyPressed(DIK_J) && WasKeyPressed(DIK_J))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::J, KeyState::KEY_RELEASED }));
+		}
+
+		//K
+		if (IsKeyPressed(DIK_K) && WasKeyPressed(DIK_K))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::K, KeyState::KEY_DOWN }, 'k' - shift));
+		}
+		else if (IsKeyPressed(DIK_K) && !WasKeyPressed(DIK_K))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::K, KeyState::KEY_CLICKED }, 'k' - shift));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::K, KeyState::KEY_DOWN }, 'k' - shift));
+		}
+		else if (!IsKeyPressed(DIK_K) && WasKeyPressed(DIK_K))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::K, KeyState::KEY_RELEASED }));
+		}
+
+		//L
+		if (IsKeyPressed(DIK_L) && WasKeyPressed(DIK_L))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::L, KeyState::KEY_DOWN }, 'l' - shift));
+		}
+		else if (IsKeyPressed(DIK_L) && !WasKeyPressed(DIK_L))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::L, KeyState::KEY_CLICKED }, 'l' - shift));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::L, KeyState::KEY_DOWN }, 'l' - shift));
+		}
+		else if (!IsKeyPressed(DIK_L) && WasKeyPressed(DIK_L))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::L, KeyState::KEY_RELEASED }));
+		}
+
+		//M
+		if (IsKeyPressed(DIK_M) && WasKeyPressed(DIK_M))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::M, KeyState::KEY_DOWN }, 'm' - shift));
+		}
+		else if (IsKeyPressed(DIK_M) && !WasKeyPressed(DIK_M))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::M, KeyState::KEY_CLICKED }, 'm' - shift));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::M, KeyState::KEY_DOWN }, 'm' - shift));
+		}
+		else if (!IsKeyPressed(DIK_M) && WasKeyPressed(DIK_M))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::M, KeyState::KEY_RELEASED }));
+		}
+
+		//N
+		if (IsKeyPressed(DIK_N) && WasKeyPressed(DIK_N))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::N, KeyState::KEY_DOWN }, 'n' - shift));
+		}
+		else if (IsKeyPressed(DIK_N) && !WasKeyPressed(DIK_N))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::N, KeyState::KEY_CLICKED }, 'n' - shift));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::N, KeyState::KEY_DOWN }, 'n' - shift));
+		}
+		else if (!IsKeyPressed(DIK_N) && WasKeyPressed(DIK_N))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::N, KeyState::KEY_RELEASED }));
+		}
+
+		//O
+		if (IsKeyPressed(DIK_O) && WasKeyPressed(DIK_O))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::O, KeyState::KEY_DOWN }, 'o' - shift));
+		}
+		else if (IsKeyPressed(DIK_O) && !WasKeyPressed(DIK_O))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::O, KeyState::KEY_CLICKED }, 'o' - shift));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::O, KeyState::KEY_DOWN }, 'o' - shift));
+		}
+		else if (!IsKeyPressed(DIK_O) && WasKeyPressed(DIK_O))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::O, KeyState::KEY_RELEASED }));
+		}
+
+		//P
+		if (IsKeyPressed(DIK_P) && WasKeyPressed(DIK_P))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::P, KeyState::KEY_DOWN }, 'p' - shift));
+		}
+		else if (IsKeyPressed(DIK_P) && !WasKeyPressed(DIK_P))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::P, KeyState::KEY_CLICKED }, 'p' - shift));
+			EventSystem::postTOQueue(KeyboardEvent({ Key::P, KeyState::KEY_DOWN }, 'p' - shift));
+		}
+		else if (!IsKeyPressed(DIK_P) && WasKeyPressed(DIK_P))
+		{
+			EventSystem::postTOQueue(KeyboardEvent({ Key::P, KeyState::KEY_RELEASED }));
+		}
 
 		//Q
 		if (IsKeyPressed(DIK_Q) && WasKeyPressed(DIK_Q))
