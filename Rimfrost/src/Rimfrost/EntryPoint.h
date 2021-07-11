@@ -10,6 +10,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	Rimfrost::EngineApp* gameApp = Rimfrost::CreateApp();
 	gameApp->Run();
 	delete gameApp;
+	return 0;
 }
 
 //int main(int argc, char** argv)
