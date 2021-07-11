@@ -348,8 +348,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-Game/Game.vcxproj
-Game/Game.vcxproj.filters
-Rimfrost.sln
-Rimfrost/Rimfrost.vcxproj
-Rimfrost/Rimfrost.vcxproj.filters
