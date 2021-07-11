@@ -4,14 +4,17 @@
 #include "Keyboard.hpp"
 #include "RimfrostMath.hpp"
 
+#include "KeyboardEvents.hpp"
+#include "EventObserver.hpp"
+
 namespace Rimfrost
 {
-	class Camera
+	class Camera : public EventObserver
 	{
 	public:
 		Camera();
 		~Camera();
-		void update(float dt, const std::shared_ptr<Keyboard>& keyboard = nullptr, const std::shared_ptr<Mouse>& mouse = nullptr);
+		void update(float dt, bool freeMovement, const std::shared_ptr<Mouse>& mouse = nullptr);
 		void SetPosition(Vector3 newPosition);
 		//void SetOrientation(Matrix newOrientation);
 		void SetWorldMatrix(Matrix newWorldMatrix);
@@ -24,9 +27,8 @@ namespace Rimfrost
 
 
 		void MoveInLocalSpace(const float& distance, const Vector3& direction);
-		void MoveInLocalSpace(const float& distance, const DirectX::XMVECTOR& direction);
 
-		void MoveInWorldSpace(const float& distance, const DirectX::XMVECTOR& direction);
+		//void MoveInWorldSpace(const float& distance, const DirectX::XMVECTOR& direction);
 
 		//void RotateInLocalSpace(const float& angle, const XMFLOAT3& localAxis);
 
@@ -46,8 +48,14 @@ namespace Rimfrost
 		float GetYaw() const;
 		float GetRoll() const;
 
+		void onEvent(const Rimfrost::Event& e) override;
+
 	private:
 
+		Vector3 m_moveDirection = { 0,0,0 };
+		float m_moveSpeed = 2.5f;
+		float m_normalSpeed = 2.5f;
+		float m_fastSpeed = 8.5f;
 
 		Matrix m_perspective;
 		Transform m_worldMatrix;

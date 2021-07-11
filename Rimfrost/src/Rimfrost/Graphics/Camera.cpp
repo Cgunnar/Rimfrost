@@ -3,12 +3,15 @@
 #include "Camera.hpp"
 #include <cstring>
 #include <cmath>
+#include <EventSystem.hpp>
 using namespace DirectX;
 
 namespace Rimfrost
 {
 	Camera::Camera()
 	{
+		EventSystem::addObserver(*this, KeyboardEvent::eventType);
+
 		XMFLOAT4X4 pt;
 		XMStoreFloat4x4(&pt, XMMatrixPerspectiveFovLH(XM_PIDIV4, 16.0f / 9.0f, 0.01f, 1000.0f));
 
@@ -20,74 +23,29 @@ namespace Rimfrost
 	{
 	}
 
-	void Camera::update(float dt, const std::shared_ptr<Keyboard>& keyboard, const std::shared_ptr<Mouse>& mouse)
+	void Camera::update(float dt, bool freeMovement, const std::shared_ptr<Mouse>& mouse)
 	{
-
-		if (keyboard)
+		if (freeMovement)
 		{
-			Vector3 moveDirection = { 0,0,0 };
-			Vector3 moveUp = { 0,1,0 };
-			if (keyboard->IsKeyPressed(DIK_A))
+			m_moveDirection.normalize();
+			MoveInLocalSpace(dt * m_moveSpeed, m_moveDirection);
+
+			if (mouse)
 			{
-				moveDirection += {-1, 0, 0};
-			}
-			if (keyboard->IsKeyPressed(DIK_D))
-			{
-				moveDirection += {1, 0, 0};
-			}
-			if (keyboard->IsKeyPressed(DIK_W))
-			{
-				moveDirection += {0, 0, 1};
-			}
-			if (keyboard->IsKeyPressed(DIK_S))
-			{
-				moveDirection += {0, 0, -1};
-			}
-			if (keyboard->IsKeyPressed(DIK_SPACE))
-			{
-				moveDirection += GetViewMatrix() * Vector4(moveUp, 0);
-			}
-			if (keyboard->IsKeyPressed(DIK_LCONTROL))
-			{
-				moveDirection += GetViewMatrix() * Vector4(-1*moveUp, 0);
-			}
-			moveDirection.normalize();
-			if (keyboard->IsKeyPressed(DIK_LSHIFT))
-			{
-				MoveInLocalSpace(dt * 8.0f, moveDirection);
-			}
-			else
-			{
-				MoveInLocalSpace(dt * 2.5f, moveDirection);
+				float speed = 0.3f * dt;
+				AddPitchAndYaw((float)mouse->GetMouseState().deltaY * speed, (float)mouse->GetMouseState().deltaX * speed);
+				SetAbsoluteEulerRotatation(GetPitch(), GetYaw(), GetRoll());
 			}
 		}
 
-		if (mouse)
-		{
-			float speed = 0.3f * dt;
-			AddPitchAndYaw((float)mouse->GetMouseState().deltaY * speed, (float)mouse->GetMouseState().deltaX * speed);
-			SetAbsoluteEulerRotatation(GetPitch(), GetYaw(), GetRoll());
-		}
+		m_moveSpeed = m_normalSpeed;
+		m_moveDirection = { 0,0,0 };
 	}
 
 	void Camera::SetPosition(Vector3 newPosition)
 	{
 		m_worldMatrix.setTranslation(newPosition);
 	}
-
-	/*void Camera::SetOrientation(XMFLOAT3X3 newOrientation)
-	{
-		this->m_worldMatrix.m[0][0] = newOrientation.m[0][0];
-		this->m_worldMatrix.m[0][1] = newOrientation.m[0][1];
-		this->m_worldMatrix.m[0][2] = newOrientation.m[0][2];
-		this->m_worldMatrix.m[1][0] = newOrientation.m[1][0];
-		this->m_worldMatrix.m[1][1] = newOrientation.m[1][1];
-		this->m_worldMatrix.m[1][2] = newOrientation.m[1][2];
-		this->m_worldMatrix.m[2][0] = newOrientation.m[2][0];
-		this->m_worldMatrix.m[2][1] = newOrientation.m[2][1];
-		this->m_worldMatrix.m[2][2] = newOrientation.m[2][2];
-	}*/
-
 
 	void Camera::SetWorldMatrix(Matrix newWorldMatrix)
 	{
@@ -96,27 +54,6 @@ namespace Rimfrost
 
 	void Camera::SetAbsoluteEulerRotatation(float x, float y, float z)
 	{
-		/*this->m_worldMatrix._11 = 1;
-		this->m_worldMatrix._21 = 0;
-		this->m_worldMatrix._31 = 0;
-
-		this->m_worldMatrix._12 = 0;
-		this->m_worldMatrix._22 = 1;
-		this->m_worldMatrix._32 = 0;
-
-		this->m_worldMatrix._13 = 0;
-		this->m_worldMatrix._23 = 0;
-		this->m_worldMatrix._33 = 1;
-
-
-		XMMATRIX rot = XMMatrixRotationRollPitchYaw(x, y, z);
-		XMMATRIX world = this->GetWorldMatrix();
-
-		world = rot * world;
-
-
-		XMStoreFloat4x4(&this->m_worldMatrix, world);*/
-
 		m_worldMatrix.setRotation(x, y, z);
 
 	}
@@ -164,31 +101,20 @@ namespace Rimfrost
 		this->m_worldMatrix._43 = this->m_worldMatrix._43 + distance * dir.m128_f32[2];*/
 		Vector3 dir = direction;
 		dir.normalize();
-		
+
 		dir = m_worldMatrix * Vector4(dir, 0);
 		dir.normalize();
 		m_worldMatrix.translate(distance * dir);
 	}
 
-	void Camera::MoveInLocalSpace(const float& distance, const DirectX::XMVECTOR& direction)
-	{
-		/*XMVECTOR dir = direction;
-		dir = XMVector4Normalize(dir);
-		dir = XMVector4Transform(dir, this->GetWorldMatrix());
-		dir = XMVector4Normalize(dir);
-		this->m_worldMatrix._41 = this->m_worldMatrix._41 + distance * dir.m128_f32[0];
-		this->m_worldMatrix._42 = this->m_worldMatrix._42 + distance * dir.m128_f32[1];
-		this->m_worldMatrix._43 = this->m_worldMatrix._43 + distance * dir.m128_f32[2];*/
-	}
-
-	void Camera::MoveInWorldSpace(const float& distance, const DirectX::XMVECTOR& direction)
-	{/*
-		XMVECTOR dir = direction;
-		dir = XMVector4Normalize(dir);
-		this->m_worldMatrix._41 = this->m_worldMatrix._41 + distance * dir.m128_f32[0];
-		this->m_worldMatrix._42 = this->m_worldMatrix._42 + distance * dir.m128_f32[1];
-		this->m_worldMatrix._43 = this->m_worldMatrix._43 + distance * dir.m128_f32[2];*/
-	}
+	//void Camera::MoveInWorldSpace(const float& distance, const DirectX::XMVECTOR& direction)
+	//{/*
+	//	XMVECTOR dir = direction;
+	//	dir = XMVector4Normalize(dir);
+	//	this->m_worldMatrix._41 = this->m_worldMatrix._41 + distance * dir.m128_f32[0];
+	//	this->m_worldMatrix._42 = this->m_worldMatrix._42 + distance * dir.m128_f32[1];
+	//	this->m_worldMatrix._43 = this->m_worldMatrix._43 + distance * dir.m128_f32[2];*/
+	//}
 
 	Matrix Camera::GetWorldMatrix() const
 	{
@@ -207,42 +133,21 @@ namespace Rimfrost
 
 	Vector3 Camera::GetPosition() const
 	{
-		/*XMFLOAT4 vector = (XMFLOAT4)this->m_worldMatrix.m[3];
-		vector.w = 1;
-		return XMLoadFloat4(&vector);*/
 		return m_worldMatrix.getTranslation();
 	}
 
 	Vector3 Camera::GetAxisX() const
 	{
-		/*XMVECTOR vec;
-		vec.m128_f32[0] = this->m_worldMatrix.m[0][0];
-		vec.m128_f32[1] = this->m_worldMatrix.m[0][1];
-		vec.m128_f32[2] = this->m_worldMatrix.m[0][2];
-		vec.m128_f32[3] = 0.0f;
-		return vec;*/
 		return m_worldMatrix.right();
 	}
 
 	Vector3 Camera::GetAxisY() const
 	{
-		/*XMVECTOR vec;
-		vec.m128_f32[0] = this->m_worldMatrix.m[1][0];
-		vec.m128_f32[1] = this->m_worldMatrix.m[1][1];
-		vec.m128_f32[2] = this->m_worldMatrix.m[1][2];
-		vec.m128_f32[3] = 0.0f;
-		return vec;*/
 		return m_worldMatrix.up();
 	}
 
 	Vector3 Camera::GetAxisZ() const
 	{
-		/*XMVECTOR vec;
-		vec.m128_f32[0] = this->m_worldMatrix.m[2][0];
-		vec.m128_f32[1] = this->m_worldMatrix.m[2][1];
-		vec.m128_f32[2] = this->m_worldMatrix.m[2][2];
-		vec.m128_f32[3] = 0.0f;
-		return vec;*/
 		return m_worldMatrix.forward();
 	}
 
@@ -272,5 +177,41 @@ namespace Rimfrost
 	float Camera::GetRoll() const
 	{
 		return this->m_roll;
+	}
+	void Camera::onEvent(const Rimfrost::Event& e)
+	{
+		if (e.type() == KeyboardEvent::eventType)
+		{
+			auto& keyboard = static_cast<const KeyboardEvent&>(e);
+			if (keyboard.keyAndState.second == KeyState::KEY_DOWN)
+			{
+				switch (keyboard.keyAndState.first)
+				{
+				case Key::W:
+					m_moveDirection += {0, 0, 1};
+					break;
+				case Key::A:
+					m_moveDirection += {-1, 0, 0};
+					break;
+				case Key::S:
+					m_moveDirection += {0, 0, -1};
+					break;
+				case Key::D:
+					m_moveDirection += {1, 0, 0};
+					break;
+				case Key::SPACE:
+					m_moveDirection += GetViewMatrix() * Vector4(0, 1, 0, 0);
+					break;
+				case Key::LCTRL:
+					m_moveDirection += GetViewMatrix() * Vector4(0, -1, 0, 0);
+					break;
+				case Key::LSHIFT:
+					m_moveSpeed = m_fastSpeed;
+					break;
+				default:
+					break;
+				}
+			}
+		}
 	}
 };

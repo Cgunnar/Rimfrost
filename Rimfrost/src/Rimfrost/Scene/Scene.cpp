@@ -36,14 +36,7 @@ namespace Rimfrost
 	{
 		derivedSceneUpdate(dt);
 
-
-
-		if (!m_isPaused)
-		{
-			static float ang = 0;
-			ang += (float)dt;
-			m_camera->update(static_cast<float>(dt), m_keyboard, m_mouse);
-		}
+		m_camera->update(static_cast<float>(dt), !m_isPaused, m_mouse);
 
 		updateWorldMatrices();
 
