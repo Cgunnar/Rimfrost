@@ -348,3 +348,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+Rimfrost/Rimfrost.vcxproj.filters
+Game/Game.vcxproj.filters
+ImGui/ImGui.vcxproj.filters
