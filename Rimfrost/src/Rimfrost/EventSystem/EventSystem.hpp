@@ -11,7 +11,7 @@ namespace Rimfrost
 		EventSystem() = default;
 		static void postInstantly(const Event& event);
 		template<typename T>
-		static void postTOQueue(const Event& event);
+		static void postTOQueue(const T& event);
 		static void dispatchQueued();
 		template<typename T>
 		static void addObserver(T& observer, Event::EventType type);
@@ -40,7 +40,7 @@ namespace Rimfrost
 	}
 
 	template<typename T>
-	inline void EventSystem::postTOQueue(const Event& event)
+	inline void EventSystem::postTOQueue(const T& event)
 	{
 		m_eventQueue.emplace(std::make_unique<T>(event));
 	}

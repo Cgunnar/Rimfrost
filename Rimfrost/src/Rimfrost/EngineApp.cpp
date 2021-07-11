@@ -58,9 +58,11 @@ namespace Rimfrost
 			}
 			if (m_window.isClosed()) continue;
 
-
 			//pause
 			handlePauseAndFullscreen();
+			EventSystem::dispatchQueued();
+
+
 
 			this->update(timer.dt());
 
