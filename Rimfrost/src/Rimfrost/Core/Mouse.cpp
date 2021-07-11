@@ -61,7 +61,7 @@ namespace Rimfrost
 			auto [w, h] = m_getWindowSize();
 			m_mouseState.width = w;
 			m_mouseState.height = h;
-			EventSystem::post(MouseButtonsEvent(m_mouseState));
+			EventSystem::postInstantly(MouseButtonsEvent(m_mouseState));
 		}
 
 		//if (!m_showCursor && !m_windowOutOfFocus)

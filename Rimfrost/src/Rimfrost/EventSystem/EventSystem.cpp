@@ -4,6 +4,7 @@
 namespace Rimfrost
 {
 	EventSystem::EventDispatcher EventSystem::s_evenDisp;
+	std::queue<std::unique_ptr<Event>> EventSystem::m_eventQueue;
 
 	void EventSystem::EventDispatcher::dispatchPost(const Event& event)
 	{
@@ -18,8 +19,17 @@ namespace Rimfrost
 		}
 	}
 
-	void EventSystem::post(const Event& event)
+	void EventSystem::postInstantly(const Event& event)
 	{
 		s_evenDisp.dispatchPost(event);
+	}
+	
+	void EventSystem::dispatchQueued()
+	{
+		while (!m_eventQueue.empty())
+		{
+			s_evenDisp.dispatchPost(*m_eventQueue.front());
+			m_eventQueue.pop();
+		}
 	}
 }

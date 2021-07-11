@@ -254,7 +254,7 @@ namespace Rimfrost
 			if (nodes[myPicking.id].m_subModel)
 				Logger::getLogger().debugLog(nodes[myPicking.id].m_subModel->getMaterialName() + "\n");
 
-			EventSystem::post(MousePickingEvent(myPicking.id, myPicking.worldPosition));
+			EventSystem::postInstantly(MousePickingEvent(myPicking.id, myPicking.worldPosition));
 		}
 
 

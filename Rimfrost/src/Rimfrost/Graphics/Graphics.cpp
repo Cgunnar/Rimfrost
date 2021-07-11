@@ -217,12 +217,12 @@ namespace Rimfrost
 			nullptr, &m_rendertargetViewNonSRGB);
 		assert(SUCCEEDED(hr));
 
-		EventSystem::post(PostResizeEvent(width, height));
+		EventSystem::postInstantly(PostResizeEvent(width, height));
 	}
 
 	void Graphics::dropBackBuffer()
 	{
-		EventSystem::post(PreResizeEvent());
+		EventSystem::postInstantly(PreResizeEvent());
 		m_frameBuffers.preResize();
 		m_rendertargetViewNonSRGB.Reset();
 

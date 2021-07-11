@@ -91,14 +91,14 @@ namespace Rimfrost
 		if (!isPaused() && m_window.getKeyboard()->IsKeyPressed(DIK_ESCAPE) && !m_window.getKeyboard()->WasKeyPressed(DIK_ESCAPE))
 		{
 			this->setPaused(true);
-			Rimfrost::EventSystem::post(Rimfrost::PauseEvent(true));
+			Rimfrost::EventSystem::postInstantly(Rimfrost::PauseEvent(true));
 			m_window.getMouse()->confineCursor(false);
 			m_window.getMouse()->showCursor(true);
 		}
 		else if (isPaused() && m_window.getKeyboard()->IsKeyPressed(DIK_ESCAPE) && !m_window.getKeyboard()->WasKeyPressed(DIK_ESCAPE))
 		{
 			this->setPaused(false);
-			Rimfrost::EventSystem::post(Rimfrost::PauseEvent(false));
+			Rimfrost::EventSystem::postInstantly(Rimfrost::PauseEvent(false));
 			m_window.getMouse()->confineCursor(true);
 			m_window.getMouse()->showCursor(false);
 		}
