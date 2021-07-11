@@ -91,6 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Rimfrost\EventSystem\KeyboardEvents.hpp" />
     <ClInclude Include="src\Rimfrost.h" />
     <ClInclude Include="src\Rimfrost\Core.h" />
     <ClInclude Include="src\Rimfrost\Core\Keyboard.hpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="src\rfpch.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rimfrost\EventSystem\KeyboardEvents.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Mouse.cpp" />
     <ClCompile Include="src\Rimfrost\EngineApp.cpp" />

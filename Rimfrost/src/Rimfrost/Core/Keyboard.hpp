@@ -6,6 +6,26 @@
 
 namespace Rimfrost
 {
+	enum class Key
+	{
+		Q, W, E, R, T, Y, U, I, O, P,
+		A, S, D, F, G, H, J, K, L,
+		Z, X, C, V, B, N, M,
+
+		SPACE, LCTRL, LSHIFT, ESC, ENTER, BACK_SPACE,
+		TAB, RIGHT, LEFT, UP, DOWN,
+	};
+
+	enum class KeyState
+	{
+		KEY_DOWN = 0,
+		KEY_UP,
+		KEY_CLICKED,
+		KEY_RELEASED,
+	};
+
+
+
 	class Keyboard
 	{
 	public:
@@ -16,7 +36,7 @@ namespace Rimfrost
 
 
 
-		void TakeKeyboardInput();
+		void pollKeyboard();
 		bool IsKeyPressed(int key);
 		bool WasKeyPressed(int key);
 

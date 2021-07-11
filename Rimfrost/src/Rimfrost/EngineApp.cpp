@@ -87,7 +87,7 @@ namespace Rimfrost
 
 	void EngineApp::handlePauseAndFullscreen()
 	{
-		m_window.getKeyboard()->TakeKeyboardInput();
+		m_window.getKeyboard()->pollKeyboard();
 		if (!isPaused() && m_window.getKeyboard()->IsKeyPressed(DIK_ESCAPE) && !m_window.getKeyboard()->WasKeyPressed(DIK_ESCAPE))
 		{
 			this->setPaused(true);
