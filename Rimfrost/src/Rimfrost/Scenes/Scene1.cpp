@@ -78,7 +78,7 @@ namespace Rimfrost
 
 	void Scene1::update(double dt)
 	{
-		m_camera.update(static_cast<float>(dt), true);
+		m_camera.update(static_cast<float>(dt));
 
 		//lightcontrol
 		//ImGui::Begin("light");

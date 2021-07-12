@@ -31,10 +31,11 @@ namespace Rimfrost
 		std::vector<std::shared_ptr<IScene>> m_scenes;
 		std::shared_ptr<IScene> m_acticeScene;
 		virtual void update(double dt) = 0;
-
-	private:
 		void setPaused(bool pause);
 		bool isPaused() const;
+
+	private:
+		
 
 		void handlePauseAndFullscreen();
 	};

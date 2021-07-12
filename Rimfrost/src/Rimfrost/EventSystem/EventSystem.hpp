@@ -1,4 +1,9 @@
 #pragma once
+#include <map>
+#include <queue>
+#include <memory>
+#include <vector>
+#include <functional>
 
 #include "Event.hpp"
 #include "EventObserver.hpp"

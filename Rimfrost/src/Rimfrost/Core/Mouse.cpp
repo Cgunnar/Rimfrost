@@ -46,32 +46,21 @@ namespace Rimfrost
 
 	void Mouse::update()
 	{
-		//auto [width, height] = m_getWindowSize();
-		//
-		//m_mouseState.y = std::clamp(m_mouseState.y, 0, (int)height);
-		//m_mouseState.y = std::clamp(m_mouseState.y, 0, (int)height); fix X
-
-
-
-
+	
 		if (m_mouseState.LMBClicked || m_mouseState.LMBHeld || m_mouseState.LMBReleased || m_mouseState.RMBClicked || m_mouseState.RMBHeld || m_mouseState.RMBReleased)
 		{
-			//Logger::getLogger().debugLog("mouseXY = " + std::to_string(m_mouseState.x) + ", " + std::to_string(m_mouseState.y) + "\n");
-			//EventSystem::post(MouseButtonsEvent(m_mouseState.x, m_mouseState.y, m_mouseState.LMBClicked, m_mouseState.LMBReleased, m_mouseState.LMBHeld, m_mouseState.RMBClicked, m_mouseState.RMBReleased, m_mouseState.RMBHeld));
 			auto [w, h] = m_getWindowSize();
-			m_mouseState.width = w;
-			m_mouseState.height = h;
-			EventSystem::postInstantly(MouseButtonsEvent(m_mouseState));
+			m_mouseState.windowWidth = w;
+			m_mouseState.windowHeight = h;
+			EventSystem::postTOQueue(MouseButtonsEvent(m_mouseState));
 		}
-
-		//if (!m_showCursor && !m_windowOutOfFocus)
-		//{
-		//	auto [x, y] = m_getWindowSize();
-		//	m_mouseState.x = x/2;
-		//	m_mouseState.y = y/2;
-
-		//	SetCursorPos(x/2, y/2);
-		//}
+		if (m_mouseState.deltaX != 0 || m_mouseState.deltaY != 0 || m_mouseState.deltaZ != 0)
+		{
+			auto [w, h] = m_getWindowSize();
+			m_mouseState.windowWidth = w;
+			m_mouseState.windowHeight = h;
+			EventSystem::postTOQueue(MouseMoveEvent(m_mouseState));
+		}
 
 		m_mouseState.deltaX = 0;
 		m_mouseState.deltaY = 0;

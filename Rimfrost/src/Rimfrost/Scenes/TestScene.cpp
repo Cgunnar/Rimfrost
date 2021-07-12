@@ -8,7 +8,7 @@ namespace Rimfrost
 	}
 	void TestScene::update(double dt)
 	{
-		m_camera.update(static_cast<float>(dt), true);
+		m_camera.update(static_cast<float>(dt));
 	}
 	Camera& TestScene::camera()
 	{

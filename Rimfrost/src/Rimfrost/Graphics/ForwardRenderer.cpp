@@ -19,7 +19,7 @@ namespace Rimfrost
 	{
 		bool picked;
 		int id;
-		XMFLOAT3 worldPosition;
+		Vector3 worldPosition;
 	};
 
 	ForwardRenderer::ForwardRenderer()

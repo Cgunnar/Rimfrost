@@ -5,32 +5,37 @@
 
 namespace Rimfrost
 {
-	class MouseButtonsEvent : public Event
+	struct MouseButtonsEvent : public Event
 	{
-	public:
-		//MouseButtonsEvent(uint32_t x, uint32_t y, bool lmbClicked, bool lmbReleased, bool lmbHeld, bool rmbClicked, bool rmbReleased, bool rmbHeld);
 		MouseButtonsEvent(const MouseState& ms);
 		virtual ~MouseButtonsEvent() = default;
-		static constexpr EventType eventType = "MouseClickEvent";
+		static constexpr EventType eventType = "MouseButtonsEvent";
 
 		virtual EventType type() const override;
 
 		MouseState mouseState;
-
-		//uint32_t x, y;
-		//bool lmbClicked, lmbReleased, lmbHeld, rmbClicked, rmbReleased, rmbHeld;
 	};
 
-	class MousePickingEvent : public Event
+	struct MouseMoveEvent : public Event
 	{
-	public:
-		MousePickingEvent(NodeID id, DirectX::XMFLOAT3 pos);
+		MouseMoveEvent(const MouseState& ms) : mouseState(ms) {}
+		virtual ~MouseMoveEvent() = default;
+		static constexpr EventType eventType = "MouseMoveEvent";
+
+		virtual EventType type() const override;
+
+		MouseState mouseState;
+	};
+
+	struct MousePickingEvent : public Event
+	{
+		MousePickingEvent(NodeID id, Vector3 pos);
 		virtual ~MousePickingEvent() = default;
 		static constexpr EventType eventType = "MousePickingEvent";
 
 		virtual EventType type() const override;
 
 		NodeID nodeID;
-		DirectX::XMFLOAT3 position;
+		Vector3 position;
 	};
 }

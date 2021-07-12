@@ -25,7 +25,7 @@ namespace Rimfrost
 		bool RMBReleased = false;
 		bool RMBHeld = false;
 
-		uint32_t width = 0, height = 0;
+		uint32_t windowWidth = 0, windowHeight = 0;
 	};
 	class Window;
 	class Mouse

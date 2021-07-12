@@ -4,7 +4,7 @@
 #include "Keyboard.hpp"
 #include "RimfrostMath.hpp"
 
-#include "KeyboardEvents.hpp"
+
 #include "EventObserver.hpp"
 
 namespace Rimfrost
@@ -13,8 +13,10 @@ namespace Rimfrost
 	{
 	public:
 		Camera();
-		~Camera();
-		void update(float dt, bool freeMovement, const std::shared_ptr<Mouse>& mouse = nullptr);
+		~Camera() = default;
+		void lockTranslation(bool status);
+		void lockRotation(bool status);
+		void update(float dt);
 		void SetPosition(Vector3 newPosition);
 		//void SetOrientation(Matrix newOrientation);
 		void SetWorldMatrix(Matrix newWorldMatrix);
@@ -51,6 +53,17 @@ namespace Rimfrost
 		void onEvent(const Rimfrost::Event& e) override;
 
 	private:
+		bool m_lockRotation = false;
+		bool m_lockTranslation = false;
+
+		float m_cameraRotationSpeed = 0.3f;
+		float m_deltaPitch = 0;
+		float m_deltaYaw = 0;
+
+		float m_pitch = 0;
+		float m_yaw = 0;
+		float m_roll = 0;
+
 
 		Vector3 m_moveDirection = { 0,0,0 };
 		float m_moveSpeed = 2.5f;
@@ -59,8 +72,6 @@ namespace Rimfrost
 
 		Matrix m_perspective;
 		Transform m_worldMatrix;
-		float m_pitch = 0;
-		float m_yaw = 0;
-		float m_roll = 0;
+		
 	};
 }

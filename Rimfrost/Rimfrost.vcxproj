@@ -101,7 +101,7 @@
     <ClInclude Include="src\Rimfrost\EventSystem\Event.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\EventObserver.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\EventSystem.hpp" />
-    <ClInclude Include="src\Rimfrost\EventSystem\KeyboardEvents.hpp" />
+    <ClInclude Include="src\Rimfrost\EventSystem\KeyboardEvent.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\MouseEvent.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\PauseEvent.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\ResizeEvent.hpp" />
@@ -164,7 +164,7 @@
     <ClCompile Include="src\Rimfrost\EventSystem\Event.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\EventObserver.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\EventSystem.cpp" />
-    <ClCompile Include="src\Rimfrost\EventSystem\KeyboardEvents.cpp" />
+    <ClCompile Include="src\Rimfrost\EventSystem\KeyboardEvent.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\MouseEvent.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\PauseEvent.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\ResizeEvent.cpp" />

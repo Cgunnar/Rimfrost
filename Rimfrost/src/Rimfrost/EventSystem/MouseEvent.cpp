@@ -13,13 +13,17 @@ namespace Rimfrost
         return eventType;
     }
 
-    MousePickingEvent::MousePickingEvent(Rimfrost::NodeID id, DirectX::XMFLOAT3 pos)
+    MousePickingEvent::MousePickingEvent(Rimfrost::NodeID id, Vector3 pos)
     {
         this->nodeID = id;
         this->position = pos;
     }
 
     Event::EventType MousePickingEvent::type() const
+    {
+        return eventType;
+    }
+    Event::EventType MouseMoveEvent::type() const
     {
         return eventType;
     }

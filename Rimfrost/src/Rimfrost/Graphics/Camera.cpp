@@ -4,6 +4,8 @@
 #include <cstring>
 #include <cmath>
 #include <EventSystem.hpp>
+#include "Rimfrost\EventSystem\KeyboardEvent.hpp"
+#include "Rimfrost\EventSystem\MouseEvent.hpp"
 using namespace DirectX;
 
 namespace Rimfrost
@@ -11,6 +13,7 @@ namespace Rimfrost
 	Camera::Camera()
 	{
 		EventSystem::addObserver(*this, KeyboardEvent::eventType);
+		EventSystem::addObserver(*this, MouseMoveEvent::eventType);
 
 		XMFLOAT4X4 pt;
 		XMStoreFloat4x4(&pt, XMMatrixPerspectiveFovLH(XM_PIDIV4, 16.0f / 9.0f, 0.01f, 1000.0f));
@@ -19,27 +22,34 @@ namespace Rimfrost
 		m_worldMatrix = Transform();
 	}
 
-	Camera::~Camera()
+	void Camera::lockTranslation(bool status)
 	{
+		m_lockTranslation = status;
 	}
 
-	void Camera::update(float dt, bool freeMovement, const std::shared_ptr<Mouse>& mouse)
+	void Camera::lockRotation(bool status)
 	{
-		if (freeMovement)
+		m_lockRotation = status;
+	}
+
+	void Camera::update(float dt)
+	{
+		if (!m_lockTranslation)
 		{
 			m_moveDirection.normalize();
 			MoveInLocalSpace(dt * m_moveSpeed, m_moveDirection);
-
-			if (mouse)
-			{
-				float speed = 0.3f * dt;
-				AddPitchAndYaw((float)mouse->GetMouseState().deltaY * speed, (float)mouse->GetMouseState().deltaX * speed);
-				SetAbsoluteEulerRotatation(GetPitch(), GetYaw(), GetRoll());
-			}
 		}
-
 		m_moveSpeed = m_normalSpeed;
 		m_moveDirection = { 0,0,0 };
+
+		if (!m_lockRotation)
+		{
+			float rotationSpeed = m_cameraRotationSpeed * dt;
+			AddPitchAndYaw(m_deltaPitch * rotationSpeed, m_deltaYaw * rotationSpeed);
+			SetAbsoluteEulerRotatation(GetPitch(), GetYaw(), GetRoll());
+		}
+		m_deltaPitch = 0;
+		m_deltaYaw = 0;
 	}
 
 	void Camera::SetPosition(Vector3 newPosition)
@@ -180,6 +190,12 @@ namespace Rimfrost
 	}
 	void Camera::onEvent(const Rimfrost::Event& e)
 	{
+		if (e.type() == MouseMoveEvent::eventType)
+		{
+			auto& mouse = static_cast<const MouseMoveEvent&>(e);
+			m_deltaPitch = mouse.mouseState.deltaY;
+			m_deltaYaw = mouse.mouseState.deltaX;
+		}
 		if (e.type() == KeyboardEvent::eventType)
 		{
 			auto& keyboard = static_cast<const KeyboardEvent&>(e);
