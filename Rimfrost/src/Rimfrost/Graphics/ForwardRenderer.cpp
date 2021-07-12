@@ -8,6 +8,7 @@
 #include "FrameBufferRepo.hpp"
 #include "Sampler.hpp"
 #include "Engine1.hpp"
+#include "Rimfrost\Scene\IScene.hpp"
 
 using namespace DirectX;
 using namespace std;
@@ -221,13 +222,13 @@ namespace Rimfrost
 		OutputDebugString(L"~ForwardRenderer\n");
 	}
 
-	uint32_t ForwardRenderer::renderScene(const std::shared_ptr<SceneGraph>& scene)
+	uint32_t ForwardRenderer::renderScene(IScene& scene)
 	{
 		m_timer.start();
 
-		auto& nodes = scene->getNodes();
-		auto& renderSubmits = scene->getRenderSubmits();
-		auto& camera = scene->getCamera();
+		auto& nodes = scene.sceneGraph().getNodes();
+		auto& renderSubmits = scene.sceneGraph().getRenderSubmits();
+		auto& camera = scene.camera();
 
 
 		D3D11_MAPPED_SUBRESOURCE mousePickResource = {};
@@ -259,16 +260,21 @@ namespace Rimfrost
 
 
 
-		scene->getPointLights().getStructuredLightBuffer()->bind(4);
+		scene.lights().pointLights->getStructuredLightBuffer()->bind(4);
 
 		
 
-		auto indexToChangeRenderPass = sortRenderSubmits(*camera, nodes, renderSubmits);
+		auto indexToChangeRenderPass = sortRenderSubmits(camera, nodes, renderSubmits);
 
 		D3D11_MAPPED_SUBRESOURCE mappedSubRes;
 
+		PerFrameData camAndMouse = scene.sceneGraph().getFrameCBufferData();
+		camAndMouse.v = camera.GetViewMatrix();
+		camAndMouse.p = camera.GetPerspective();
+		camAndMouse.pos = camera.GetPosition();
+
 		this->getContext()->Map(m_cameraCBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubRes);
-		memcpy(mappedSubRes.pData, &scene->getFrameCBufferData(), sizeof(PerFrameData));
+		memcpy(mappedSubRes.pData, &camAndMouse, sizeof(PerFrameData));
 		this->getContext()->Unmap(m_cameraCBuffer.Get(), 0);
 
 

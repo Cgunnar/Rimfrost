@@ -18,6 +18,8 @@ Game::Game()
 	EC::addComponent<SphereCollider>(player, sp);
 
 	m_entities.push_back(std::move(player));
+
+	m_acticeScene->setUpScene();
 }
 
 Game::~Game()
@@ -28,7 +30,7 @@ void Game::update(double dt)
 {
 	EC::update(dt);
 
-	//m_acticeScene->
+	m_acticeScene->update(dt);
 
 }
 

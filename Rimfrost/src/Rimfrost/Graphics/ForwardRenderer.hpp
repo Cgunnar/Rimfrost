@@ -5,6 +5,7 @@
 #include "Camera.hpp"
 #include "DXAccess.hpp"
 #include "RenderPass.hpp"
+#include "Rimfrost\Scene\IScene.hpp"
 #include <queue>
 
 
@@ -18,7 +19,7 @@ namespace Rimfrost
 		ForwardRenderer();
 		~ForwardRenderer();
 
-		uint32_t renderScene(const std::shared_ptr<SceneGraph>& scene);
+		uint32_t renderScene(IScene& scene);
 
 	private:
 		std::queue<int> sortRenderSubmits(const Camera& camera, const std::vector<Rimfrost::Node>& nodes, std::vector<Rimfrost::NodeID>& submits);

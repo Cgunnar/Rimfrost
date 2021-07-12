@@ -91,7 +91,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Rimfrost\Scene\IScene.hpp" />
     <ClInclude Include="src\Rimfrost.hpp" />
     <ClInclude Include="src\Rimfrost\Core\EngineApp.hpp" />
     <ClInclude Include="src\Rimfrost\Core\EntryPoint.hpp" />
@@ -120,6 +119,7 @@
     <ClInclude Include="src\Rimfrost\Graphics\Graphics.hpp" />
     <ClInclude Include="src\Rimfrost\Graphics\IndexBuffer.hpp" />
     <ClInclude Include="src\Rimfrost\Graphics\InputLayout.hpp" />
+    <ClInclude Include="src\Rimfrost\Graphics\Lights.hpp" />
     <ClInclude Include="src\Rimfrost\Graphics\Material.hpp" />
     <ClInclude Include="src\Rimfrost\Graphics\MeshStructures.hpp" />
     <ClInclude Include="src\Rimfrost\Graphics\Model.hpp" />
@@ -140,13 +140,13 @@
     <ClInclude Include="src\Rimfrost\Math\RimfrostMath.hpp" />
     <ClInclude Include="src\Rimfrost\Math\Transform.hpp" />
     <ClInclude Include="src\Rimfrost\Math\Vector.hpp" />
+    <ClInclude Include="src\Rimfrost\Scene\IScene.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\Node.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\NodeEditGUI.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\SceneGraph.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\SceneSerializer.hpp" />
-    <ClInclude Include="src\Rimfrost\Scenes\LevelEditor.hpp" />
-    <ClInclude Include="src\Rimfrost\Scenes\Scene0.hpp" />
     <ClInclude Include="src\Rimfrost\Scenes\Scene1.hpp" />
+    <ClInclude Include="src\Rimfrost\Scenes\TestScene.hpp" />
     <ClInclude Include="src\Rimfrost\TestClass.hpp" />
     <ClInclude Include="src\Rimfrost\Utilities\FrameTimer.hpp" />
     <ClInclude Include="src\Rimfrost\Utilities\Logger.hpp" />
@@ -155,7 +155,6 @@
     <ClInclude Include="src\Rimfrost\Utilities\ReadImg.hpp" />
     <ClInclude Include="src\Rimfrost\Utilities\Timer.hpp" />
     <ClInclude Include="src\rfpch.hpp" />
-    <ClInclude Include="src\Rimfrost\Scenes\TestScene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Rimfrost\Core\EngineApp.cpp" />
@@ -181,6 +180,7 @@
     <ClCompile Include="src\Rimfrost\Graphics\Graphics.cpp" />
     <ClCompile Include="src\Rimfrost\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Rimfrost\Graphics\InputLayout.cpp" />
+    <ClCompile Include="src\Rimfrost\Graphics\Lights.cpp" />
     <ClCompile Include="src\Rimfrost\Graphics\Material.cpp" />
     <ClCompile Include="src\Rimfrost\Graphics\Model.cpp" />
     <ClCompile Include="src\Rimfrost\Graphics\PixelShader.cpp" />
@@ -203,9 +203,8 @@
     <ClCompile Include="src\Rimfrost\Scene\NodeEditGUI.cpp" />
     <ClCompile Include="src\Rimfrost\Scene\SceneGraph.cpp" />
     <ClCompile Include="src\Rimfrost\Scene\SceneSerializer.cpp" />
-    <ClCompile Include="src\Rimfrost\Scenes\LevelEditor.cpp" />
-    <ClCompile Include="src\Rimfrost\Scenes\Scene0.cpp" />
     <ClCompile Include="src\Rimfrost\Scenes\Scene1.cpp" />
+    <ClCompile Include="src\Rimfrost\Scenes\TestScene.cpp" />
     <ClCompile Include="src\Rimfrost\TestClass.cpp" />
     <ClCompile Include="src\Rimfrost\Utilities\FrameTimer.cpp" />
     <ClCompile Include="src\Rimfrost\Utilities\Logger.cpp" />
@@ -214,7 +213,6 @@
     <ClCompile Include="src\rfpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Rimfrost\Scenes\TestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\Rimfrost\Shaders\MousePickingPS.hlsl">

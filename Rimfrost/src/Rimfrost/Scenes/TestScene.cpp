@@ -3,19 +3,26 @@
 
 namespace Rimfrost
 {
-	std::shared_ptr<Camera> TestScene::camera() const
+	void TestScene::setUpScene()
 	{
-		return std::shared_ptr<Camera>();
+	}
+	void TestScene::update(double dt)
+	{
+		m_camera.update(static_cast<float>(dt), true);
+	}
+	Camera& TestScene::camera()
+	{
+		return m_camera;
 	}
 
-	std::shared_ptr<SceneGraph> TestScene::sceneGraph() const
+	SceneGraph& TestScene::sceneGraph()
 	{
-		return std::shared_ptr<SceneGraph>();
+		return *m_sceneGraph;
 	}
 
-	std::shared_ptr<PointLightContainer> TestScene::pointLights() const
+	Lights& TestScene::lights()
 	{
-		return std::shared_ptr<PointLightContainer>();
+		return *m_lights;
 	}
 
 }

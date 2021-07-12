@@ -8,8 +8,9 @@ using namespace DirectX;
 namespace Rimfrost
 {
 
-	Scene1::Scene1() : SceneGraph(), m_whiteLight({ 4, 6, 8 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
+	Scene1::Scene1() : m_whiteLight({ 4, 6, 8 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
 	{
+		m_sceneGraph = std::make_unique<SceneGraph>();
 	}
 
 	Scene1::~Scene1()
@@ -20,16 +21,16 @@ namespace Rimfrost
 
 	void Scene1::setUpScene()
 	{
-		m_camera->SetPosition({ 0, 0, -4 });
-		m_pointLightContainer = std::make_shared<PointLightContainer>();
-		m_pointLightContainer->addPointLight(m_whiteLight);
+		m_camera.SetPosition({ 0, 0, -4 });
+		m_lights.pointLights = std::make_shared<PointLightContainer>();
+		m_lights.pointLights->addPointLight(m_whiteLight);
 
-		auto brickWall = addModel("Models/brick_wall/brick_wall.obj");
+		auto brickWall = m_sceneGraph->addModel("Models/brick_wall/brick_wall.obj");
 		brickWall->localMatrix.setTranslation(0, -1, 0);
 		brickWall->localMatrix.setRotationDeg(90, 0, 0);
 		brickWall->localMatrix.setScale(4);
 
-		testHandle = new NodeHandle(addModel("Models/ring/red_ring.obj", Rimfrost::ModelSettings::WIREFRAME));
+		testHandle = new NodeHandle(m_sceneGraph->addModel("Models/ring/red_ring.obj", Rimfrost::ModelSettings::WIREFRAME));
 		(*testHandle)->localMatrix.setTranslation(0, 0, 4);
 		//(*testHandle)->localMatrix.setRotationDeg(40, 0 );
 
@@ -43,25 +44,42 @@ namespace Rimfrost
 		nanoSuit->localMatrix.setScale(0.4f);
 		nanoSuit->localMatrix.setPosition(-2, -1.4f, 1);*/
 
-		auto BasisVectors = addModel("Models/Arrows/DXRefSys.obj");
-		auto cube = addModel("Models/orangeGlassCube.obj", *testHandle);
-		m_lightSphere = new NodeHandle(addModel("Models/smallInvNormSphere.obj"));
+		auto BasisVectors = m_sceneGraph->addModel("Models/Arrows/DXRefSys.obj");
+		auto cube = m_sceneGraph->addModel("Models/orangeGlassCube.obj", *testHandle);
+		m_lightSphere = new NodeHandle(m_sceneGraph->addModel("Models/smallInvNormSphere.obj"));
 
-		auto nanoSuit2 = addModel("Models/nanosuit/nanosuit.obj");
+		auto nanoSuit2 = m_sceneGraph->addModel("Models/nanosuit/nanosuit.obj");
 		nanoSuit2->localMatrix.setTranslation(25, 0, 7);
 		nanoSuit2->localMatrix.setRotationDeg(0, 0, 0);
 		nanoSuit2->localMatrix.setScale(0.7f);
 
-		auto cube2 = addModel("Models/orangeGlassCube.obj");
+		auto cube2 = m_sceneGraph->addModel("Models/orangeGlassCube.obj");
 
-		auto vectors = addModel("Models/Arrows/DXRefSys.obj");
+		auto vectors = m_sceneGraph->addModel("Models/Arrows/DXRefSys.obj");
 		vectors->localMatrix.setTranslation(7, 4, 0);
 		vectors->localMatrix.setScale(4.5f);
 
 	}
 
-	void Scene1::derivedSceneUpdate(double dt)
+	Camera& Scene1::camera()
 	{
+		return m_camera;
+	}
+
+	SceneGraph& Scene1::sceneGraph()
+	{
+		return *m_sceneGraph;
+	}
+
+	Lights& Scene1::lights()
+	{
+		return m_lights;
+	}
+
+	void Scene1::update(double dt)
+	{
+		m_camera.update(static_cast<float>(dt), true);
+
 		//lightcontrol
 		//ImGui::Begin("light");
 

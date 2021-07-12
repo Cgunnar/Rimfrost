@@ -40,9 +40,9 @@ namespace Rimfrost
 
 		updateWorldMatrices();
 
-		m_frameData.v = m_camera->GetViewMatrix();
+		/*m_frameData.v = m_camera->GetViewMatrix();
 		m_frameData.p = m_camera->GetPerspective();
-		m_frameData.pos = m_camera->GetPosition();
+		m_frameData.pos = m_camera->GetPosition();*/
 
 		size_t prevSize = m_renderSubmits.size();
 		m_renderSubmits.clear();

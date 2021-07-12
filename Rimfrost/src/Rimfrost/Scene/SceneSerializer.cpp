@@ -2,7 +2,7 @@
 #include <json.hpp>
 #include "SceneSerializer.hpp"
 #include "RimfrostMath.hpp"
-#include "SceneGraph.hpp"
+#include "Rimfrost\Scene\IScene.hpp"
 #include "AssetManager.hpp"
 #include "Logger.hpp"
 
@@ -77,20 +77,22 @@ namespace Rimfrost
 
 
 
-	void SceneSerializer::serialize(const string& fileName, const shared_ptr<Rimfrost::SceneGraph>& scene)
+	/*void SceneSerializer::serialize(const string& fileName, const shared_ptr<Rimfrost::IScene>& scene)
 	{
 		serialize(fileName, *scene);
-	}
+	}*/
 	
-	void SceneSerializer::serialize(const std::string& fileName, const SceneGraph& scene)
+	void SceneSerializer::serialize(const std::string& fileName, IScene& scene)
 	{
+		const SceneGraph& sceneGraph = scene.sceneGraph();
+
 		nlohmann::json j;
 
-		j["camera"] = Matrix(scene.m_camera->GetWorldMatrix());
+		j["camera"] = Matrix(sceneGraph.m_camera->GetWorldMatrix());
 
-		Logger::getLogger().debugLog("serialize: numberOfNodes = " + std::to_string(scene.m_nodes.size()) + "\n");
+		Logger::getLogger().debugLog("serialize: numberOfNodes = " + std::to_string(sceneGraph.m_nodes.size()) + "\n");
 
-		for (auto& node : scene.m_nodes)
+		for (auto& node : sceneGraph.m_nodes)
 		{
 			nlohmann::json jsonNode;
 
@@ -125,17 +127,20 @@ namespace Rimfrost
 		o << std::setw(4) << j << std::endl;
 	}
 
-	void SceneSerializer::deSerialize(const string& fileName, shared_ptr<Rimfrost::SceneGraph>& scene)
+	void SceneSerializer::deSerialize(const string& fileName, IScene& scene)
 	{
+		SceneGraph& sceneGraph = scene.sceneGraph();
+
+
 		std::ifstream f(fileName);
 
 		auto j = nlohmann::json::parse(f);
 
 		Rimfrost::Matrix cameraWoldMatrix = j["camera"];
-		scene->m_camera->SetWorldMatrix(cameraWoldMatrix);
+		sceneGraph.m_camera->SetWorldMatrix(cameraWoldMatrix);
 
 
-		scene->m_nodes.clear();
+		sceneGraph.m_nodes.clear();
 
 		std::vector<JnodeStruct> nodes = j["nodeArray"].get<std::vector<JnodeStruct>>();
 
@@ -154,18 +159,18 @@ namespace Rimfrost
 
 			
 			
-			scene->m_nodes.push_back(node);
+			sceneGraph.m_nodes.push_back(node);
 
 			
 		}
 		//link childs
-		for (auto& n : scene->m_nodes)
+		for (auto& n : sceneGraph.m_nodes)
 		{
 			if (n.m_parentID != rootNode)
 			{
-				scene->m_nodes[n.m_parentID].m_childIDs.push_back(n.m_ID);
+				sceneGraph.m_nodes[n.m_parentID].m_childIDs.push_back(n.m_ID);
 			}
 		}
-		Logger::getLogger().debugLog("deSerialize: numberOfNodes = " + std::to_string(scene->m_nodes.size()) + "\n");
+		Logger::getLogger().debugLog("deSerialize: numberOfNodes = " + std::to_string(sceneGraph.m_nodes.size()) + "\n");
 	}
 }

@@ -9,9 +9,16 @@ namespace Rimfrost
 		TestScene() = default;
 		~TestScene() = default;
 
-		std::shared_ptr<Camera> camera() const override;
-		std::shared_ptr<SceneGraph> sceneGraph() const override;
-		std::shared_ptr<PointLightContainer> pointLights() const override;
+		void setUpScene() override;
+		void update(double dt) override;
+		Camera& camera() override;
+		SceneGraph& sceneGraph() override;
+		Lights& lights() override;
+
+	private:
+		Camera m_camera;
+		std::unique_ptr<SceneGraph> m_sceneGraph;
+		std::unique_ptr<Lights> m_lights;
 	};
 
 }

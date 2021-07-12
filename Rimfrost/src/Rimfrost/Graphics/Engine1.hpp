@@ -74,7 +74,7 @@ namespace Rimfrost
 	}
 
 
-	struct alignas(16) PerFrameData //gpu matrix fix transpose
+	struct alignas(16) PerFrameData
 	{
 		Matrix v;
 		Matrix p;
