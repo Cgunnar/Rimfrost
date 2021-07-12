@@ -38,4 +38,15 @@ namespace Rimfrost
 		NodeID nodeID;
 		Vector3 position;
 	};
+
+	struct MousePickingRequestEvent : public Event
+	{
+		MousePickingRequestEvent(int x, int y) : mouseX(x), mouseY(y) {}
+		virtual ~MousePickingRequestEvent() = default;
+		static constexpr EventType eventType = "MousePickingRequestEvent";
+
+		virtual EventType type() const override;
+
+		int mouseX, mouseY;
+	};
 }

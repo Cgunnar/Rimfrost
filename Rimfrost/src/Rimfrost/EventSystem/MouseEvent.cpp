@@ -27,4 +27,8 @@ namespace Rimfrost
     {
         return eventType;
     }
+    Event::EventType MousePickingRequestEvent::type() const
+    {
+        return eventType;
+    }
 }

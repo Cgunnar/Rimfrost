@@ -1,4 +1,6 @@
 #pragma once
+#include <queue>
+
 #include "Engine1.hpp"
 #include "Node.hpp"
 #include "Timer.hpp"
@@ -6,25 +8,26 @@
 #include "DXAccess.hpp"
 #include "RenderPass.hpp"
 #include "Rimfrost\Scene\IScene.hpp"
-#include <queue>
-
+#include "Rimfrost\EventSystem\EventObserver.hpp"
 
 namespace Rimfrost
 {
 	
 
-	class ForwardRenderer : DXAccess
+	class ForwardRenderer : DXAccess, public EventObserver
 	{
 	public:
 		ForwardRenderer();
 		~ForwardRenderer();
 
 		uint32_t renderScene(IScene& scene);
+		void onEvent(const Event& e) override;
 
 	private:
 		std::queue<int> sortRenderSubmits(const Camera& camera, const std::vector<Rimfrost::Node>& nodes, std::vector<Rimfrost::NodeID>& submits);
 	private:
 		Timer m_timer;
+		PerFrameData m_frameData;
 
 		struct RenderPasses
 		{
@@ -41,7 +44,7 @@ namespace Rimfrost
 			}
 			inline void next()
 			{
-				assert(m_counter + 1 < m_passes.size());
+				assert(static_cast<size_t>(m_counter) + 1 < m_passes.size());
 				m_passes[m_counter]->unBind();
 				m_passes[++m_counter]->bind();
 			}

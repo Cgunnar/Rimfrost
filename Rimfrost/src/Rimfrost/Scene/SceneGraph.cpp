@@ -15,13 +15,6 @@ using namespace std;
 
 namespace Rimfrost
 {
-	SceneGraph::SceneGraph()
-	{
-		EventSystem::addObserver(*this, MouseButtonsEvent::eventType);
-		m_frameData = {};
-		m_frameData.mouseX = -1;
-		m_frameData.mouseY = -1;
-	}
 
 	SceneGraph::~SceneGraph()
 	{
@@ -55,11 +48,6 @@ namespace Rimfrost
 	const std::vector<Node>& SceneGraph::getNodes() const
 	{
 		return m_nodes;
-	}
-
-	const PerFrameData& SceneGraph::getFrameCBufferData() const noexcept
-	{
-		return m_frameData;
 	}
 
 	NodeHandle SceneGraph::addModel(const std::string& filePath, ModelSettings modelSettings)
@@ -240,23 +228,5 @@ namespace Rimfrost
 
 		m_nodes.resize(firstInvalidIndex, Node(-1, -2));
 
-	}
-
-	void Rimfrost::SceneGraph::onEvent(const Event& e)
-	{
-		if (e.type() == MouseButtonsEvent::eventType)
-		{
-			auto& mouse = static_cast<const MouseButtonsEvent&>(e).mouseState;
-			if (mouse.RMBClicked)
-			{
-				m_frameData.mouseX = mouse.x;
-				m_frameData.mouseY = mouse.y;
-			}
-			else
-			{
-				m_frameData.mouseX = -1;
-				m_frameData.mouseY = -1;
-			}
-		}
 	}
 }

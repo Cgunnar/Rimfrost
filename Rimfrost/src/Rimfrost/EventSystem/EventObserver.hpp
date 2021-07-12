@@ -11,6 +11,6 @@ namespace Rimfrost
 		EventObserver() = default;
 		virtual ~EventObserver() = default;
 
-		virtual void onEvent(const Event& e) {}
+		virtual void onEvent(const Event& e) = 0;
 	};
 }

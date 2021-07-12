@@ -54,11 +54,8 @@ void Game::onEvent(const Event& e)
 	}
 
 	auto& mouse = static_cast<const MouseButtonsEvent&>(e).mouseState;
-	if (mouse.RMBClicked)
+	if (mouse.RMBClicked || mouse.RMBHeld)
 	{
-
-	}
-	else
-	{
+		EventSystem::postTOQueue(MousePickingRequestEvent(mouse.x, mouse.y));
 	}
 }

@@ -1,29 +1,24 @@
 #pragma once
-#include "Node.hpp"
-#include "Engine1.hpp"
-#include "RimfrostMath.hpp"
-#include "Camera.hpp"
-#include "PointLightContainer.hpp"
-#include "EventObserver.hpp"
+#include "Rimfrost\Scene\Node.hpp"
+#include "Rimfrost\Graphics\Engine1.hpp"
+#include "Rimfrost\Math\RimfrostMath.hpp"
 
 class SceneSerializer;
 
 namespace Rimfrost
 {
-
-	class SceneGraph : public EventObserver
+	class SceneGraph
 	{
 		friend SceneSerializer;
 
 	public:
-		SceneGraph();
+		SceneGraph() = default;
 		virtual ~SceneGraph();
 		virtual void setUpScene() {};
 		void update(double dt);
 
 		std::vector<NodeID>& getRenderSubmits();
 		const std::vector<Node>& getNodes() const;
-		const PerFrameData& getFrameCBufferData() const noexcept;
 		
 		[[nodiscard]] NodeHandle addModel(const std::string& filePath, ModelSettings modelSettings);
 		[[nodiscard]] NodeHandle addModel(const std::string& filePath, NodeID parentNodeID = rootNode, ModelSettings modelSettings = ModelSettings::NONE);
@@ -33,15 +28,10 @@ namespace Rimfrost
 
 		void removeNode(NodeID id);
 		void hideNode(NodeID id, bool isHidden);
-		
-
-		void onEvent(const Event& e) override;
 
 	private:
 		std::vector<Node> m_nodes;
 		std::vector<NodeID> m_renderSubmits;
-
-		PerFrameData m_frameData;
 		
 
 	private:

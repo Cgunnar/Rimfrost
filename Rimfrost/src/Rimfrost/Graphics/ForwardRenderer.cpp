@@ -3,12 +3,12 @@
 #include "RimfrostMath.hpp"
 #include "SceneGraph.hpp"
 #include "Geometry.hpp"
-#include "EventSystem.hpp"
-#include "MouseEvent.hpp"
 #include "FrameBufferRepo.hpp"
 #include "Sampler.hpp"
 #include "Engine1.hpp"
 #include "Rimfrost\Scene\IScene.hpp"
+#include "Rimfrost\EventSystem\EventSystem.hpp"
+#include "Rimfrost\EventSystem\MouseEvent.hpp"
 
 using namespace DirectX;
 using namespace std;
@@ -24,6 +24,7 @@ namespace Rimfrost
 
 	ForwardRenderer::ForwardRenderer()
 	{
+		EventSystem::addObserver(*this, MousePickingRequestEvent::eventType);
 		m_timer = Timer(Duration::MILLISECONDS);
 
 		D3D11_BUFFER_DESC cBufferDesc = {};
@@ -268,13 +269,11 @@ namespace Rimfrost
 
 		D3D11_MAPPED_SUBRESOURCE mappedSubRes;
 
-		PerFrameData camAndMouse = scene.sceneGraph().getFrameCBufferData();
-		camAndMouse.v = camera.GetViewMatrix();
-		camAndMouse.p = camera.GetPerspective();
-		camAndMouse.pos = camera.GetPosition();
-
+		m_frameData.v = camera.GetViewMatrix();
+		m_frameData.p = camera.GetPerspective();
+		m_frameData.pos = camera.GetPosition();
 		this->getContext()->Map(m_cameraCBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubRes);
-		memcpy(mappedSubRes.pData, &camAndMouse, sizeof(PerFrameData));
+		memcpy(mappedSubRes.pData, &m_frameData, sizeof(PerFrameData));
 		this->getContext()->Unmap(m_cameraCBuffer.Get(), 0);
 
 
@@ -355,8 +354,21 @@ namespace Rimfrost
 		this->getContext()->Draw(m_quadVertexBuffer->getVertexCount(), 0);
 
 
+		//dont do mousepicking
+		m_frameData.mouseX = -1;
+		m_frameData.mouseY = -1;
 
 		return m_timer.stop();
+	}
+
+	void ForwardRenderer::onEvent(const Event& e)
+	{
+		if (e.type() == MousePickingRequestEvent::eventType)
+		{
+			auto& mouse = static_cast<const MousePickingRequestEvent&>(e);
+			m_frameData.mouseX = mouse.mouseX;
+			m_frameData.mouseY = mouse.mouseY;
+		}
 	}
 
 	std::queue<int> ForwardRenderer::sortRenderSubmits(const Camera& camera, const std::vector<Node>& nodes, std::vector<NodeID>& submits)
