@@ -29,7 +29,7 @@ namespace Rimfrost
 
 	protected:
 		std::shared_ptr<Rimfrost::SceneGraph> m_acticeScene;
-		virtual void update(double dt) abstract;
+		virtual void update(double dt) = 0;
 
 	private:
 		void setPaused(bool pause);
