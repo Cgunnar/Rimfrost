@@ -1,7 +1,7 @@
 #include "rfpch.hpp"
 #include "EngineApp.hpp"
-#include <Rimfrost\Utilities\FrameTimer.hpp>
-#include "Rimfrost\Window.hpp"
+#include "Rimfrost\Utilities\FrameTimer.hpp"
+#include "Rimfrost\Core\Window.hpp"
 #include "Rimfrost\Core\Mouse.hpp"
 #include "Rimfrost\Core\Keyboard.hpp"
 
@@ -9,7 +9,7 @@
 #include "Rimfrost\Scenes\Scene1.hpp"
 #include "Rimfrost\Scenes\LevelEditor.hpp"
 #include "Rimfrost\Scene\SceneSerializer.hpp"
-#include <Rimfrost\EventSystem\EventSystem.hpp>
+#include "Rimfrost\EventSystem\EventSystem.hpp"
 
 using namespace Rimfrost;
 namespace Rimfrost
@@ -26,10 +26,10 @@ namespace Rimfrost
 		//serializationTesting
 		int loadScene = 1;
 		m_scenes[loadScene]->setUpScene();
-		Rimfrost::SceneSerializer::serialize("LEVEL.json", m_scenes[loadScene]);
+		Rimfrost::SceneSerializer::serialize("Maps/LEVEL.json", m_scenes[loadScene]);
 
 
-		Rimfrost::SceneSerializer::deSerialize("LEVEL.json", m_scenes[2]);
+		Rimfrost::SceneSerializer::deSerialize("Maps/LEVEL.json", m_scenes[2]);
 
 		m_acticeScene = m_scenes[2];
 		m_acticeScene->bindInput(m_window.getKeyboard(), m_window.getMouse());

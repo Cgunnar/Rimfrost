@@ -92,11 +92,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Rimfrost.hpp" />
+    <ClInclude Include="src\Rimfrost\Core\EngineApp.hpp" />
+    <ClInclude Include="src\Rimfrost\Core\EntryPoint.hpp" />
     <ClInclude Include="src\Rimfrost\Core\Keyboard.hpp" />
     <ClInclude Include="src\Rimfrost\Core\Mouse.hpp" />
-    <ClInclude Include="src\Rimfrost\EngineApp.hpp" />
+    <ClInclude Include="src\Rimfrost\Core\Window.hpp" />
     <ClInclude Include="src\Rimfrost\EntCom\rfEntity.hpp" />
-    <ClInclude Include="src\Rimfrost\EntryPoint.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\Event.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\EventObserver.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\EventSystem.hpp" />
@@ -152,13 +153,13 @@
     <ClInclude Include="src\Rimfrost\Utilities\RandGen.hpp" />
     <ClInclude Include="src\Rimfrost\Utilities\ReadImg.hpp" />
     <ClInclude Include="src\Rimfrost\Utilities\Timer.hpp" />
-    <ClInclude Include="src\Rimfrost\Window.hpp" />
     <ClInclude Include="src\rfpch.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rimfrost\Core\EngineApp.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Mouse.cpp" />
-    <ClCompile Include="src\Rimfrost\EngineApp.cpp" />
+    <ClCompile Include="src\Rimfrost\Core\Window.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\Event.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\EventObserver.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\EventSystem.cpp" />
@@ -208,7 +209,6 @@
     <ClCompile Include="src\Rimfrost\Utilities\Logger.cpp" />
     <ClCompile Include="src\Rimfrost\Utilities\ReadImg.cpp" />
     <ClCompile Include="src\Rimfrost\Utilities\Timer.cpp" />
-    <ClCompile Include="src\Rimfrost\Window.cpp" />
     <ClCompile Include="src\rfpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

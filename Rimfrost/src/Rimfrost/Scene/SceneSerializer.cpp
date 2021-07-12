@@ -1,6 +1,6 @@
 #include "rfpch.hpp"
+#include <json.hpp>
 #include "SceneSerializer.hpp"
-#include "json.hpp"
 #include "RimfrostMath.hpp"
 #include "Scene.hpp"
 #include "AssetManager.hpp"
@@ -167,7 +167,5 @@ namespace Rimfrost
 			}
 		}
 		Logger::getLogger().debugLog("deSerialize: numberOfNodes = " + std::to_string(scene->m_nodes.size()) + "\n");
-
-		//serialize("deSerializationTest.json", scene);
 	}
 }

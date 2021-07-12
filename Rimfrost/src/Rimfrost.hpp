@@ -3,8 +3,8 @@
 
 
 
-#include "Rimfrost\EngineApp.hpp"
+#include "Rimfrost\Core\EngineApp.hpp"
 
 
 //EntryPoint
-#include "Rimfrost\EntryPoint.hpp"
+#include "Rimfrost\Core\EntryPoint.hpp"

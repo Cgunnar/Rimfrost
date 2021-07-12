@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Rimfrost\Graphics\ForwardRenderer.hpp"
-#include "Rimfrost\Window.hpp"
-
-
+#include "Rimfrost\Core\Window.hpp"
 #include "Rimfrost\Scene\Scene.hpp"
 
 namespace Rimfrost
