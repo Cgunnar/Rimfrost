@@ -145,6 +145,7 @@
     <ClInclude Include="src\Rimfrost\Scene\NodeEditGUI.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\SceneGraph.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\SceneSerializer.hpp" />
+    <ClInclude Include="src\Rimfrost\Scenes\LevelEditor.hpp" />
     <ClInclude Include="src\Rimfrost\Scenes\Scene1.hpp" />
     <ClInclude Include="src\Rimfrost\Scenes\TestScene.hpp" />
     <ClInclude Include="src\Rimfrost\TestClass.hpp" />
@@ -203,6 +204,7 @@
     <ClCompile Include="src\Rimfrost\Scene\NodeEditGUI.cpp" />
     <ClCompile Include="src\Rimfrost\Scene\SceneGraph.cpp" />
     <ClCompile Include="src\Rimfrost\Scene\SceneSerializer.cpp" />
+    <ClCompile Include="src\Rimfrost\Scenes\LevelEditor.cpp" />
     <ClCompile Include="src\Rimfrost\Scenes\Scene1.cpp" />
     <ClCompile Include="src\Rimfrost\Scenes\TestScene.cpp" />
     <ClCompile Include="src\Rimfrost\TestClass.cpp" />
