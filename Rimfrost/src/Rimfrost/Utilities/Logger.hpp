@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <DirectXMath.h>
+#include "Rimfrost\Math\RimfrostMath.hpp"
 
 class Logger
 {
@@ -29,6 +30,7 @@ public:
 	void debugLog(std::string message);
 	void debugLog(float message, std::string preText = "");
 	void debugLog(DirectX::XMFLOAT3 message, std::string preText = "");
+	void debugLog(Rimfrost::Vector3 message, std::string preText = "");
 	void debugLog(DirectX::XMVECTOR message, std::string preText = "");
 	void dumpLogs();
 };

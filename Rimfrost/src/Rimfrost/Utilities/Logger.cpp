@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <DirectXMath.h>
 
+
 Logger Logger::instance = Logger();
 
 Logger::Logger() 
@@ -79,6 +80,13 @@ void Logger::debugLog(DirectX::XMVECTOR message, std::string preText)
 	instance.debugLog(preText + std::to_string(message.m128_f32[0]) + ", " +
 		std::to_string(message.m128_f32[1]) + ", " +
 		std::to_string(message.m128_f32[2]) + "\n");
+}
+
+void Logger::debugLog(Rimfrost::Vector3 message, std::string preText)
+{
+	instance.debugLog(preText + std::to_string(message.x) + ", " +
+		std::to_string(message.y) + ", " +
+		std::to_string(message.z) + "\n");
 }
 
 void Logger::dumpLogs()
