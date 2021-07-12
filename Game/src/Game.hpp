@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Rimfrost.h>
+#include <Rimfrost.hpp>
 #include "Rimfrost\EntCom\rfEntity.hpp"
 
 class Game : public Rimfrost::EngineApp, public Rimfrost::EventObserver

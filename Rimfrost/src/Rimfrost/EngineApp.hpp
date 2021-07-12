@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Core.h"
-
 #include "Rimfrost\Graphics\ForwardRenderer.hpp"
 #include "Rimfrost\Window.hpp"
 

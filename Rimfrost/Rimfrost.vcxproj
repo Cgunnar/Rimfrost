@@ -91,13 +91,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Rimfrost.h" />
-    <ClInclude Include="src\Rimfrost\Core.h" />
+    <ClInclude Include="src\Rimfrost.hpp" />
     <ClInclude Include="src\Rimfrost\Core\Keyboard.hpp" />
     <ClInclude Include="src\Rimfrost\Core\Mouse.hpp" />
-    <ClInclude Include="src\Rimfrost\EngineApp.h" />
+    <ClInclude Include="src\Rimfrost\EngineApp.hpp" />
     <ClInclude Include="src\Rimfrost\EntCom\rfEntity.hpp" />
-    <ClInclude Include="src\Rimfrost\EntryPoint.h" />
+    <ClInclude Include="src\Rimfrost\EntryPoint.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\Event.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\EventObserver.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\EventSystem.hpp" />

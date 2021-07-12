@@ -1,5 +1,5 @@
 #include "rfpch.hpp"
-#include "EngineApp.h"
+#include "EngineApp.hpp"
 #include <Rimfrost\Utilities\FrameTimer.hpp>
 #include "Rimfrost\Window.hpp"
 #include "Rimfrost\Core\Mouse.hpp"
