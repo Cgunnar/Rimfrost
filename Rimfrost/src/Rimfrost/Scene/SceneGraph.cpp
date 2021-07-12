@@ -1,9 +1,10 @@
 #include "rfpch.hpp"
+#include <imgui.h>
+
 #include "SceneGraph.hpp"
 #include "AssimpLoader.hpp"
 #include "MeshStructures.hpp"
 #include "Logger.hpp"
-#include <imgui.h>
 #include "EventSystem.hpp"
 #include "PauseEvent.hpp"
 #include "MouseEvent.hpp"
@@ -14,35 +15,24 @@ using namespace std;
 
 namespace Rimfrost
 {
-
-
-	SceneGraph::SceneGraph() : m_keyboard(nullptr), m_mouse(nullptr), m_pointLightContainer(nullptr), m_isPaused(false)
+	SceneGraph::SceneGraph()
 	{
-		EventSystem::addObserver(*this, PauseEvent::eventType);
 		EventSystem::addObserver(*this, MouseButtonsEvent::eventType);
 		m_frameData = {};
 		m_frameData.mouseX = -1;
 		m_frameData.mouseY = -1;
-
-		m_camera = std::make_shared<Camera>();
 	}
 
 	SceneGraph::~SceneGraph()
 	{
-		OutputDebugString(L"~Scene\n");
+	#ifdef DEBUG
+		OutputDebugString(L"~SceneGraph\n");
+	#endif // DEBUG
 	}
 
 	void SceneGraph::update(double dt)
 	{
-		derivedSceneUpdate(dt);
-
-		m_camera->update(static_cast<float>(dt));
-
 		updateWorldMatrices();
-
-		/*m_frameData.v = m_camera->GetViewMatrix();
-		m_frameData.p = m_camera->GetPerspective();
-		m_frameData.pos = m_camera->GetPosition();*/
 
 		size_t prevSize = m_renderSubmits.size();
 		m_renderSubmits.clear();
@@ -57,17 +47,6 @@ namespace Rimfrost
 		}
 	}
 
-	void SceneGraph::bindInput(const std::shared_ptr<Rimfrost::Keyboard>& keyboard, const std::shared_ptr<Rimfrost::Mouse>& mouse)
-	{
-		m_keyboard = keyboard;
-		m_mouse = mouse;
-	}
-
-	PointLightContainer& SceneGraph::getPointLights()
-	{
-		return *m_pointLightContainer;
-	}
-
 	std::vector<NodeID>& SceneGraph::getRenderSubmits()
 	{
 		return m_renderSubmits;
@@ -76,11 +55,6 @@ namespace Rimfrost
 	const std::vector<Node>& SceneGraph::getNodes() const
 	{
 		return m_nodes;
-	}
-
-	const std::shared_ptr<Camera>& SceneGraph::getCamera() const noexcept
-	{
-		return m_camera;
 	}
 
 	const PerFrameData& SceneGraph::getFrameCBufferData() const noexcept
@@ -98,36 +72,15 @@ namespace Rimfrost
 		static uint32_t modelID = 0;
 
 		//loaad model
-		/*AssimpLoader loader;
-		auto meshData = loader.loadStaticModel(filePath);*/
 
 		ModelID id = AssetManager::addModel(filePath, modelSettings);
 
 		Model m = AssetManager::getModel(id);
 
-
-		//model that the submodel belongs to
-		/*SubModel::ModelData sharedModelData;
-		sharedModelData.m_filePath = filePath;
-		sharedModelData.m_settings = modelSettings;
-		sharedModelData.m_vertexBuffer = std::make_shared<VertexBuffer>();
-		sharedModelData.m_indexBuffer = std::make_shared<IndexBuffer>();
-
-		sharedModelData.m_vertexBuffer->createBuffer(meshData.getVertextBuffer(), meshData.getVertexCount() * meshData.getVertexSize(), static_cast<uint32_t>(meshData.getVertexSize()));
-		sharedModelData.m_indexBuffer->initialize((uint32_t*)meshData.getIndicesData(), static_cast<uint32_t>(meshData.getIndicesCount()));
-
-		if (meshData.hasNormalMaps())
-			sharedModelData.layout = InputLayout::Layout::POS_TEX_NOR_TAN_BITAN;
-		else
-			sharedModelData.layout = InputLayout::Layout::POS_TEX_NOR;*/
-
-			//NodeID modelRoot = addNode(parentNodeID);
 		NodeID modelRoot = this->traverseSubMeshTree(m.subModelTree, m, parentNodeID);
 		m_nodes[modelRoot].m_isModelParent = true;
 
 		modelID++;
-
-
 
 		return NodeHandle(m_nodes, modelRoot);
 	}
@@ -136,8 +89,6 @@ namespace Rimfrost
 	{
 		return addModel(filePath, parenthandle->m_ID, modelSettings);
 	}
-
-
 
 	NodeHandle SceneGraph::addNode(const Transform& offset, NodeID parentNodeID)
 	{
@@ -203,11 +154,6 @@ namespace Rimfrost
 	{
 		//every recursion is a new node
 
-		/*for (auto& mesh : tree.subMeshes)
-		{
-			this->addSubModel(SubModel(mesh, model.commonData), nodeID);
-		}*/
-
 		for (auto& meshIndex : tree.subMeshesIndex)
 		{
 			this->addSubModel(SubModel(model.subModelData[meshIndex], model.commonData, static_cast<SubModelID>(meshIndex)), nodeID);
@@ -269,19 +215,8 @@ namespace Rimfrost
 			}
 		}
 
-
-
 		//if no node was invalid
 		if (firstInvalidIndex == -1) return;
-
-		/*auto l = [](Node n) { return n.m_ID == -1; };
-		auto beginItr = find_if(m_nodes.begin(), m_nodes.end(), l);
-		auto invalidNodeItr = beginItr;
-		while (invalidNodeItr != m_nodes.end())
-		{
-			invalidNodeItr = find_if(next(beginItr, 1), m_nodes.end(), l);
-
-		}*/
 
 		//find first valid node after the invalid nodes
 		for (int i = firstInvalidIndex; i < m_nodes.size(); i++)
@@ -309,14 +244,6 @@ namespace Rimfrost
 
 	void Rimfrost::SceneGraph::onEvent(const Event& e)
 	{
-		if (e.type() == PauseEvent::eventType)
-		{
-			Logger::getLogger().debugLog("event\n");
-			Logger::getLogger().debugLog((std::string)static_cast<const PauseEvent&>(e).type() + "\n");
-
-			this->m_isPaused = static_cast<const PauseEvent&>(e).m_isPaused;
-			Logger::getLogger().debugLog((std::to_string(m_isPaused) + "\n"));
-		}
 		if (e.type() == MouseButtonsEvent::eventType)
 		{
 			auto& mouse = static_cast<const MouseButtonsEvent&>(e).mouseState;
@@ -324,7 +251,6 @@ namespace Rimfrost
 			{
 				m_frameData.mouseX = mouse.x;
 				m_frameData.mouseY = mouse.y;
-				//Logger::getLogger().debugLog("mouseX: " + std::to_string(mouse.x) + "\n");
 			}
 			else
 			{
@@ -332,27 +258,5 @@ namespace Rimfrost
 				m_frameData.mouseY = -1;
 			}
 		}
-		derivedOnEvent(e);
 	}
-
-	//Scene::NodeHandle::NodeHandle(Scene& scene, NodeID nodeID) : m_sceneRef(scene), m_nodeID(nodeID)
-	//{
-	//}
-	//
-	//Node& Scene::NodeHandle::operator*() const
-	//{
-	//	assert(m_nodeID != rootNode);
-	//	return m_sceneRef.get().m_nodes[m_nodeID];
-	//}
-	//
-	//Node* Rimfrost::Scene::NodeHandle::operator->() const
-	//{
-	//	assert(m_nodeID != rootNode);
-	//	return &m_sceneRef.get().m_nodes[m_nodeID];
-	//}
-	//
-	//bool Rimfrost::Scene::NodeHandle::isValid() const
-	//{
-	//	return m_nodeID != rootNode;
-	//}
 }

@@ -20,13 +20,9 @@ namespace Rimfrost
 		virtual ~SceneGraph();
 		virtual void setUpScene() {};
 		void update(double dt);
-		void bindInput(const std::shared_ptr<Keyboard>& keyboard, const std::shared_ptr<Mouse>& mouse);
 
-
-		PointLightContainer& getPointLights();
 		std::vector<NodeID>& getRenderSubmits();
 		const std::vector<Node>& getNodes() const;
-		const std::shared_ptr<Camera>& getCamera() const noexcept;
 		const PerFrameData& getFrameCBufferData() const noexcept;
 		
 		[[nodiscard]] NodeHandle addModel(const std::string& filePath, ModelSettings modelSettings);
@@ -40,33 +36,18 @@ namespace Rimfrost
 		
 
 		void onEvent(const Event& e) override;
-		virtual void derivedOnEvent(const Event& e) {}
 
-	protected:
-		std::shared_ptr<Camera> m_camera;
+	private:
 		std::vector<Node> m_nodes;
 		std::vector<NodeID> m_renderSubmits;
 
-		std::shared_ptr<Keyboard> m_keyboard;
-		std::shared_ptr<Mouse> m_mouse;
-
-		std::shared_ptr<PointLightContainer> m_pointLightContainer;
-
-		bool m_isPaused;
-
 		PerFrameData m_frameData;
-
-	protected:
-		//Model& addModel(const std::string& filePath);
 		
-
-		void updateWorldMatrices();
-		void updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const Transform& parentMatrix);
-		virtual void derivedSceneUpdate(double dt) {}
-		void packSceneGraph();
 
 	private:
-		
+		void updateWorldMatrices();
+		void updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const Transform& parentMatrix);
+		void packSceneGraph();
 
 		NodeID traverseSubMeshTree(SubMeshTree tree, const Model& model, NodeID newNodeID);
 		NodeID addSubModel(SubModel subModel, NodeID parentID);

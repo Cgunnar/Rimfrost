@@ -85,10 +85,11 @@ namespace Rimfrost
 	void SceneSerializer::serialize(const std::string& fileName, IScene& scene)
 	{
 		const SceneGraph& sceneGraph = scene.sceneGraph();
+		const Camera& camera = scene.camera();
 
 		nlohmann::json j;
 
-		j["camera"] = Matrix(sceneGraph.m_camera->GetWorldMatrix());
+		j["camera"] = Matrix(camera.GetWorldMatrix());
 
 		Logger::getLogger().debugLog("serialize: numberOfNodes = " + std::to_string(sceneGraph.m_nodes.size()) + "\n");
 
@@ -130,6 +131,7 @@ namespace Rimfrost
 	void SceneSerializer::deSerialize(const string& fileName, IScene& scene)
 	{
 		SceneGraph& sceneGraph = scene.sceneGraph();
+		Camera& camera = scene.camera();
 
 
 		std::ifstream f(fileName);
@@ -137,7 +139,7 @@ namespace Rimfrost
 		auto j = nlohmann::json::parse(f);
 
 		Rimfrost::Matrix cameraWoldMatrix = j["camera"];
-		sceneGraph.m_camera->SetWorldMatrix(cameraWoldMatrix);
+		camera.SetWorldMatrix(cameraWoldMatrix);
 
 
 		sceneGraph.m_nodes.clear();
