@@ -9,13 +9,13 @@
 namespace Rimfrost
 {
 
-	class Scene;
+	class SceneGraph;
 	class ForwardRenderer;
 	class SceneSerializer;
 
 	class Node
 	{
-		friend Scene;
+		friend SceneGraph;
 		friend ForwardRenderer;
 		friend SceneSerializer;
 	public:

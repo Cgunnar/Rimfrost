@@ -1,5 +1,5 @@
 #pragma once
-#include "Scene.hpp"
+#include "SceneGraph.hpp"
 #include "PointLight.hpp"
 #include "NodeEditGUI.hpp"
 #include "RimfrostMath.hpp"
@@ -7,7 +7,7 @@
 namespace Rimfrost
 {
 
-	class LevelEditor : public Rimfrost::Scene
+	class LevelEditor : public Rimfrost::SceneGraph
 	{
 	public:
 		LevelEditor(bool saveOnExit = false);

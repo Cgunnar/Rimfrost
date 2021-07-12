@@ -2,7 +2,7 @@
 #include <json.hpp>
 #include "SceneSerializer.hpp"
 #include "RimfrostMath.hpp"
-#include "Scene.hpp"
+#include "SceneGraph.hpp"
 #include "AssetManager.hpp"
 #include "Logger.hpp"
 
@@ -77,12 +77,12 @@ namespace Rimfrost
 
 
 
-	void SceneSerializer::serialize(const string& fileName, const shared_ptr<Rimfrost::Scene>& scene)
+	void SceneSerializer::serialize(const string& fileName, const shared_ptr<Rimfrost::SceneGraph>& scene)
 	{
 		serialize(fileName, *scene);
 	}
 	
-	void SceneSerializer::serialize(const std::string& fileName, const Scene& scene)
+	void SceneSerializer::serialize(const std::string& fileName, const SceneGraph& scene)
 	{
 		nlohmann::json j;
 
@@ -125,7 +125,7 @@ namespace Rimfrost
 		o << std::setw(4) << j << std::endl;
 	}
 
-	void SceneSerializer::deSerialize(const string& fileName, shared_ptr<Rimfrost::Scene>& scene)
+	void SceneSerializer::deSerialize(const string& fileName, shared_ptr<Rimfrost::SceneGraph>& scene)
 	{
 		std::ifstream f(fileName);
 

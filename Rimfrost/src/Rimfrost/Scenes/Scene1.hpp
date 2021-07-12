@@ -1,11 +1,11 @@
 #pragma once
-#include "Scene.hpp"
+#include "SceneGraph.hpp"
 #include "PointLight.hpp"
 
 namespace Rimfrost
 {
 
-	class Scene1 : public Rimfrost::Scene
+	class Scene1 : public Rimfrost::SceneGraph
 	{
 	public:
 		Scene1();

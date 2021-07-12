@@ -1,5 +1,5 @@
 #include "rfpch.hpp"
-#include "Scene.hpp"
+#include "SceneGraph.hpp"
 #include "AssimpLoader.hpp"
 #include "MeshStructures.hpp"
 #include "Logger.hpp"
@@ -16,7 +16,7 @@ namespace Rimfrost
 {
 
 
-	Scene::Scene() : m_keyboard(nullptr), m_mouse(nullptr), m_pointLightContainer(nullptr), m_isPaused(false)
+	SceneGraph::SceneGraph() : m_keyboard(nullptr), m_mouse(nullptr), m_pointLightContainer(nullptr), m_isPaused(false)
 	{
 		EventSystem::addObserver(*this, PauseEvent::eventType);
 		EventSystem::addObserver(*this, MouseButtonsEvent::eventType);
@@ -27,12 +27,12 @@ namespace Rimfrost
 		m_camera = std::make_shared<Camera>();
 	}
 
-	Scene::~Scene()
+	SceneGraph::~SceneGraph()
 	{
 		OutputDebugString(L"~Scene\n");
 	}
 
-	void Scene::update(double dt)
+	void SceneGraph::update(double dt)
 	{
 		derivedSceneUpdate(dt);
 
@@ -57,43 +57,43 @@ namespace Rimfrost
 		}
 	}
 
-	void Scene::bindInput(const std::shared_ptr<Rimfrost::Keyboard>& keyboard, const std::shared_ptr<Rimfrost::Mouse>& mouse)
+	void SceneGraph::bindInput(const std::shared_ptr<Rimfrost::Keyboard>& keyboard, const std::shared_ptr<Rimfrost::Mouse>& mouse)
 	{
 		m_keyboard = keyboard;
 		m_mouse = mouse;
 	}
 
-	PointLightContainer& Scene::getPointLights()
+	PointLightContainer& SceneGraph::getPointLights()
 	{
 		return *m_pointLightContainer;
 	}
 
-	std::vector<NodeID>& Scene::getRenderSubmits()
+	std::vector<NodeID>& SceneGraph::getRenderSubmits()
 	{
 		return m_renderSubmits;
 	}
 
-	const std::vector<Node>& Scene::getNodes() const
+	const std::vector<Node>& SceneGraph::getNodes() const
 	{
 		return m_nodes;
 	}
 
-	const std::shared_ptr<Camera>& Scene::getCamera() const noexcept
+	const std::shared_ptr<Camera>& SceneGraph::getCamera() const noexcept
 	{
 		return m_camera;
 	}
 
-	const PerFrameData& Scene::getFrameCBufferData() const noexcept
+	const PerFrameData& SceneGraph::getFrameCBufferData() const noexcept
 	{
 		return m_frameData;
 	}
 
-	NodeHandle Scene::addModel(const std::string& filePath, ModelSettings modelSettings)
+	NodeHandle SceneGraph::addModel(const std::string& filePath, ModelSettings modelSettings)
 	{
 		return addModel(filePath, rootNode, modelSettings);
 	}
 
-	NodeHandle Scene::addModel(const string& filePath, NodeID parentNodeID, ModelSettings modelSettings)
+	NodeHandle SceneGraph::addModel(const string& filePath, NodeID parentNodeID, ModelSettings modelSettings)
 	{
 		static uint32_t modelID = 0;
 
@@ -132,14 +132,14 @@ namespace Rimfrost
 		return NodeHandle(m_nodes, modelRoot);
 	}
 
-	NodeHandle Scene::addModel(const std::string& filePath, const NodeHandle& parenthandle, ModelSettings modelSettings)
+	NodeHandle SceneGraph::addModel(const std::string& filePath, const NodeHandle& parenthandle, ModelSettings modelSettings)
 	{
 		return addModel(filePath, parenthandle->m_ID, modelSettings);
 	}
 
 
 
-	NodeHandle Scene::addNode(const Transform& offset, NodeID parentNodeID)
+	NodeHandle SceneGraph::addNode(const Transform& offset, NodeID parentNodeID)
 	{
 
 		NodeID newNodeID = m_nodes.size();
@@ -153,12 +153,12 @@ namespace Rimfrost
 		return NodeHandle(m_nodes, newNodeID);
 	}
 
-	NodeHandle Rimfrost::Scene::addNode(const Transform& offset, const NodeHandle& parenthandle)
+	NodeHandle Rimfrost::SceneGraph::addNode(const Transform& offset, const NodeHandle& parenthandle)
 	{
 		return addNode(offset, parenthandle->m_ID);
 	}
 
-	void Rimfrost::Scene::removeNode(NodeID id)
+	void Rimfrost::SceneGraph::removeNode(NodeID id)
 	{
 		assert(id != rootNode);
 		for (auto childID : m_nodes[id].m_childIDs)
@@ -168,7 +168,7 @@ namespace Rimfrost
 		m_nodes[id] = Node(-1, -2);
 	}
 
-	void Scene::hideNode(NodeID id, bool isHidden)
+	void SceneGraph::hideNode(NodeID id, bool isHidden)
 	{
 		assert(id != rootNode && id < m_nodes.size());
 		for (auto childID : m_nodes[id].m_childIDs)
@@ -178,7 +178,7 @@ namespace Rimfrost
 		m_nodes[id].m_isHidden = isHidden;
 	}
 
-	void Rimfrost::Scene::updateWorldMatrices()
+	void Rimfrost::SceneGraph::updateWorldMatrices()
 	{
 		for (auto& node : m_nodes)
 		{
@@ -189,7 +189,7 @@ namespace Rimfrost
 		}
 	}
 
-	void Rimfrost::Scene::updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const Transform& parentMatrix)
+	void Rimfrost::SceneGraph::updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const Transform& parentMatrix)
 	{
 		nodes[ID].worldMatrix = parentMatrix * nodes[ID].localMatrix;
 		//nodes[ID].worldMatrix = nodes[ID].localMatrix * parentMatrix;
@@ -199,7 +199,7 @@ namespace Rimfrost
 		}
 	}
 
-	NodeID Rimfrost::Scene::traverseSubMeshTree(SubMeshTree tree, const Model& model, NodeID nodeID)
+	NodeID Rimfrost::SceneGraph::traverseSubMeshTree(SubMeshTree tree, const Model& model, NodeID nodeID)
 	{
 		//every recursion is a new node
 
@@ -231,7 +231,7 @@ namespace Rimfrost
 
 	}
 
-	NodeID Rimfrost::Scene::addSubModel(SubModel subModel, NodeID parentID)
+	NodeID Rimfrost::SceneGraph::addSubModel(SubModel subModel, NodeID parentID)
 	{
 		assert(!m_nodes[parentID].m_subModel);
 		NodeID newNodeID = m_nodes.size();
@@ -243,7 +243,7 @@ namespace Rimfrost
 		return newNodeID;
 	}
 
-	NodeID Rimfrost::Scene::addNode(NodeID parentNodeID)
+	NodeID Rimfrost::SceneGraph::addNode(NodeID parentNodeID)
 	{
 		NodeID newNodeID = m_nodes.size();
 
@@ -256,7 +256,7 @@ namespace Rimfrost
 	}
 
 	//remove deleted nodes from the graph and make it compact
-	void Rimfrost::Scene::packSceneGraph()
+	void Rimfrost::SceneGraph::packSceneGraph()
 	{
 		//find first invalid node
 		int firstInvalidIndex = -1;
@@ -307,7 +307,7 @@ namespace Rimfrost
 
 	}
 
-	void Rimfrost::Scene::onEvent(const Event& e)
+	void Rimfrost::SceneGraph::onEvent(const Event& e)
 	{
 		if (e.type() == PauseEvent::eventType)
 		{

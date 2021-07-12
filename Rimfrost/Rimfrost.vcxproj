@@ -141,7 +141,7 @@
     <ClInclude Include="src\Rimfrost\Math\Vector.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\Node.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\NodeEditGUI.hpp" />
-    <ClInclude Include="src\Rimfrost\Scene\Scene.hpp" />
+    <ClInclude Include="src\Rimfrost\Scene\SceneGraph.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\SceneSerializer.hpp" />
     <ClInclude Include="src\Rimfrost\Scenes\LevelEditor.hpp" />
     <ClInclude Include="src\Rimfrost\Scenes\Scene0.hpp" />
@@ -199,7 +199,7 @@
     <ClCompile Include="src\Rimfrost\Math\Vector.cpp" />
     <ClCompile Include="src\Rimfrost\Scene\Node.cpp" />
     <ClCompile Include="src\Rimfrost\Scene\NodeEditGUI.cpp" />
-    <ClCompile Include="src\Rimfrost\Scene\Scene.cpp" />
+    <ClCompile Include="src\Rimfrost\Scene\SceneGraph.cpp" />
     <ClCompile Include="src\Rimfrost\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\Rimfrost\Scenes\LevelEditor.cpp" />
     <ClCompile Include="src\Rimfrost\Scenes\Scene0.cpp" />

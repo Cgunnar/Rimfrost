@@ -8,7 +8,7 @@ using namespace DirectX;
 namespace Rimfrost
 {
 
-	Scene1::Scene1() : Scene(), m_whiteLight({ 4, 6, 8 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
+	Scene1::Scene1() : SceneGraph(), m_whiteLight({ 4, 6, 8 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
 	{
 	}
 

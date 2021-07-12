@@ -20,7 +20,7 @@ namespace Rimfrost
 	
 
 
-	LevelEditor::LevelEditor(bool saveOnExit) : Rimfrost::Scene(), m_whiteLight({ 0, 8, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
+	LevelEditor::LevelEditor(bool saveOnExit) : Rimfrost::SceneGraph(), m_whiteLight({ 0, 8, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
 	{
 		m_saveOnExit = saveOnExit;
 		

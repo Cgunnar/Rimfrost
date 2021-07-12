@@ -1,7 +1,7 @@
 #include "rfpch.hpp"
 #include "ForwardRenderer.hpp"
 #include "RimfrostMath.hpp"
-#include "Scene.hpp"
+#include "SceneGraph.hpp"
 #include "Geometry.hpp"
 #include "EventSystem.hpp"
 #include "MouseEvent.hpp"
@@ -221,7 +221,7 @@ namespace Rimfrost
 		OutputDebugString(L"~ForwardRenderer\n");
 	}
 
-	uint32_t ForwardRenderer::renderScene(const std::shared_ptr<Scene>& scene)
+	uint32_t ForwardRenderer::renderScene(const std::shared_ptr<SceneGraph>& scene)
 	{
 		m_timer.start();
 

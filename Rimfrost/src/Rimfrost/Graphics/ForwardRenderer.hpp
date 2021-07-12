@@ -18,7 +18,7 @@ namespace Rimfrost
 		ForwardRenderer();
 		~ForwardRenderer();
 
-		uint32_t renderScene(const std::shared_ptr<Scene>& scene);
+		uint32_t renderScene(const std::shared_ptr<SceneGraph>& scene);
 
 	private:
 		std::queue<int> sortRenderSubmits(const Camera& camera, const std::vector<Rimfrost::Node>& nodes, std::vector<Rimfrost::NodeID>& submits);

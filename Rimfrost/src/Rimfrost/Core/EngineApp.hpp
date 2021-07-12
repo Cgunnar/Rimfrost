@@ -2,7 +2,7 @@
 
 #include "Rimfrost\Graphics\ForwardRenderer.hpp"
 #include "Rimfrost\Core\Window.hpp"
-#include "Rimfrost\Scene\Scene.hpp"
+#include "Rimfrost\Scene\SceneGraph.hpp"
 
 namespace Rimfrost
 {
@@ -18,7 +18,7 @@ namespace Rimfrost
 	private:
 		Rimfrost::Window m_window;
 
-		std::vector<std::shared_ptr<Rimfrost::Scene>> m_scenes;
+		std::vector<std::shared_ptr<Rimfrost::SceneGraph>> m_scenes;
 
 		Rimfrost::ForwardRenderer m_renderer;
 
@@ -28,7 +28,7 @@ namespace Rimfrost
 		bool m_isRunning = false;
 
 	protected:
-		std::shared_ptr<Rimfrost::Scene> m_acticeScene;
+		std::shared_ptr<Rimfrost::SceneGraph> m_acticeScene;
 		virtual void update(double dt) abstract;
 
 	private:

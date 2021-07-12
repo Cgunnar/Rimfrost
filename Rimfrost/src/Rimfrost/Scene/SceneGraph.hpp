@@ -11,23 +11,13 @@ class SceneSerializer;
 namespace Rimfrost
 {
 
-	class Scene : public EventObserver
+	class SceneGraph : public EventObserver
 	{
 		friend SceneSerializer;
 
-	protected:
-
-		/*struct NodeSerializationData
-		{
-			std::string modelPath;
-			NodeID parentID = rootNode;
-			NodeID nodeID = rootNode;
-		};*/
-
-
 	public:
-		Scene();
-		virtual ~Scene();
+		SceneGraph();
+		virtual ~SceneGraph();
 		virtual void setUpScene() {};
 		void update(double dt);
 		void bindInput(const std::shared_ptr<Keyboard>& keyboard, const std::shared_ptr<Mouse>& mouse);
@@ -56,9 +46,6 @@ namespace Rimfrost
 		std::shared_ptr<Camera> m_camera;
 		std::vector<Node> m_nodes;
 		std::vector<NodeID> m_renderSubmits;
-
-		bool m_recordSceneToSerialization = true;
-		//std::vector<NodeSerializationData> m_serializationData;
 
 		std::shared_ptr<Keyboard> m_keyboard;
 		std::shared_ptr<Mouse> m_mouse;

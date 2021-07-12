@@ -1,6 +1,6 @@
 #include "rfpch.hpp"
 #include "Node.hpp"
-#include "Scene.hpp"
+#include "SceneGraph.hpp"
 
 namespace Rimfrost
 {
