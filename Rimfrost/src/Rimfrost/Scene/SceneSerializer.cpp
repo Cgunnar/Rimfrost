@@ -74,13 +74,6 @@ namespace Rimfrost
 
 	}
 
-
-
-
-	/*void SceneSerializer::serialize(const string& fileName, const shared_ptr<Rimfrost::IScene>& scene)
-	{
-		serialize(fileName, *scene);
-	}*/
 	
 	void SceneSerializer::serialize(const std::string& fileName, IScene& scene)
 	{
@@ -91,9 +84,9 @@ namespace Rimfrost
 
 		j["camera"] = Matrix(camera.GetWorldMatrix());
 
-		Logger::getLogger().debugLog("serialize: numberOfNodes = " + std::to_string(sceneGraph.m_nodes.size()) + "\n");
+		Logger::getLogger().debugLog("serialize: numberOfNodes = " + std::to_string(sceneGraph.getNodes().size()) + "\n");
 
-		for (auto& node : sceneGraph.m_nodes)
+		for (auto& node : sceneGraph.getNodes())
 		{
 			nlohmann::json jsonNode;
 
@@ -142,7 +135,7 @@ namespace Rimfrost
 		camera.SetWorldMatrix(cameraWoldMatrix);
 
 
-		sceneGraph.m_nodes.clear();
+		sceneGraph.getNodes().clear();
 
 		std::vector<JnodeStruct> nodes = j["nodeArray"].get<std::vector<JnodeStruct>>();
 
@@ -161,18 +154,18 @@ namespace Rimfrost
 
 			
 			
-			sceneGraph.m_nodes.push_back(node);
+			sceneGraph.getNodes().push_back(node);
 
 			
 		}
 		//link childs
-		for (auto& n : sceneGraph.m_nodes)
+		for (auto& n : sceneGraph.getNodes())
 		{
 			if (n.m_parentID != rootNode)
 			{
-				sceneGraph.m_nodes[n.m_parentID].m_childIDs.push_back(n.m_ID);
+				sceneGraph.getNodes()[n.m_parentID].m_childIDs.push_back(n.m_ID);
 			}
 		}
-		Logger::getLogger().debugLog("deSerialize: numberOfNodes = " + std::to_string(sceneGraph.m_nodes.size()) + "\n");
+		Logger::getLogger().debugLog("deSerialize: numberOfNodes = " + std::to_string(sceneGraph.getNodes().size()) + "\n");
 	}
 }

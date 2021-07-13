@@ -12,7 +12,7 @@ namespace Rimfrost
 	class LevelEditor : public IScene, public EventObserver
 	{
 	public:
-		LevelEditor(bool saveOnExit = false);
+		LevelEditor(const std::string& inputMap = "", const std::string& outPutMap = "");
 		~LevelEditor();
 
 		void setUpScene() override;
@@ -28,6 +28,9 @@ namespace Rimfrost
 		Lights m_lights;
 
 		NodeEditGUI m_nodeEditGui;
+
+		std::string m_inputMapFile;
+		std::string m_outPutMapFile;
 
 		enum class GizmoXYZ
 		{
@@ -67,7 +70,6 @@ namespace Rimfrost
 
 		bool m_acceptMousePickingEvent = false;
 
-		bool m_saveOnExit;
 		PointLight m_whiteLight;
 		NodeHandle* m_lightSphere = nullptr;
 

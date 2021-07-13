@@ -35,14 +35,7 @@ Game::Game()
 	m_entities.push_back(std::move(player));
 
 	m_scenes.emplace_back(std::make_shared<SandboxMap>());
-	m_scenes.emplace_back(std::make_shared<LevelEditor>());
-
-	////serializationTesting
-	/*int loadScene = 0;
-	m_scenes[loadScene]->setUpScene();
-	Rimfrost::SceneSerializer::serialize("Maps/SandboxMap.json", *m_scenes[loadScene]);*/
-
-	//Rimfrost::SceneSerializer::deSerialize("Maps/SandboxMap.json", *m_scenes[1]);
+	m_scenes.emplace_back(std::make_shared<LevelEditor>("Maps/SandboxMap.json", "Maps/LevelEditorOutPut.json"));
 	
 	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();

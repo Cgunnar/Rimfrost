@@ -20,20 +20,20 @@ namespace Rimfrost
 
 
 
-	LevelEditor::LevelEditor(bool saveOnExit) : m_whiteLight({ 0, 8, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
+	LevelEditor::LevelEditor(const std::string& inputMap, const std::string& outPutMap) : m_whiteLight({ 0, 8, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight"),
+		m_inputMapFile(inputMap), m_outPutMapFile(outPutMap)
 	{
-		m_saveOnExit = saveOnExit;
 
 	}
 
 	LevelEditor::~LevelEditor()
 	{
-		if (m_saveOnExit)
+		if (!m_outPutMapFile.empty())
 		{
 			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode->m_ID);
 			m_sceneGraph.packSceneGraph();
 			OutputDebugString(L"save level from leveleditor destructor\n");
-			Rimfrost::SceneSerializer::serialize("LevelEditorOutPut.json", *this);
+			Rimfrost::SceneSerializer::serialize(m_outPutMapFile, *this);
 		}
 		if (m_lightSphere) delete m_lightSphere;
 		OutputDebugString(L"~LevelEditor\n");
@@ -44,9 +44,13 @@ namespace Rimfrost
 		EventSystem::addObserver(*this, MousePickingEvent::eventType);
 		EventSystem::addObserver(*this, MouseButtonsEvent::eventType);
 
-
 		m_lights.pointLights = std::make_shared<PointLightContainer>();
 		m_lights.pointLights->addPointLight(m_whiteLight);
+
+		if(!m_inputMapFile.empty())
+			SceneSerializer::deSerialize(m_inputMapFile, *this);
+
+
 
 		m_gizmoRootNode = m_sceneGraph.addNode();
 

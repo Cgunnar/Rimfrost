@@ -3,16 +3,11 @@
 #include "Rimfrost\Graphics\Engine1.hpp"
 #include "Rimfrost\Math\RimfrostMath.hpp"
 
-class SceneSerializer;
-
 
 namespace Rimfrost
 {
-	//class LevelEditor;
 	class SceneGraph
 	{
-		friend SceneSerializer;
-		/*friend LevelEditor;*/
 
 	public:
 		SceneGraph() = default;
