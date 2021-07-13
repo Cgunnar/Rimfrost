@@ -27,6 +27,11 @@ namespace Rimfrost
 		pointLight.m_internalRepoIndex = static_cast<int>(m_pointLightVector.size()) - 1;
 	}
 
+	const std::vector<std::pair<PointLight, int>>& PointLightContainer::getPointLights() const
+	{
+		return m_pointLightVector;
+	}
+
 	bool PointLightContainer::findPointLight(const std::string& name)
 	{
 		for (int i = 0; i < m_pointLightVector.size(); ++i)

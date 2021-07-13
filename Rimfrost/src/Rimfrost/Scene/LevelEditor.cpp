@@ -31,6 +31,11 @@ namespace Rimfrost
 		if (!m_outPutMapFile.empty())
 		{
 			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode->m_ID);
+			for (auto& p : m_pointLightGizmoHandles)
+			{
+				m_sceneGraph.removeNode(p->m_ID);
+			}
+			m_pointLightGizmoHandles.clear();
 			m_sceneGraph.packSceneGraph();
 			OutputDebugString(L"save level from leveleditor destructor\n");
 			Rimfrost::SceneSerializer::serialize(m_outPutMapFile, *this);
@@ -70,6 +75,14 @@ namespace Rimfrost
 		m_ringZ->localMatrix.scale(2.3f);
 
 		m_sceneGraph.hideNode(m_gizmoRootNode->m_ID, true);
+
+		for (const auto& p : m_lights.pointLights->getPointLights())
+		{
+			NodeHandle lightGizmo = m_sceneGraph.addModel("Models/smallInvNormSphere.obj");
+			lightGizmo->localMatrix.setTranslation(p.first.getPosition());
+			m_pointLightGizmoHandles.push_back(lightGizmo);
+		}
+
 
 	}
 

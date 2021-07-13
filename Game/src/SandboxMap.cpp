@@ -16,7 +16,6 @@ namespace Rimfrost
 	SandboxMap::~SandboxMap()
 	{
 		if (testHandle) delete testHandle;
-		if (m_lightSphere) delete m_lightSphere;
 	}
 
 	void SandboxMap::setUpScene()
@@ -46,7 +45,6 @@ namespace Rimfrost
 
 		auto BasisVectors = m_sceneGraph->addModel("Models/Arrows/DXRefSys.obj");
 		auto cube = m_sceneGraph->addModel("Models/orangeGlassCube.obj", *testHandle);
-		m_lightSphere = new NodeHandle(m_sceneGraph->addModel("Models/smallInvNormSphere.obj"));
 
 		auto nanoSuit2 = m_sceneGraph->addModel("Models/nanosuit/nanosuit.obj");
 		nanoSuit2->localMatrix.setTranslation(25, 0, 7);

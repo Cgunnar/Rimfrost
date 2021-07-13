@@ -32,7 +32,7 @@ namespace Rimfrost
 
 		void addPointLight(PointLight& pointLight);
 
-
+		const std::vector<std::pair<PointLight, int>>& getPointLights() const;
 
 
 		bool findPointLight(const std::string& name);

@@ -22,7 +22,6 @@ namespace Rimfrost
 		Camera m_camera;
 		std::unique_ptr<SceneGraph> m_sceneGraph;
 		PointLight m_whiteLight;
-		NodeHandle* m_lightSphere = nullptr;
 		NodeHandle* testHandle = nullptr;
 		void update(double dt) override;
 	};
