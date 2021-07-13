@@ -1,25 +1,26 @@
 {
     "camera": {
-        "00": 1.0,
+        "00": 0.962422251701355,
         "01": 0.0,
-        "02": 0.0,
+        "02": -0.2715475261211395,
         "03": 0.0,
-        "10": 0.0,
-        "11": 1.0,
-        "12": 0.0,
+        "10": 0.037735357880592346,
+        "11": 0.9902943968772888,
+        "12": 0.13374213874340057,
         "13": 0.0,
-        "20": 0.0,
-        "21": 0.0,
-        "22": 1.0,
+        "20": 0.26891306042671204,
+        "21": -0.13896392285823822,
+        "22": 0.95308518409729,
         "23": 0.0,
-        "30": 0.0,
-        "31": 0.0,
-        "32": -4.0,
+        "30": -2.85025691986084,
+        "31": 1.2566250562667847,
+        "32": -7.567047595977783,
         "33": 1.0
     },
     "nodeArray": [
         {
             "ID": 0,
+            "coldID": 0,
             "materialName": "",
             "modelParent": true,
             "modelPath": "",
@@ -47,6 +48,7 @@
         },
         {
             "ID": 1,
+            "coldID": 1,
             "materialName": "Brick",
             "modelParent": false,
             "modelPath": "Models/brick_wall/brick_wall.obj",
@@ -74,6 +76,7 @@
         },
         {
             "ID": 2,
+            "coldID": 2,
             "materialName": "",
             "modelParent": true,
             "modelPath": "",
@@ -101,6 +104,7 @@
         },
         {
             "ID": 3,
+            "coldID": 3,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/ring/red_ring.obj",
@@ -128,6 +132,7 @@
         },
         {
             "ID": 4,
+            "coldID": 4,
             "materialName": "",
             "modelParent": true,
             "modelPath": "",
@@ -155,6 +160,7 @@
         },
         {
             "ID": 5,
+            "coldID": 5,
             "materialName": "Material.002",
             "modelParent": false,
             "modelPath": "Models/Arrows/DXRefSys.obj",
@@ -182,6 +188,7 @@
         },
         {
             "ID": 6,
+            "coldID": 6,
             "materialName": "Material.003",
             "modelParent": false,
             "modelPath": "Models/Arrows/DXRefSys.obj",
@@ -209,6 +216,7 @@
         },
         {
             "ID": 7,
+            "coldID": 7,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/Arrows/DXRefSys.obj",
@@ -236,6 +244,7 @@
         },
         {
             "ID": 8,
+            "coldID": 8,
             "materialName": "",
             "modelParent": true,
             "modelPath": "",
@@ -263,6 +272,7 @@
         },
         {
             "ID": 9,
+            "coldID": 9,
             "materialName": "Material",
             "modelParent": false,
             "modelPath": "Models/orangeGlassCube.obj",
@@ -290,6 +300,7 @@
         },
         {
             "ID": 10,
+            "coldID": 10,
             "materialName": "",
             "modelParent": true,
             "modelPath": "",
@@ -317,6 +328,7 @@
         },
         {
             "ID": 11,
+            "coldID": 11,
             "materialName": "Glass",
             "modelParent": false,
             "modelPath": "Models/nanosuit/nanosuit.obj",
@@ -344,6 +356,7 @@
         },
         {
             "ID": 12,
+            "coldID": 12,
             "materialName": "Leg",
             "modelParent": false,
             "modelPath": "Models/nanosuit/nanosuit.obj",
@@ -371,6 +384,7 @@
         },
         {
             "ID": 13,
+            "coldID": 13,
             "materialName": "Hand",
             "modelParent": false,
             "modelPath": "Models/nanosuit/nanosuit.obj",
@@ -398,6 +412,7 @@
         },
         {
             "ID": 14,
+            "coldID": 14,
             "materialName": "Glass",
             "modelParent": false,
             "modelPath": "Models/nanosuit/nanosuit.obj",
@@ -425,6 +440,7 @@
         },
         {
             "ID": 15,
+            "coldID": 15,
             "materialName": "Arm",
             "modelParent": false,
             "modelPath": "Models/nanosuit/nanosuit.obj",
@@ -452,6 +468,7 @@
         },
         {
             "ID": 16,
+            "coldID": 16,
             "materialName": "Helmet",
             "modelParent": false,
             "modelPath": "Models/nanosuit/nanosuit.obj",
@@ -479,6 +496,7 @@
         },
         {
             "ID": 17,
+            "coldID": 17,
             "materialName": "Body",
             "modelParent": false,
             "modelPath": "Models/nanosuit/nanosuit.obj",
@@ -506,6 +524,7 @@
         },
         {
             "ID": 18,
+            "coldID": 18,
             "materialName": "",
             "modelParent": true,
             "modelPath": "",
@@ -533,6 +552,7 @@
         },
         {
             "ID": 19,
+            "coldID": 19,
             "materialName": "Material",
             "modelParent": false,
             "modelPath": "Models/orangeGlassCube.obj",
@@ -560,6 +580,7 @@
         },
         {
             "ID": 20,
+            "coldID": 20,
             "materialName": "",
             "modelParent": true,
             "modelPath": "",
@@ -587,6 +608,7 @@
         },
         {
             "ID": 21,
+            "coldID": 21,
             "materialName": "Material.002",
             "modelParent": false,
             "modelPath": "Models/Arrows/DXRefSys.obj",
@@ -614,6 +636,7 @@
         },
         {
             "ID": 22,
+            "coldID": 22,
             "materialName": "Material.003",
             "modelParent": false,
             "modelPath": "Models/Arrows/DXRefSys.obj",
@@ -641,6 +664,7 @@
         },
         {
             "ID": 23,
+            "coldID": 23,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/Arrows/DXRefSys.obj",

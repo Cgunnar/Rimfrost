@@ -20,7 +20,7 @@ namespace Rimfrost
 		friend SceneSerializer;
 	public:
 
-		Node(NodeID ID, NodeID parentID, bool modelRoot = false);
+		Node(NodeID ID, NodeID parentID, NodeID coldID, bool modelRoot = false);
 
 		std::optional<SubModel>& operator->();
 		std::optional<SubModel>& operator*();
@@ -35,6 +35,7 @@ namespace Rimfrost
 		std::vector<NodeID> m_childIDs;
 	private:
 		bool m_isHidden = false;
+		NodeID m_coldID;
 		
 	};
 
@@ -52,6 +53,7 @@ namespace Rimfrost
 	private:
 		std::reference_wrapper<SceneGraph> m_sceneRef;
 		NodeID m_nodeID;
+		NodeID m_coldNodeID = -1;
 	};
 
 

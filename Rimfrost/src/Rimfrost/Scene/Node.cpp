@@ -5,7 +5,8 @@
 namespace Rimfrost
 {
 
-    Node::Node(NodeID ID, NodeID parentID, bool modelParent) : m_ID(ID), m_parentID(parentID), m_isModelParent(modelParent)
+    Node::Node(NodeID ID, NodeID parentID, NodeID coldID, bool modelParent) : m_ID(ID), m_parentID(parentID),
+        m_coldID(coldID), m_isModelParent(modelParent)
     {
     }
 

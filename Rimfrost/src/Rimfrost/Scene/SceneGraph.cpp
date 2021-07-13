@@ -91,7 +91,7 @@ namespace Rimfrost
 		if (parentNodeID != rootNode)
 			m_nodes[parentNodeID].m_childIDs.push_back(newNodeID);
 
-		m_nodes.emplace_back(Node(newNodeID, parentNodeID));
+		m_nodes.emplace_back(Node(newNodeID, parentNodeID, generateColdID()));
 		m_nodes.back().localMatrix = offset;
 
 		return NodeHandle(*this, newNodeID);
@@ -109,7 +109,7 @@ namespace Rimfrost
 		{
 			removeNode(childID);
 		}
-		m_nodes[id] = Node(-1, -2);
+		m_nodes[id] = Node(-1, -2, -1);
 	}
 
 	void SceneGraph::hideNode(NodeID id, bool isHidden)
@@ -140,6 +140,17 @@ namespace Rimfrost
 		{
 			updatedChildWorldMatrix(nodes, childID, nodes[ID].worldMatrix);
 		}
+	}
+
+	NodeID SceneGraph::generateColdID() const
+	{
+		NodeID id = 0;
+		for (const auto& n : m_nodes)
+		{
+			assert(n.m_coldID != rootNode);
+			if (n.m_coldID >= id) id = n.m_coldID + 1;
+		}
+		return id;
 	}
 
 	NodeID Rimfrost::SceneGraph::traverseSubMeshTree(SubMeshTree tree, const Model& model, NodeID nodeID)
@@ -174,7 +185,7 @@ namespace Rimfrost
 		assert(!m_nodes[parentID].m_subModel);
 		NodeID newNodeID = m_nodes.size();
 
-		m_nodes.emplace_back(Node(newNodeID, parentID));
+		m_nodes.emplace_back(Node(newNodeID, parentID, generateColdID()));
 		m_nodes.back().m_subModel = std::make_optional<SubModel>(subModel);
 
 		m_nodes[parentID].m_childIDs.push_back(newNodeID);
@@ -188,7 +199,7 @@ namespace Rimfrost
 		if (parentNodeID != rootNode)
 			m_nodes[parentNodeID].m_childIDs.push_back(newNodeID);
 
-		m_nodes.emplace_back(Node(newNodeID, parentNodeID));
+		m_nodes.emplace_back(Node(newNodeID, parentNodeID, generateColdID()));
 
 		return newNodeID;
 	}
@@ -220,7 +231,7 @@ namespace Rimfrost
 				m_nodes[firstInvalidIndex] = m_nodes[i];
 				m_nodes[firstInvalidIndex].m_ID = firstInvalidIndex;
 
-				m_nodes[i] = Node(-1, -2); //set to invalid Node, may do something not this expensive
+				m_nodes[i] = Node(-1, -2, -1); //set to invalid Node, may do something not this expensive
 
 				for (auto childID : m_nodes[firstInvalidIndex].m_childIDs)
 				{
@@ -230,7 +241,7 @@ namespace Rimfrost
 			}
 		}
 
-		m_nodes.resize(firstInvalidIndex, Node(-1, -2));
+		m_nodes.resize(firstInvalidIndex, Node(-1, -2, -1));
 
 	}
 }

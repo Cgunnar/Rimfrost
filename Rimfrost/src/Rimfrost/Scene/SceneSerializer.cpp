@@ -47,6 +47,7 @@ namespace Rimfrost
 	{
 		NodeID ID;
 		NodeID parenID;
+		NodeID coldID;
 		bool modelParent;
 		SubModelID subModelID;
 		Transform transform;
@@ -57,7 +58,7 @@ namespace Rimfrost
 
 	void to_json(nlohmann::json& j, const JnodeStruct& n)
 	{
-		j = nlohmann::json{ {"ID", n.ID }, {"parentID", n.parenID}, {"modelParent", n.modelParent}, { "subModelID", n.subModelID },
+		j = nlohmann::json{ {"ID", n.ID }, {"parentID", n.parenID}, {"coldID", n.coldID}, { "modelParent", n.modelParent }, {"subModelID", n.subModelID},
 					{ "transform", n.transform }, {"modelPath", n.modelPath}, {"settings", n.settings},
 					{ "materialName", n.materialName} };
 	}
@@ -65,6 +66,7 @@ namespace Rimfrost
 	{
 		j.at("ID").get_to(n.ID);
 		j.at("parentID").get_to(n.parenID);
+		j.at("coldID").get_to(n.coldID);
 		j.at("modelParent").get_to(n.modelParent);
 		j.at("subModelID").get_to(n.subModelID);
 		j.at("transform").get_to(n.transform);
@@ -92,6 +94,7 @@ namespace Rimfrost
 
 			jsonNode["ID"] = node.m_ID;
 			jsonNode["parentID"] = node.m_parentID;
+			jsonNode["coldID"] = node.m_coldID;
 			jsonNode["modelParent"] = node.m_isModelParent;
 			jsonNode["transform"] = node.localMatrix;
 			
@@ -141,7 +144,7 @@ namespace Rimfrost
 
 		for (auto& n : nodes)
 		{
-			Node node = Node(n.ID, n.parenID, n.modelParent);
+			Node node = Node(n.ID, n.parenID, n.coldID, n.modelParent);
 			node.localMatrix = n.transform;
 			string modelPath = n.modelPath;
 			if (!modelPath.empty())

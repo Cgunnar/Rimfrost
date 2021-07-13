@@ -38,7 +38,7 @@ namespace Rimfrost
 	private:
 		
 		void updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const Transform& parentMatrix);
-		
+		NodeID generateColdID() const;
 
 		NodeID traverseSubMeshTree(SubMeshTree tree, const Model& model, NodeID newNodeID);
 		NodeID addSubModel(SubModel subModel, NodeID parentID);

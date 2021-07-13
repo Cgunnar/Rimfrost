@@ -34,13 +34,13 @@ Game::Game()
 
 	m_entities.push_back(std::move(player));
 
-	m_scenes.emplace_back(std::make_shared<SandboxMap>());
 	m_scenes.emplace_back(std::make_shared<LevelEditor>("Maps/SandboxMap.json", "Maps/LevelEditorOutPut.json"));
+	m_scenes.emplace_back(std::make_shared<SandboxMap>());
 	
 	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();
 
-	/*SceneSerializer::serialize("Maps/SandboxMap.json", *m_acticeScene);*/
+	//SceneSerializer::serialize("Maps/SandboxMap.json", *m_acticeScene);
 
 }
 
