@@ -1,7 +1,7 @@
 #pragma once
-#include "PointLight.hpp"
-#include "NodeEditGUI.hpp"
-#include "RimfrostMath.hpp"
+#include "Rimfrost\Graphics\Lights.hpp"
+#include "Rimfrost\Scene\NodeEditGUI.hpp"
+#include "Rimfrost\Math\RimfrostMath.hpp"
 #include "Rimfrost\Scene\SceneGraph.hpp"
 #include "Rimfrost\Scene\IScene.hpp"
 #include "Rimfrost\EventSystem\EventObserver.hpp"
