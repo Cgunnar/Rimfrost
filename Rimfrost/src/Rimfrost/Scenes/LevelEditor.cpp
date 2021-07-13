@@ -42,6 +42,7 @@ namespace Rimfrost
 	void LevelEditor::setUpScene()
 	{
 		EventSystem::addObserver(*this, MousePickingEvent::eventType);
+		EventSystem::addObserver(*this, MouseButtonsEvent::eventType);
 
 
 		m_lights.pointLights = std::make_shared<PointLightContainer>();
