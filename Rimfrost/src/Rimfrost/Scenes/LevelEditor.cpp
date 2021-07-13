@@ -13,25 +13,25 @@
 
 namespace Rimfrost
 {
-	
+
 	Vector3 rayFromMouse(float x, float y, float w, float h, Matrix projectionMatrix);
 	Vector3 closestPointOnLineFromMouseCursor(Vector3 lineDirection, Vector3 pointOnLine, const Camera& cam, MouseState ms);
 	Vector3 intersectionWithPlaneFromMouseCursor(Vector4 plane, const Camera& cam, MouseState ms);
-	
 
 
-	LevelEditor::LevelEditor(bool saveOnExit) : Rimfrost::SceneGraph(), m_whiteLight({ 0, 8, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
+
+	LevelEditor::LevelEditor(bool saveOnExit) : m_whiteLight({ 0, 8, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
 	{
 		m_saveOnExit = saveOnExit;
-		
+
 	}
 
 	LevelEditor::~LevelEditor()
 	{
 		if (m_saveOnExit)
 		{
-			if (m_gizmoRootNode.isValid()) removeNode(m_gizmoRootNode->m_ID);
-			packSceneGraph();
+			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode->m_ID);
+			m_sceneGraph.packSceneGraph();
 			OutputDebugString(L"save level from leveleditor destructor\n");
 			Rimfrost::SceneSerializer::serialize("Scene2Save.json", *this);
 		}
@@ -43,32 +43,49 @@ namespace Rimfrost
 	{
 		EventSystem::addObserver(*this, MousePickingEvent::eventType);
 
-		m_pointLightContainer = std::make_shared<PointLightContainer>();
-		m_pointLightContainer->addPointLight(m_whiteLight);
 
-		m_gizmoRootNode = addNode();
+		m_lights.pointLights = std::make_shared<PointLightContainer>();
+		m_lights.pointLights->addPointLight(m_whiteLight);
 
-		m_arrowX = addModel("Models/Arrows/DXarrowX.obj", m_gizmoRootNode);
-		m_arrowY = addModel("Models/Arrows/DXarrowY.obj", m_gizmoRootNode);
-		m_arrowZ = addModel("Models/Arrows/DXarrowZ.obj", m_gizmoRootNode);
+		m_gizmoRootNode = m_sceneGraph.addNode();
+
+		m_arrowX = m_sceneGraph.addModel("Models/Arrows/DXarrowX.obj", m_gizmoRootNode);
+		m_arrowY = m_sceneGraph.addModel("Models/Arrows/DXarrowY.obj", m_gizmoRootNode);
+		m_arrowZ = m_sceneGraph.addModel("Models/Arrows/DXarrowZ.obj", m_gizmoRootNode);
 		m_arrowX->localMatrix.setScale(4);
 		m_arrowY->localMatrix.setScale(4);
 		m_arrowZ->localMatrix.setScale(4);
 
 
-		m_ringX = addModel("Models/ring/red_ring.obj", m_gizmoRootNode);
-		m_ringY = addModel("Models/ring/green_ring.obj", m_gizmoRootNode);
-		m_ringZ = addModel("Models/ring/blue_ring.obj", m_gizmoRootNode);
+		m_ringX = m_sceneGraph.addModel("Models/ring/red_ring.obj", m_gizmoRootNode);
+		m_ringY = m_sceneGraph.addModel("Models/ring/green_ring.obj", m_gizmoRootNode);
+		m_ringZ = m_sceneGraph.addModel("Models/ring/blue_ring.obj", m_gizmoRootNode);
 		m_ringX->localMatrix.scale(2.0f);
 		m_ringY->localMatrix.scale(2.15f);
 		m_ringZ->localMatrix.scale(2.3f);
 
-		hideNode(m_gizmoRootNode->m_ID, true);
+		m_sceneGraph.hideNode(m_gizmoRootNode->m_ID, true);
 
 	}
 
-	void LevelEditor::derivedSceneUpdate(double dt)
+	Camera& LevelEditor::camera()
 	{
+		return m_camera;
+	}
+
+	SceneGraph& LevelEditor::sceneGraph()
+	{
+		return m_sceneGraph;
+	}
+
+	Lights& LevelEditor::lights()
+	{
+		return m_lights;
+	}
+
+	void LevelEditor::update(double dt)
+	{
+		m_camera.update(static_cast<float>(dt));
 		m_nodeEditGui.view();
 
 		if (m_isTranslatingNode) translateSelectedNode();
@@ -86,7 +103,7 @@ namespace Rimfrost
 	{
 		Transform parentWorldMatrixInv = inverse(m_selectedNode.getParentWorldMatrix());
 
-		Vector3 p = closestPointOnLineFromMouseCursor(m_translationInfo.translateDirectionWorldSpace, m_translationInfo.onStartNodePositionWorldSpace, *m_camera, m_mouseState);
+		Vector3 p = closestPointOnLineFromMouseCursor(m_translationInfo.translateDirectionWorldSpace, m_translationInfo.onStartNodePositionWorldSpace, m_camera, m_mouseState);
 		Vector3 deltaOnLine = p - m_translationInfo.onStartLinePointWorldSpace;
 		Vector3 newPosWorldSpace = p - m_translationInfo.mouseToNodeOffsetWorldSpace;
 
@@ -95,13 +112,13 @@ namespace Rimfrost
 
 		m_gizmoRootNode->localMatrix.setTranslation(newPosWorldSpace);
 	}
-	
+
 	void LevelEditor::rotateSelectedNode(float dt)
 	{
 		Vector3 normalWorldSpace = m_rotationInfo.rotationNormalWorldSpace;
 		normalWorldSpace.normalize();
 		Vector3 tangentWorldSpace = m_rotationInfo.tangentWorldSpace;
-		Vector3 tangentViewSpace =  m_camera->GetViewMatrix() * Vector4(tangentWorldSpace, 0);
+		Vector3 tangentViewSpace = m_camera.GetViewMatrix() * Vector4(tangentWorldSpace, 0);
 
 		Vector2 tangentWithoutZ = Vector2(tangentViewSpace.x, tangentViewSpace.y);
 		tangentWithoutZ.normalize();
@@ -128,7 +145,7 @@ namespace Rimfrost
 
 		Matrix deltaRotation = rotationMatrixFromNormal(normalWorldSpace, signOfTravelDistance * angle);
 		Transform rot = deltaRotation * m_selectedNode->worldMatrix.getRotationMatrix();
-		m_selectedNode->localMatrix.setRotation(parentRotMatrixInv*rot);
+		m_selectedNode->localMatrix.setRotation(parentRotMatrixInv * rot);
 		m_rotationInfo.lastFrameRotationAngle = mouseTravelDistanceTangent;
 	}
 
@@ -146,9 +163,9 @@ namespace Rimfrost
 
 		m_translationIsSelected = true;
 
-		hideNode(m_arrowX->m_ID, false);
-		hideNode(m_arrowY->m_ID, false);
-		hideNode(m_arrowZ->m_ID, false);
+		m_sceneGraph.hideNode(m_arrowX->m_ID, false);
+		m_sceneGraph.hideNode(m_arrowY->m_ID, false);
+		m_sceneGraph.hideNode(m_arrowZ->m_ID, false);
 
 		m_selectedReferencSystem = referenceSystem;
 	}
@@ -158,9 +175,9 @@ namespace Rimfrost
 		m_translationIsSelected = false;
 		stopTranslate();
 
-		hideNode(m_arrowX->m_ID, true);
-		hideNode(m_arrowY->m_ID, true);
-		hideNode(m_arrowZ->m_ID, true);
+		m_sceneGraph.hideNode(m_arrowX->m_ID, true);
+		m_sceneGraph.hideNode(m_arrowY->m_ID, true);
+		m_sceneGraph.hideNode(m_arrowZ->m_ID, true);
 	}
 
 
@@ -178,9 +195,9 @@ namespace Rimfrost
 
 		m_rotationIsSelected = true;
 
-		hideNode(m_ringX->m_ID, false);
-		hideNode(m_ringY->m_ID, false);
-		hideNode(m_ringZ->m_ID, false);
+		m_sceneGraph.hideNode(m_ringX->m_ID, false);
+		m_sceneGraph.hideNode(m_ringY->m_ID, false);
+		m_sceneGraph.hideNode(m_ringZ->m_ID, false);
 
 		m_selectedReferencSystem = referenceSystem;
 	}
@@ -190,9 +207,9 @@ namespace Rimfrost
 		m_rotationIsSelected = false;
 		stopRotate();
 
-		hideNode(m_ringX->m_ID, true);
-		hideNode(m_ringY->m_ID, true);
-		hideNode(m_ringZ->m_ID, true);
+		m_sceneGraph.hideNode(m_ringX->m_ID, true);
+		m_sceneGraph.hideNode(m_ringY->m_ID, true);
+		m_sceneGraph.hideNode(m_ringZ->m_ID, true);
 	}
 
 	void LevelEditor::selectScale()
@@ -232,12 +249,12 @@ namespace Rimfrost
 
 		m_translationInfo.translateDirectionWorldSpace =
 			m_selectedReferencSystem.getRotationMatrix() * Vector4(translationDirectionLocalSpace, 0);
-		
+
 
 		Vector3 worldPosition = m_selectedNode->worldMatrix.getTranslation();
 
 		Vector3 closestPointOnLineWorldSpace = closestPointOnLineFromMouseCursor(m_translationInfo.translateDirectionWorldSpace,
-			m_selectedNode->worldMatrix.getTranslation(), *m_camera, m_mouseState);
+			m_selectedNode->worldMatrix.getTranslation(), m_camera, m_mouseState);
 
 		m_translationInfo.onStartNodePositionWorldSpace = worldPosition;
 		m_translationInfo.deltaTransformToParentOnMove = worldPosition - m_selectedNode->localMatrix.getTranslation();
@@ -267,7 +284,7 @@ namespace Rimfrost
 		Vector4 planeOfRotation = rfm::planeFromPointNormal(m_selectedNode->worldMatrix.getTranslation(), rotationNormalWorldSpace);
 
 		Vector3 mouseIntersectRotationPlaneOnStartRotate = intersectionWithPlaneFromMouseCursor(
-			planeOfRotation, *m_camera, m_mouseState);
+			planeOfRotation, m_camera, m_mouseState);
 
 		Vector3 clickPoint = mouseIntersectRotationPlaneOnStartRotate - m_selectedNode->worldMatrix.getTranslation();
 		//clickPoint = XMVector3Normalize(clickPoint);
@@ -361,7 +378,7 @@ namespace Rimfrost
 	{
 		if (m_gizmoRootNode.isValid() && m_selectedNode.isValid())
 		{
-			updateWorldMatrices();
+			m_sceneGraph.updateWorldMatrices();
 			m_gizmoRootNode->localMatrix.setTranslation(m_selectedNode->worldMatrix.getTranslation());
 			Transform refSys = getRefSysFromEnum(m_selecteRefSysEnum);
 			m_gizmoRootNode->localMatrix.setRotation(refSys.getRotationMatrix());
@@ -370,10 +387,10 @@ namespace Rimfrost
 
 	Vector3 LevelEditor::rayFromView(float x, float y)
 	{
-		return rayFromMouse(x, y, static_cast<float>(m_mouseState.windowWidth), static_cast<float>(m_mouseState.windowHeight), m_camera->GetPerspective());
+		return rayFromMouse(x, y, static_cast<float>(m_mouseState.windowWidth), static_cast<float>(m_mouseState.windowHeight), m_camera.GetPerspective());
 	}
 
-	void LevelEditor::derivedOnEvent(const Event& e)
+	void LevelEditor::onEvent(const Event& e)
 	{
 		if (e.type() == MouseButtonsEvent::eventType)
 		{
@@ -404,15 +421,15 @@ namespace Rimfrost
 		{
 			auto& mpe = static_cast<const MousePickingEvent&>(e);
 			Logger::getLogger().debugLog("pickEvent: " + std::to_string(mpe.nodeID) + "\n");
-			NodeHandle temp = NodeHandle(m_nodes, mpe.nodeID);
+			NodeHandle temp = NodeHandle(m_sceneGraph, mpe.nodeID);
 			if (temp.isValid() && **temp)
 			{
 
 				//find the root of the model and get the parent
 				NodeID tempParent = temp->m_parentID;
-				while (!m_nodes[tempParent].m_isModelParent)
+				while (!m_sceneGraph.m_nodes[tempParent].m_isModelParent)
 				{
-					tempParent = m_nodes[tempParent].m_parentID;
+					tempParent = m_sceneGraph.m_nodes[tempParent].m_parentID;
 					assert(tempParent != rootNode);
 				}
 
@@ -430,7 +447,7 @@ namespace Rimfrost
 					deSelectRotate();
 					deSelectScale();
 
-					m_selectedNode = NodeHandle(m_nodes, tempParent);
+					m_selectedNode = NodeHandle(m_sceneGraph, tempParent);
 
 					m_nodeEditGui = NodeEditGUI(m_selectedNode,
 						std::bind(&LevelEditor::selectTranslateFromGui, this, std::placeholders::_1),
@@ -450,13 +467,13 @@ namespace Rimfrost
 		return { viewSpaceX, viewSpaceY, 1 };
 	}
 
-	
+
 
 	Vector3 closestPointOnLineFromMouseCursor(Vector3 lineDirection, Vector3 pointOnLine, const Camera& cam, MouseState ms)
 	{
 		Vector3 ray = rayFromMouse(static_cast<float>(ms.x), static_cast<float>(ms.y), static_cast<float>(ms.windowWidth), static_cast<float>(ms.windowHeight), cam.GetPerspective());
 
-		Vector3 V2 = cam.GetWorldMatrix()* Vector4(ray, 0); 
+		Vector3 V2 = cam.GetWorldMatrix() * Vector4(ray, 0);
 		auto [CP1, CP2] = rfm::closestPointsBetweenLines(lineDirection, pointOnLine, V2, cam.GetPosition());
 		return CP1;
 	}

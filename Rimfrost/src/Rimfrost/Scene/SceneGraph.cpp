@@ -50,6 +50,11 @@ namespace Rimfrost
 		return m_nodes;
 	}
 
+	std::vector<Node>& SceneGraph::getNodes()
+	{
+		return m_nodes;
+	}
+
 	NodeHandle SceneGraph::addModel(const std::string& filePath, ModelSettings modelSettings)
 	{
 		return addModel(filePath, rootNode, modelSettings);
@@ -70,7 +75,7 @@ namespace Rimfrost
 
 		modelID++;
 
-		return NodeHandle(m_nodes, modelRoot);
+		return NodeHandle(*this, modelRoot);
 	}
 
 	NodeHandle SceneGraph::addModel(const std::string& filePath, const NodeHandle& parenthandle, ModelSettings modelSettings)
@@ -89,7 +94,7 @@ namespace Rimfrost
 		m_nodes.emplace_back(Node(newNodeID, parentNodeID));
 		m_nodes.back().localMatrix = offset;
 
-		return NodeHandle(m_nodes, newNodeID);
+		return NodeHandle(*this, newNodeID);
 	}
 
 	NodeHandle Rimfrost::SceneGraph::addNode(const Transform& offset, const NodeHandle& parenthandle)

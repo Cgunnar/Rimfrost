@@ -21,20 +21,20 @@ namespace Rimfrost
 
 
 
-    NodeHandle::NodeHandle(std::vector<Node>& sceneGraph, NodeID nodeID) : m_sceneRef(sceneGraph), m_nodeID(nodeID)
+    NodeHandle::NodeHandle(SceneGraph& sceneGraph, NodeID nodeID) : m_sceneRef(sceneGraph), m_nodeID(nodeID)
     {
     }
 
     Node& NodeHandle::operator*() const
     {
         assert(m_nodeID != rootNode);
-        return m_sceneRef.get()[m_nodeID];
+        return m_sceneRef.get().getNodes()[m_nodeID];
     }
 
     Node* NodeHandle::operator->() const
     {
         assert(m_nodeID != rootNode);
-        return &m_sceneRef.get()[m_nodeID];
+        return &m_sceneRef.get().getNodes()[m_nodeID];
     }
 
     bool NodeHandle::isValid() const
@@ -44,7 +44,7 @@ namespace Rimfrost
     Node& NodeHandle::get() const
     {
         assert(m_nodeID != rootNode);
-        return m_sceneRef.get()[m_nodeID];
+        return m_sceneRef.get().getNodes()[m_nodeID];
     }
     void NodeHandle::invalidateHandle()
     {
@@ -56,7 +56,7 @@ namespace Rimfrost
         NodeID parentID = this->get().m_parentID;
         if (parentID != rootNode)
         {
-            M = m_sceneRef.get()[parentID].worldMatrix;
+            M = m_sceneRef.get().getNodes()[parentID].worldMatrix;
         }
         return M;
     }

@@ -5,11 +5,14 @@
 
 class SceneSerializer;
 
+
 namespace Rimfrost
 {
+	class LevelEditor;
 	class SceneGraph
 	{
 		friend SceneSerializer;
+		friend LevelEditor;
 
 	public:
 		SceneGraph() = default;
@@ -19,6 +22,7 @@ namespace Rimfrost
 
 		std::vector<NodeID>& getRenderSubmits();
 		const std::vector<Node>& getNodes() const;
+		std::vector<Node>& getNodes();
 		
 		[[nodiscard]] NodeHandle addModel(const std::string& filePath, ModelSettings modelSettings);
 		[[nodiscard]] NodeHandle addModel(const std::string& filePath, NodeID parentNodeID = rootNode, ModelSettings modelSettings = ModelSettings::NONE);
@@ -28,6 +32,7 @@ namespace Rimfrost
 
 		void removeNode(NodeID id);
 		void hideNode(NodeID id, bool isHidden);
+		void packSceneGraph();
 
 	private:
 		std::vector<Node> m_nodes;
@@ -37,7 +42,7 @@ namespace Rimfrost
 	private:
 		void updateWorldMatrices();
 		void updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const Transform& parentMatrix);
-		void packSceneGraph();
+		
 
 		NodeID traverseSubMeshTree(SubMeshTree tree, const Model& model, NodeID newNodeID);
 		NodeID addSubModel(SubModel subModel, NodeID parentID);

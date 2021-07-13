@@ -1,21 +1,32 @@
 #pragma once
-#include "SceneGraph.hpp"
 #include "PointLight.hpp"
 #include "NodeEditGUI.hpp"
 #include "RimfrostMath.hpp"
+#include "Rimfrost\Scene\SceneGraph.hpp"
+#include "Rimfrost\Scene\IScene.hpp"
+#include "Rimfrost\EventSystem\EventObserver.hpp"
 
 namespace Rimfrost
 {
 
-	class LevelEditor : public Rimfrost::SceneGraph
+	class LevelEditor : public IScene, public EventObserver
 	{
 	public:
 		LevelEditor(bool saveOnExit = false);
 		~LevelEditor();
 
 		void setUpScene() override;
+		Camera& camera() override;
+		SceneGraph& sceneGraph() override;
+		Lights& lights() override;
+
+		void onEvent(const Event& e) override;
 
 	private:
+		SceneGraph m_sceneGraph;
+		Camera m_camera;
+		Lights m_lights;
+
 		NodeEditGUI m_nodeEditGui;
 
 		enum class GizmoXYZ
@@ -59,21 +70,21 @@ namespace Rimfrost
 		PointLight m_whiteLight;
 		NodeHandle* m_lightSphere = nullptr;
 
-		NodeHandle m_selectedNode{ m_nodes };
-		NodeHandle m_gizmoRootNode{ m_nodes };
+		NodeHandle m_selectedNode{ m_sceneGraph };
+		NodeHandle m_gizmoRootNode{ m_sceneGraph };
 
 		Transform m_selectedNodeTransformOnStart;
 		Transform m_selectedReferencSystem;
 		NodeEditGUI::RadioButtonRefSystem m_selecteRefSysEnum = NodeEditGUI::RadioButtonRefSystem::WORLD;
 
 
-		NodeHandle m_arrowX{ m_nodes };
-		NodeHandle m_arrowY{ m_nodes };
-		NodeHandle m_arrowZ{ m_nodes };
+		NodeHandle m_arrowX{ m_sceneGraph };
+		NodeHandle m_arrowY{ m_sceneGraph };
+		NodeHandle m_arrowZ{ m_sceneGraph };
 
-		NodeHandle m_ringX{ m_nodes };
-		NodeHandle m_ringY{ m_nodes };
-		NodeHandle m_ringZ{ m_nodes };
+		NodeHandle m_ringX{ m_sceneGraph };
+		NodeHandle m_ringY{ m_sceneGraph };
+		NodeHandle m_ringZ{ m_sceneGraph };
 		
 		Vector2 m_mouseCoord = { 0, 0 };
 		Vector2 m_mouseCoordOnClick = { 0, 0 };
@@ -82,7 +93,7 @@ namespace Rimfrost
 		uint32_t m_winHeight = 0;
 
 	private:
-		void derivedSceneUpdate(double dt) override;
+		void update(double dt) override;
 
 		void translateSelectedNode();
 		void rotateSelectedNode(float dt);
@@ -110,7 +121,7 @@ namespace Rimfrost
 		bool handleArrowSelection(Rimfrost::NodeID id);
 		GizmoXYZ handleRingSelection(NodeID id);
 
-		void derivedOnEvent(const Event& e) override;
+		
 		
 		void updateGizmo();
 
