@@ -65,6 +65,7 @@ namespace Rimfrost
 		bool m_isRotatingNode = false;
 		bool m_isScalingNode = false;
 
+		bool m_acceptMousePickingEvent = false;
 
 		bool m_saveOnExit;
 		PointLight m_whiteLight;

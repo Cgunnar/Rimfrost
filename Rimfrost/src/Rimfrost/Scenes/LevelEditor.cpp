@@ -402,7 +402,8 @@ namespace Rimfrost
 				m_mouseCoordOnClick.x = static_cast<float>(mouse.x);
 				m_mouseCoordOnClick.y = static_cast<float>(mouse.y);
 
-				//EventSystem::postTOQueue(MousePickingRequestEvent(mouse.x, mouse.y));
+				EventSystem::postTOQueue(MousePickingRequestEvent(mouse.x, mouse.y));
+				m_acceptMousePickingEvent = true;
 			}
 			if (mouse.RMBHeld)
 			{
@@ -420,14 +421,14 @@ namespace Rimfrost
 		}
 
 
-		if (e.type() == MousePickingEvent::eventType && !(m_isTranslatingNode || m_isRotatingNode || m_isScalingNode))
+		if (e.type() == MousePickingEvent::eventType && m_acceptMousePickingEvent)
 		{
+			m_acceptMousePickingEvent = false;
 			auto& mpe = static_cast<const MousePickingEvent&>(e);
 			Logger::getLogger().debugLog("LevelEditor::onEvent, pickEvent: " + std::to_string(mpe.nodeID) + "\n");
 			NodeHandle temp = NodeHandle(m_sceneGraph, mpe.nodeID);
 			if (temp.isValid() && **temp)
 			{
-
 				//find the root of the model and get the parent
 				NodeID tempParent = temp->m_parentID;
 				while (!m_sceneGraph.getNodes()[tempParent].m_isModelParent)

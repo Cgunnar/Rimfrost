@@ -53,12 +53,12 @@ void Game::onEvent(const Event& e)
 		this->m_acticeScene->camera().lockRotation(this->isPaused());
 	}
 
-	if (e.type() == MouseButtonsEvent::eventType)
+	/*if (e.type() == MouseButtonsEvent::eventType)
 	{
 		auto& mouse = static_cast<const MouseButtonsEvent&>(e).mouseState;
 		if (mouse.RMBClicked || mouse.RMBHeld)
 		{
 			EventSystem::postTOQueue(MousePickingRequestEvent(mouse.x, mouse.y));
 		}
-	}
+	}*/
 }
