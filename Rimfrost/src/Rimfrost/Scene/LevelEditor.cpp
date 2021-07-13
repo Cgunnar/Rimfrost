@@ -28,7 +28,7 @@ namespace Rimfrost
 
 	LevelEditor::~LevelEditor()
 	{
-		if (!m_outPutMapFile.empty())
+		if (!m_outPutMapFile.empty() && m_saveOnExit)
 		{
 			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode->m_ID);
 			for (auto& p : m_pointLightGizmoHandles)
@@ -55,7 +55,7 @@ namespace Rimfrost
 		if(!m_inputMapFile.empty())
 			SceneSerializer::deSerialize(m_inputMapFile, *this);
 
-
+		m_saveOnExit = true;
 
 		m_gizmoRootNode = m_sceneGraph.addNode();
 

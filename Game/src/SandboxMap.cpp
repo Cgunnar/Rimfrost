@@ -8,7 +8,8 @@ using namespace DirectX;
 namespace Rimfrost
 {
 
-	SandboxMap::SandboxMap() : m_whiteLight({ 4, 6, 8 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
+	SandboxMap::SandboxMap() : m_whiteLight({ 4, 6, 8 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight"), 
+		m_redLight({ 1, 4, 3 }, { 1.0f, 0, 0 }, 80, "redLight")
 	{
 		m_sceneGraph = std::make_unique<SceneGraph>();
 	}
@@ -23,6 +24,7 @@ namespace Rimfrost
 		m_camera.SetPosition({ 0, 0, -4 });
 		m_lights.pointLights = std::make_shared<PointLightContainer>();
 		m_lights.pointLights->addPointLight(m_whiteLight);
+		m_lights.pointLights->addPointLight(m_redLight);
 
 		auto brickWall = m_sceneGraph->addModel("Models/brick_wall/brick_wall.obj");
 		brickWall->localMatrix.setTranslation(0, -1, 0);

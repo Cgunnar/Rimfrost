@@ -31,6 +31,7 @@ namespace Rimfrost
 
 		std::string m_inputMapFile;
 		std::string m_outPutMapFile;
+		bool m_saveOnExit = false;
 
 		enum class GizmoXYZ
 		{
