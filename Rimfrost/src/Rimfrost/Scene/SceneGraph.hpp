@@ -8,11 +8,11 @@ class SceneSerializer;
 
 namespace Rimfrost
 {
-	class LevelEditor;
+	//class LevelEditor;
 	class SceneGraph
 	{
 		friend SceneSerializer;
-		friend LevelEditor;
+		/*friend LevelEditor;*/
 
 	public:
 		SceneGraph() = default;
@@ -33,6 +33,7 @@ namespace Rimfrost
 		void removeNode(NodeID id);
 		void hideNode(NodeID id, bool isHidden);
 		void packSceneGraph();
+		void updateWorldMatrices();
 
 	private:
 		std::vector<Node> m_nodes;
@@ -40,7 +41,7 @@ namespace Rimfrost
 		
 
 	private:
-		void updateWorldMatrices();
+		
 		void updatedChildWorldMatrix(std::vector<Node>& nodes, NodeID ID, const Transform& parentMatrix);
 		
 

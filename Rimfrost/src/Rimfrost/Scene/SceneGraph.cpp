@@ -104,6 +104,13 @@ namespace Rimfrost
 
 	void Rimfrost::SceneGraph::removeNode(NodeID id)
 	{
+#ifdef DEBUG
+		OutputDebugString(L"remove node: ");
+		OutputDebugString(std::to_wstring(id).c_str());
+		OutputDebugString(L"\n");
+
+#endif // DEBUG
+
 		assert(id != rootNode);
 		for (auto childID : m_nodes[id].m_childIDs)
 		{
@@ -115,6 +122,15 @@ namespace Rimfrost
 	void SceneGraph::hideNode(NodeID id, bool isHidden)
 	{
 		assert(id != rootNode && id < m_nodes.size());
+#ifdef DEBUG
+		/*OutputDebugString(L"hide node: ");
+		OutputDebugString(std::to_wstring(id).c_str());
+		OutputDebugString(std::to_wstring(isHidden).c_str());
+		OutputDebugString(L"\n");*/
+
+		Logger::getLogger().debugLog("SceneGraph::hideNode, id: " + std::to_string(id) + ", hide: " + std::to_string(isHidden) + "\n");
+
+#endif // DEBUG
 		for (auto childID : m_nodes[id].m_childIDs)
 		{
 			hideNode(childID, isHidden);
