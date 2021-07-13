@@ -59,7 +59,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Rimfrost\src;..\Rimfrost\src\Rimfrost\Core;..\Rimfrost\src\Rimfrost\EntCom;..\Rimfrost\src\Rimfrost\EventSystem;..\Rimfrost\src\Rimfrost\Graphics;..\Rimfrost\src\Rimfrost\Math;..\Rimfrost\src\Rimfrost\Scene;..\Rimfrost\src\Rimfrost\Scenes;..\Rimfrost\src\Rimfrost\Shaders;..\Rimfrost\src\Rimfrost\Utilities;..\Rimfrost\src\Rimfrost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Rimfrost\src;..\Rimfrost\src\Rimfrost\Core;..\Rimfrost\src\Rimfrost\EntCom;..\Rimfrost\src\Rimfrost\EventSystem;..\Rimfrost\src\Rimfrost\Graphics;..\Rimfrost\src\Rimfrost\Math;..\Rimfrost\src\Rimfrost\Scene;..\Rimfrost\src\Rimfrost\Shaders;..\Rimfrost\src\Rimfrost\Utilities;..\Rimfrost\src\Rimfrost;..\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -75,7 +75,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_NDEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Rimfrost\src;..\Rimfrost\src\Rimfrost\Core;..\Rimfrost\src\Rimfrost\EntCom;..\Rimfrost\src\Rimfrost\EventSystem;..\Rimfrost\src\Rimfrost\Graphics;..\Rimfrost\src\Rimfrost\Math;..\Rimfrost\src\Rimfrost\Scene;..\Rimfrost\src\Rimfrost\Scenes;..\Rimfrost\src\Rimfrost\Shaders;..\Rimfrost\src\Rimfrost\Utilities;..\Rimfrost\src\Rimfrost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Rimfrost\src;..\Rimfrost\src\Rimfrost\Core;..\Rimfrost\src\Rimfrost\EntCom;..\Rimfrost\src\Rimfrost\EventSystem;..\Rimfrost\src\Rimfrost\Graphics;..\Rimfrost\src\Rimfrost\Math;..\Rimfrost\src\Rimfrost\Scene;..\Rimfrost\src\Rimfrost\Shaders;..\Rimfrost\src\Rimfrost\Utilities;..\Rimfrost\src\Rimfrost;..\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -94,11 +94,13 @@
     <ClInclude Include="src\Components\TestComponents.hpp" />
     <ClInclude Include="src\FpsPlayer.hpp" />
     <ClInclude Include="src\Game.hpp" />
+    <ClInclude Include="src\SandboxMap.hpp" />
     <ClInclude Include="src\SimpleCollision.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\FpsPlayer.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\SandboxMap.cpp" />
     <ClCompile Include="src\SimpleCollision.cpp" />
   </ItemGroup>
   <ItemGroup>

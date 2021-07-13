@@ -1,5 +1,5 @@
 #include "rfpch.hpp"
-#include "Scene1.hpp"
+#include "SandboxMap.hpp"
 #include "RandGen.hpp"
 #include "Logger.hpp"
 #include "imgui.h"
@@ -8,18 +8,18 @@ using namespace DirectX;
 namespace Rimfrost
 {
 
-	Scene1::Scene1() : m_whiteLight({ 4, 6, 8 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
+	SandboxMap::SandboxMap() : m_whiteLight({ 4, 6, 8 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
 	{
 		m_sceneGraph = std::make_unique<SceneGraph>();
 	}
 
-	Scene1::~Scene1()
+	SandboxMap::~SandboxMap()
 	{
 		if (testHandle) delete testHandle;
 		if (m_lightSphere) delete m_lightSphere;
 	}
 
-	void Scene1::setUpScene()
+	void SandboxMap::setUpScene()
 	{
 		m_camera.SetPosition({ 0, 0, -4 });
 		m_lights.pointLights = std::make_shared<PointLightContainer>();
@@ -61,22 +61,22 @@ namespace Rimfrost
 
 	}
 
-	Camera& Scene1::camera()
+	Camera& SandboxMap::camera()
 	{
 		return m_camera;
 	}
 
-	SceneGraph& Scene1::sceneGraph()
+	SceneGraph& SandboxMap::sceneGraph()
 	{
 		return *m_sceneGraph;
 	}
 
-	Lights& Scene1::lights()
+	Lights& SandboxMap::lights()
 	{
 		return m_lights;
 	}
 
-	void Scene1::update(double dt)
+	void SandboxMap::update(double dt)
 	{
 		m_camera.update(static_cast<float>(dt));
 

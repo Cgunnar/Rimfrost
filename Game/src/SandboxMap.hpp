@@ -6,11 +6,11 @@
 namespace Rimfrost
 {
 
-	class Scene1 : public IScene
+	class SandboxMap : public IScene
 	{
 	public:
-		Scene1();
-		~Scene1();
+		SandboxMap();
+		~SandboxMap();
 
 		void setUpScene() override;
 		Camera& camera() override;

@@ -6,6 +6,10 @@
 #include "Rimfrost\EventSystem\MouseEvent.hpp"
 #include "Rimfrost\EventSystem\KeyboardEvent.hpp"
 #include "Rimfrost\EventSystem\PauseEvent.hpp"
+#include "Rimfrost\Scene\LevelEditor.hpp"
+#include "Rimfrost\Scene\SceneSerializer.hpp"
+#include "SandboxMap.hpp"
+
 
 Rimfrost::EngineApp* Rimfrost::CreateApp()
 {
@@ -30,7 +34,19 @@ Game::Game()
 
 	m_entities.push_back(std::move(player));
 
+	m_scenes.emplace_back(std::make_shared<SandboxMap>());
+	m_scenes.emplace_back(std::make_shared<LevelEditor>());
+
+	////serializationTesting
+	/*int loadScene = 0;
+	m_scenes[loadScene]->setUpScene();
+	Rimfrost::SceneSerializer::serialize("Maps/SandboxMap.json", *m_scenes[loadScene]);*/
+
+	//Rimfrost::SceneSerializer::deSerialize("Maps/SandboxMap.json", *m_scenes[1]);
+	
+	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();
+
 }
 
 Game::~Game()

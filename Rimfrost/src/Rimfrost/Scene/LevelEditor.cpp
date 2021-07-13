@@ -33,7 +33,7 @@ namespace Rimfrost
 			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode->m_ID);
 			m_sceneGraph.packSceneGraph();
 			OutputDebugString(L"save level from leveleditor destructor\n");
-			Rimfrost::SceneSerializer::serialize("Scene2Save.json", *this);
+			Rimfrost::SceneSerializer::serialize("LevelEditorOutPut.json", *this);
 		}
 		if (m_lightSphere) delete m_lightSphere;
 		OutputDebugString(L"~LevelEditor\n");

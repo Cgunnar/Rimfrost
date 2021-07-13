@@ -84,6 +84,7 @@ project "Game"
         "Rimfrost/src",
         "Rimfrost/src/**",
         "Rimfrost/src/Rimfrost",
+        "ImGui/",
     }
 
     defines

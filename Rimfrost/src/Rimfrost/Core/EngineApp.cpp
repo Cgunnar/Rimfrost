@@ -5,11 +5,6 @@
 #include "Rimfrost\Core\Mouse.hpp"
 #include "Rimfrost\Core\Keyboard.hpp"
 
-//#include "Rimfrost\Scenes\Scene0.hpp"
-#include "Rimfrost\Scenes\Scene1.hpp"
-#include "Rimfrost\Scenes\TestScene.hpp"
-#include "Rimfrost\Scenes\LevelEditor.hpp"
-#include "Rimfrost\Scene\SceneSerializer.hpp"
 #include "Rimfrost\EventSystem\EventSystem.hpp"
 
 using namespace Rimfrost;
@@ -19,23 +14,10 @@ namespace Rimfrost
 	{
 		m_paused = 0;
 		m_window.getGraphics().useImGui(true);
+		
+		
 
-		//m_scenes.emplace_back(std::make_shared<Rimfrost::Scene0>());
-		//m_scenes.emplace_back(std::make_shared<Rimfrost::TestScene()>());
-		m_scenes.emplace_back(std::make_shared<Rimfrost::Scene1>());
-		m_scenes.emplace_back(std::make_shared<Rimfrost::LevelEditor>());
-
-		//serializationTesting
-		//int loadScene = 1;
-		//m_scenes[loadScene]->setUpScene();
-		//Rimfrost::SceneSerializer::serialize("Maps/LEVEL.json", m_scenes[loadScene]);
-
-
-		Rimfrost::SceneSerializer::deSerialize("Maps/LEVEL.json", *m_scenes[1]);
-
-		m_acticeScene = m_scenes[1];
-		//m_acticeScene->bindInput(m_window.getKeyboard(), m_window.getMouse());
-		//m_acticeScene->setUpScene();
+		
 	}
 	EngineApp::~EngineApp()
 	{
