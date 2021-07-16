@@ -15,6 +15,9 @@ protected:
 	void update(double dt) override;
 
 private:
+	void testAddStuffToECS();
+	void testLoadStuffToECS();
+
 private:
 	std::vector<Rimfrost::Entity> m_entities;
 

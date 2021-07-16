@@ -1,6 +1,8 @@
 #include "Game.hpp"
 #include "Components\TestComponents.hpp"
 
+#include "Rimfrost\EntCom\rfEntity.hpp"
+#include "Rimfrost\EntCom\rfComponents.hpp"
 
 #include "Rimfrost\EventSystem\EventSystem.hpp"
 #include "Rimfrost\EventSystem\MouseEvent.hpp"
@@ -18,6 +20,8 @@ Rimfrost::EngineApp* Rimfrost::CreateApp()
 
 using namespace Rimfrost;
 
+
+
 Game::Game()
 {
 	EventSystem::addObserver(*this, PauseEvent::eventType);
@@ -26,22 +30,15 @@ Game::Game()
 	EventSystem::addObserver(*this, KeyboardEvent::eventType);
 
 
-	Entity player = EC::createEntity();
-
-	SphereCollider sp;
-	sp.radius = 2;
-	EC::addComponent<SphereCollider>(player, sp);
-
-	m_entities.push_back(std::move(player));
-
 	m_scenes.emplace_back(std::make_shared<LevelEditor>("Maps/SandboxMap.json", "Maps/LevelEditorOutPut.json"));
 	m_scenes.emplace_back(std::make_shared<SandboxMap>());
 	
 	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();
 
-	//SceneSerializer::serialize("Maps/SandboxMap.json", *m_acticeScene);
+	testAddStuffToECS();
 
+	//SceneSerializer::serialize("Maps/SandboxMap.json", *m_acticeScene);
 }
 
 Game::~Game()
@@ -54,6 +51,24 @@ void Game::update(double dt)
 
 	m_acticeScene->update(dt);
 
+}
+
+void Game::testAddStuffToECS()
+{
+	Entity redCone = EC::createEntity();
+	NodeComponent nc;
+
+	nc.nodeHandel = m_acticeScene->sceneGraph().addModel("Models/red_cone.obj");
+
+	redCone.addComponent<NodeComponent>(nc);
+	PointMass pm;
+	pm.mass = 42;
+	redCone.addComponent<PointMass>(pm);
+	m_entities.push_back(std::move(redCone));
+}
+
+void Game::testLoadStuffToECS()
+{
 }
 
 void Game::onEvent(const Event& e)
