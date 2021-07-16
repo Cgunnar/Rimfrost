@@ -91,6 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Rimfrost\EntCom\SerializeECS.hpp" />
     <ClInclude Include="src\Rimfrost.hpp" />
     <ClInclude Include="src\Rimfrost\Core\EngineApp.hpp" />
     <ClInclude Include="src\Rimfrost\Core\EntryPoint.hpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="src\rfpch.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rimfrost\EntCom\SerializeECS.cpp" />
     <ClCompile Include="src\Rimfrost\Core\EngineApp.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Mouse.cpp" />

@@ -10,6 +10,7 @@
 #include "Rimfrost\EventSystem\PauseEvent.hpp"
 #include "Rimfrost\Scene\LevelEditor.hpp"
 #include "Rimfrost\Scene\SceneSerializer.hpp"
+#include "Rimfrost\EntCom\SerializeECS.hpp"
 #include "SandboxMap.hpp"
 
 
@@ -37,6 +38,8 @@ Game::Game()
 	m_acticeScene->setUpScene();
 
 	testAddStuffToECS();
+
+	SerializeECS::serialize("Saves/ecsTestSave.json");
 
 	//SceneSerializer::serialize("Maps/SandboxMap.json", *m_acticeScene);
 }
