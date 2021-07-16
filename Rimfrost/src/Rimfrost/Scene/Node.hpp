@@ -43,6 +43,7 @@ namespace Rimfrost
 	{
 	public:
 		NodeHandle(SceneGraph& sceneGraph, NodeID nodeID = rootNode);
+		NodeHandle();
 		Node& operator*() const;
 		Node* operator->() const;
 		bool isValid() const;
@@ -51,7 +52,7 @@ namespace Rimfrost
 		Transform getParentWorldMatrix() const;
 
 	private:
-		std::reference_wrapper<SceneGraph> m_sceneRef;
+		std::optional<std::reference_wrapper<SceneGraph>> m_sceneRef;
 		NodeID m_nodeID;
 		NodeID m_coldNodeID = -1;
 	};

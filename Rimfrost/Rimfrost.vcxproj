@@ -97,6 +97,7 @@
     <ClInclude Include="src\Rimfrost\Core\Keyboard.hpp" />
     <ClInclude Include="src\Rimfrost\Core\Mouse.hpp" />
     <ClInclude Include="src\Rimfrost\Core\Window.hpp" />
+    <ClInclude Include="src\Rimfrost\EntCom\rfComponents.hpp" />
     <ClInclude Include="src\Rimfrost\EntCom\rfEntity.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\Event.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\EventObserver.hpp" />
