@@ -1,7 +1,5 @@
 #include "Game.hpp"
 #include "Components\TestComponents.hpp"
-
-#include "Rimfrost\EntCom\rfEntity.hpp"
 #include "Rimfrost\EntCom\rfComponents.hpp"
 
 #include "Rimfrost\EventSystem\EventSystem.hpp"
@@ -54,6 +52,14 @@ void Game::update(double dt)
 
 	m_acticeScene->update(dt);
 
+	
+	auto& e = m_entities.back(); //test stuf with entity
+
+	auto pc = e.getComponent<PointLightComponent>();
+	pc->position = e.getComponent<NodeComponent>()->nodeHandel->worldMatrix.getTranslation();
+	auto& pointLight = m_poinLightMap[pc->getID()];
+
+	pointLight.setPosition(pc->position);
 }
 
 void Game::testAddStuffToECS()
@@ -67,6 +73,15 @@ void Game::testAddStuffToECS()
 	PointMass pm;
 	pm.mass = 42;
 	redCone.addComponent<PointMass>(pm);
+	
+	auto pl = redCone.addComponent<PointLightComponent>(PointLightComponent());
+	pl->color = { 0, 0, 1 };
+	pl->position = { 0, 2, 0};
+	pl->strength = 100;
+	
+	m_poinLightMap.insert_or_assign(pl->getID(), PointLight(pl->position, pl->color, pl->strength));
+	m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[pl->getID()]);
+	
 	m_entities.push_back(std::move(redCone));
 }
 

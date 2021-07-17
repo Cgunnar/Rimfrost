@@ -22,7 +22,7 @@ namespace Rimfrost
 	using ComponentIndex = size_t;
 	using EntityIndex = size_t;
 
-
+	
 	class EntityRegistry;
 	class Entity
 	{
@@ -50,11 +50,11 @@ namespace Rimfrost
 			return *this;
 		}
 		template<typename T>
-		const T* getComponent() const;
+		T* getComponent();
 
 		template<typename T>
 		requires std::is_trivially_copy_assignable_v<T>
-			const T* addComponent(const T& component) const;
+			T* addComponent(const T& component) const;
 
 		template<typename T>
 		void removeComponent() const;
@@ -74,20 +74,26 @@ namespace Rimfrost
 	};
 
 
-
+	class SerializeECS;
 	class EntityRegistry;
 	struct BaseComponent
 	{
 		friend EntityRegistry;
-		static ComponentTypeID registerComponent(size_t size, std::function<ComponentIndex(BaseComponent*)> createFunc, 
-			std::function<BaseComponent* (ComponentIndex)> fetchFunc, std::function<EntityIndex(ComponentIndex)> deleteFunc)
+		friend SerializeECS;
+		static ComponentTypeID registerComponent(size_t size, std::string_view name, std::function<ComponentIndex(BaseComponent*)> createFunc, 
+			std::function<BaseComponent* (ComponentIndex)> fetchFunc, std::function<EntityIndex(ComponentIndex)> deleteFunc,
+			std::function<void(size_t)> resize, std::function<char*()> getArray, std::function<size_t()> count)
 		{
 			ComponentTypeID compID = s_componentRegister.size();
 			ComponentUtility comUtil;
 			comUtil.size = size;
+			comUtil.name = name;
 			comUtil.createComponent = createFunc;
 			comUtil.fetchComponentAsBase = fetchFunc;
 			comUtil.deleteComponent = deleteFunc;
+			comUtil.getArrayPointer = getArray;
+			comUtil.resizeArray = resize;
+			comUtil.componentCount = count;
 			s_componentRegister.push_back(comUtil);
 			return compID;
 		}
@@ -99,9 +105,14 @@ namespace Rimfrost
 		struct ComponentUtility
 		{
 			size_t size;
+			std::string_view name;
 			std::function<ComponentIndex(BaseComponent*)> createComponent;
 			std::function<BaseComponent* (ComponentIndex)> fetchComponentAsBase;
 			std::function<EntityIndex(ComponentIndex)> deleteComponent;
+			std::function<void(size_t)> resizeArray;
+			std::function<char*()> getArrayPointer;
+			std::function<size_t()> componentCount;
+
 		};
 
 		inline static size_t getSize(ComponentTypeID id)
@@ -130,6 +141,7 @@ namespace Rimfrost
 		friend EntityRegistry;
 		static const ComponentTypeID typeID;
 		static const size_t size;
+		static const std::string_view componentName;
 		
 
 	private:
@@ -161,6 +173,22 @@ namespace Rimfrost
 			return entityOwningBackComponent;
 		}
 
+		template<typename T>
+		static void resizeComponentArray(size_t byteStride)
+		{
+			componentArray.resize(byteStride / sizeof(T));
+		}
+
+		static char* getArrayStartPointer()
+		{
+			return reinterpret_cast<char*>(componentArray.data());
+		}
+
+		static size_t getCount()
+		{
+			return componentArray.size();
+		}
+
 		static std::vector<T> componentArray;
 	};
 
@@ -168,13 +196,16 @@ namespace Rimfrost
 	std::vector<T> Component<T>::componentArray;
 
 	template<typename T>
-	const ComponentTypeID Component<T>::typeID = BaseComponent::registerComponent(sizeof(T), Component<T>::createComponent<T>,
-		Component<T>::fetchComponent<T>, Component<T>::deleteComponent<T>);
+	const ComponentTypeID Component<T>::typeID = BaseComponent::registerComponent(sizeof(T), typeid(T).name(), Component<T>::createComponent<T>,
+		Component<T>::fetchComponent<T>, Component<T>::deleteComponent<T>, Component<T>::resizeComponentArray<T>, Component<T>::getArrayStartPointer,
+		Component<T>::getCount);
 
 	//init componentSize
 	template<typename T>
 	const size_t Component<T>::size = sizeof(T);
 
+	template<typename T>
+	const std::string_view Component<T>::componentName = typeid(T).name();
 
 	class EC;
 	class EntityRegistry
@@ -270,7 +301,7 @@ namespace Rimfrost
 		std::vector<std::vector<ComponentMetaData>> m_entitiesComponentHandles;
 		std::queue<EntityIndex> m_freeEntitySlots;
 	};
-	Entity::~Entity()
+	inline Entity::~Entity()
 	{
 #ifdef _DEBUG
 		OutputDebugString(L"~Entity\tindex: ");
@@ -333,14 +364,14 @@ namespace Rimfrost
 
 
 	template<typename T>
-	inline const T* Entity::getComponent() const
+	inline T* Entity::getComponent()
 	{
 		return m_entRegRef->getComponent<T>(*this);
 	}
 
 	template<typename T>
 	requires std::is_trivially_copy_assignable_v<T>
-		inline const T* Entity::addComponent(const T& component) const
+		inline T* Entity::addComponent(const T& component) const
 	{
 		return m_entRegRef->addComponent<T>(*this, component);
 	}

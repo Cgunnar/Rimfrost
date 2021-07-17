@@ -20,5 +20,6 @@ private:
 
 private:
 	std::vector<Rimfrost::Entity> m_entities;
+	std::unordered_map<int64_t, Rimfrost::PointLight> m_poinLightMap;
 
 };

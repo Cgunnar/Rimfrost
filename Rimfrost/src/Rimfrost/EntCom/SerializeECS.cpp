@@ -1,21 +1,22 @@
 #include "rfpch.hpp"
 #include "SerializeECS.hpp"
-
+#include "Rimfrost\EntCom\rfEntity.hpp"
+#include "Rimfrost\Utilities\FileUtility.hpp"
 
 namespace Rimfrost
 {
-	namespace SerializeECS
+	//serialize ecs to json
+	void SerializeECS::serialize(const std::string& fileName)
 	{
-		//serialize ecs to json
-		void serialize(const std::string& fileName)
+		for (auto& c : BaseComponent::s_componentRegister)
 		{
-			//for()
+			writefileBin(c.getArrayPointer(), c.componentCount(), c.size, "Saves/Components/" + (std::string)c.name);
 		}
-		
-		//deserialize ecs from json
-		void deSerialize(const std::string& fileName)
-		{
+	}
 
-		}
+	//deserialize ecs from json
+	void SerializeECS::deSerialize(const std::string& fileName)
+	{
+
 	}
 }

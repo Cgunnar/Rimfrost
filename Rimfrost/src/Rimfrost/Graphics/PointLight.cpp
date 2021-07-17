@@ -37,7 +37,7 @@ namespace Rimfrost
 		m_PointLightData.m_color = color;
 	}
 
-	PointLight::PointLight(Vector3 position, std::string name)
+	PointLight::PointLight(Vector3 position, const std::string& name)
 	{
 		m_PointLightData.m_color = Vector3(1, 1, 1);
 		m_PointLightData.m_strength = 1.0f;

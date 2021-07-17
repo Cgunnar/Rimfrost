@@ -34,7 +34,8 @@ namespace Rimfrost
 
 		PointLight(const Vector3& position, const Vector3& color, float strength, const std::string& name = "");
 		PointLight(const Vector3& position, const Vector3& color, const std::string& name = "");
-		PointLight(Vector3 position, std::string name = "");
+		PointLight(Vector3 position, const std::string& name = "");
+		PointLight() = default;
 		~PointLight() = default;
 
 

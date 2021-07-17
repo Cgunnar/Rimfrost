@@ -2,6 +2,7 @@
 
 #include "Rimfrost\EntCom\rfEntity.hpp"
 #include "Rimfrost\Math\RimfrostMath.hpp"
+#include <random>
 
 
 struct TestComponent : Rimfrost::Component<TestComponent>
@@ -30,4 +31,23 @@ struct SphereCollider : Rimfrost::Component<SphereCollider>
 {
 	Rimfrost::Vector3 center;
 	float radius = 1;
+};
+
+struct PointLightComponent : Rimfrost::Component<PointLightComponent>
+{
+	PointLightComponent() : m_pointLightKey(genRandomID()) {}
+	Rimfrost::Vector3 position;
+	Rimfrost::Vector3 color;
+	float strength;
+	bool lit;
+	int64_t getID() const { return m_pointLightKey; }
+private:
+	int64_t m_pointLightKey;
+	static int64_t genRandomID()
+	{
+		std::random_device rdev;
+		std::mt19937 gen(rdev());
+		std::uniform_int_distribution<int64_t> udis(1, INT64_MAX);
+		return udis(gen);
+	}
 };

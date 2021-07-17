@@ -1,11 +1,10 @@
 #pragma once
-
-
 namespace Rimfrost
 {
-	namespace SerializeECS
+	class SerializeECS
 	{
-		void serialize(const std::string& fileName);
-		void deSerialize(const std::string& fileName);
-	}
+	public:
+		static void serialize(const std::string& fileName);
+		static void deSerialize(const std::string& fileName);
+	};
 }
