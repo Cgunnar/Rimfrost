@@ -93,7 +93,7 @@ namespace Rimfrost
 			comUtil.fetchComponentAsBase = fetchFunc;
 			comUtil.deleteComponent = deleteFunc;
 			comUtil.getArrayPointer = getArray;
-			comUtil.resizeArray = resize;
+			comUtil.resizeArrayT = resize;
 			comUtil.componentCount = count;
 			s_componentRegister.push_back(comUtil);
 			return compID;
@@ -110,7 +110,7 @@ namespace Rimfrost
 			std::function<ComponentIndex(BaseComponent*)> createComponent;
 			std::function<BaseComponent* (ComponentIndex)> fetchComponentAsBase;
 			std::function<EntityIndex(ComponentIndex)> deleteComponent;
-			std::function<void(size_t)> resizeArray;
+			std::function<void(size_t)> resizeArrayT;
 			std::function<char*()> getArrayPointer;
 			std::function<size_t()> componentCount;
 
@@ -174,10 +174,9 @@ namespace Rimfrost
 			return entityOwningBackComponent;
 		}
 
-		template<typename T>
-		static void resizeComponentArray(size_t byteStride)
+		static void resizeComponentArray(size_t elements)
 		{
-			componentArray.resize(byteStride / sizeof(T));
+			componentArray.resize(elements);
 		}
 
 		static char* getArrayStartPointer()
@@ -198,7 +197,7 @@ namespace Rimfrost
 
 	template<typename T>
 	const ComponentTypeID Component<T>::typeID = BaseComponent::registerComponent(sizeof(T), typeid(T).name(), Component<T>::createComponent<T>,
-		Component<T>::fetchComponent<T>, Component<T>::deleteComponent<T>, Component<T>::resizeComponentArray<T>, Component<T>::getArrayStartPointer,
+		Component<T>::fetchComponent<T>, Component<T>::deleteComponent<T>, Component<T>::resizeComponentArray, Component<T>::getArrayStartPointer,
 		Component<T>::getCount);
 
 	//init componentSize

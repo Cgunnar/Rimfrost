@@ -4,7 +4,7 @@
 #include <json.hpp>
 
 #include "SerializeECS.hpp"
-#include "Rimfrost\EntCom\rfEntity.hpp"
+
 #include "Rimfrost\Utilities\FileUtility.hpp"
 
 namespace Rimfrost
@@ -18,6 +18,7 @@ namespace Rimfrost
 	//serialize ecs to json
 	void ECSSerializer::serialize(const std::string& fileName)
 	{
+		//write components
 		nlohmann::json j;
 		size_t cIndex = 0;
 		for (auto& c : BaseComponent::s_componentRegister)
@@ -39,15 +40,19 @@ namespace Rimfrost
 	}
 
 	//deserialize ecs from json
-	void ECSSerializer::deSerialize(const std::string& fileName)
+	void ECSSerializer::deSerialize(const std::string& fileName, std::vector<Entity>& outEntities)
 	{
+		if (!outEntities.empty())
+		{
+			throw std::runtime_error("Can only deserialize when ecs is empty.");
+		}
 		std::ifstream f(fileName);
 
 		nlohmann::json j = nlohmann::json::parse(f);
-		std::vector<JComponentInfoStruct> componentInfo = j["componentInfo"].get<std::vector<JComponentInfoStruct>>();
+		std::vector<JComponentInfoStruct> componentInfoFromFile = j["componentInfo"].get<std::vector<JComponentInfoStruct>>();
 
 		bool remapNeeded = false;
-		for (auto& jc : componentInfo)
+		for (auto& jc : componentInfoFromFile)
 		{
 			const auto& compFromReg = BaseComponent::s_componentRegister[jc.componentTypeID];
 			if (jc.componentTypeID >= BaseComponent::s_componentRegister.size())
@@ -59,12 +64,14 @@ namespace Rimfrost
 			if (compFromReg.name != jc.typeName)
 			{
 				remapNeeded = true;
+				Logger::getLogger().debugLog("[WARNING!] deSerialize: typeName: " +  jc.typeName + " found in file has typeID: " + std::to_string(jc.componentTypeID) +
+					"\nwhich is referring to typeName: " + compFromReg.name + " from componentRegistry. \nTrying to remap ID. IF NAMES HAVE BEEN SWAPPED THIS WILL BE A FALSE POSITIVE AND CREATE A BUG!!!\n\n");
 			}
 		}
 		if (remapNeeded)
 		{
-			Logger::getLogger().debugLog("deSerialize: typeName does not match typID, trying to remap ID. IF NAMES HAVE BEEN SWAPPED THIS WILL BE A FALSE POSITIVE AND CREATE A BUG!!!\n");
-			if (remapTypeID(componentInfo))
+			auto idRemap = remapTypeID(componentInfoFromFile);
+			if (idRemap)
 			{
 				Logger::getLogger().debugLog("deSerialize: successfully remaped typeID.\n");
 			}
@@ -73,10 +80,34 @@ namespace Rimfrost
 				throw std::runtime_error("Components have likely changed name, or does not match the saved components on some other way\n");
 			}
 		}
+
+		//read componet bin files
+		for (const auto& c : componentInfoFromFile)
+		{
+			size_t byteStride = 0;
+#ifdef DEBUG
+			//want to know if something is weird, but this should never happen
+			
+			readfileBin(nullptr, byteStride, c.path);
+			assert(byteStride == c.componentCount * c.componentSize);
+#endif // DEBUG
+
+			auto compUtil = BaseComponent::getComponentUtility(c.componentTypeID);
+			assert(compUtil.name == c.typeName); //this has already been tested for so i just want to assert the test and remap worked, lol
+
+			compUtil.resizeArrayT(c.componentCount);
+			byteStride = c.componentCount * c.componentSize;
+			readfileBin(compUtil.getArrayPointer(), byteStride, c.path);
+
+
+
+
+		}
 	}
 
-	bool ECSSerializer::remapTypeID(std::vector<JComponentInfoStruct>& componentsFromJson)
+	std::optional<std::map<ComponentTypeID, ComponentTypeID>> ECSSerializer::remapTypeID(std::vector<JComponentInfoStruct>& componentsFromJson)
 	{
+		std::map<ComponentTypeID, ComponentTypeID> remap;
 		size_t matchingNamesCounter = 0;
 		for (size_t i = 0; i < BaseComponent::s_componentRegister.size(); i++)
 		{
@@ -86,17 +117,18 @@ namespace Rimfrost
 				it != componentsFromJson.end())
 			{
 				it->componentTypeID = i;
+				remap.emplace(it->componentTypeID, i);
 				matchingNamesCounter++;
 			}
 		}
 		if (matchingNamesCounter == componentsFromJson.size())
 		{
-			return true;
+			return std::make_optional(remap);
 		}
 		else
 		{
 			Logger::getLogger().debugLog("number of names mismatched: " + std::to_string(componentsFromJson.size() - matchingNamesCounter) + "\n");
-			return false;
+			return std::nullopt;
 		}
 		
 	}

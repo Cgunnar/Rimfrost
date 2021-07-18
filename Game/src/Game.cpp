@@ -41,7 +41,7 @@ Game::Game()
 	if (testDeSerialize)
 	{
 		testLoadStuffToECS();
-		ECSSerializer::deSerialize("Saves/ecsTestSave.json");
+		ECSSerializer::deSerialize("Saves/ecsTestSave.json", m_entities);
 	}
 	else
 	{
@@ -80,10 +80,18 @@ void Game::testAddStuffToECS()
 	Entity testE = EC::createEntity();
 	NodeComponent nc;
 
-	testE.addComponent(PointMass());
-	//testE.addComponent(TestComponent());
+	testE.addComponent(TestComponent2());
+	testE.addComponent(TestComponent());
+	testE.addComponent(TestComponent());
 	testE.addComponent(TransformComponent());
+	testE.addComponent(PointMass());
 	m_entities.push_back(std::move(testE));
+
+	Entity testE2 = EC::createEntity();
+	testE2.addComponent(PointMass());
+	testE2.addComponent(SphereCollider());
+	m_entities.push_back(std::move(testE2));
+
 	nc.nodeHandel = m_acticeScene->sceneGraph().addModel("Models/red_cone.obj");
 
 	redCone.addComponent<NodeComponent>(nc);

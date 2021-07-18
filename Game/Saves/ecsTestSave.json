@@ -1,30 +1,44 @@
 {
     "componentInfo": [
         {
-            "componentCount": 1,
+            "componentCount": 2,
             "componentSize": 24,
             "componentTypeID": 0,
             "path": "Saves/Components/struct TestComponent",
             "typeName": "struct TestComponent"
         },
         {
-            "componentCount": 2,
-            "componentSize": 40,
+            "componentCount": 1,
+            "componentSize": 72,
             "componentTypeID": 1,
+            "path": "Saves/Components/struct TransformComponent",
+            "typeName": "struct TransformComponent"
+        },
+        {
+            "componentCount": 1,
+            "componentSize": 24,
+            "componentTypeID": 2,
+            "path": "Saves/Components/struct SphereCollider",
+            "typeName": "struct SphereCollider"
+        },
+        {
+            "componentCount": 3,
+            "componentSize": 40,
+            "componentTypeID": 3,
             "path": "Saves/Components/struct PointMass",
             "typeName": "struct PointMass"
         },
         {
             "componentCount": 1,
             "componentSize": 48,
-            "componentTypeID": 2,
+            "componentTypeID": 4,
             "path": "Saves/Components/struct PointLightComponent",
             "typeName": "struct PointLightComponent"
         },
         {
             "componentCount": 1,
             "componentSize": 40,
-            "componentTypeID": 3,
+            "componentTypeID": 5,
             "path": "Saves/Components/struct RimfrostNodeComponent",
             "typeName": "struct Rimfrost::NodeComponent"
         }

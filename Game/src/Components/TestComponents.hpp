@@ -12,12 +12,23 @@ struct TestComponent : Rimfrost::Component<TestComponent>
 	double y = 5.2;
 };
 
+struct TestComponent2 : Rimfrost::Component<TestComponent2>
+{
+	float arr[12];
+};
+
 struct TransformComponent : Rimfrost::Component<TransformComponent>
 {
 	Rimfrost::Transform transform;
 
 	operator Rimfrost::Transform& () { return transform; }
 	operator const Rimfrost::Transform& () const { return transform; }
+};
+
+struct SphereCollider : Rimfrost::Component<SphereCollider>
+{
+	Rimfrost::Vector3 center;
+	float radius = 1;
 };
 
 struct PointMass : Rimfrost::Component<PointMass>
@@ -27,11 +38,7 @@ struct PointMass : Rimfrost::Component<PointMass>
 	float mass = 1.0f;
 };
 
-struct SphereCollider : Rimfrost::Component<SphereCollider>
-{
-	Rimfrost::Vector3 center;
-	float radius = 1;
-};
+
 
 struct PointLightComponent : Rimfrost::Component<PointLightComponent>
 {
