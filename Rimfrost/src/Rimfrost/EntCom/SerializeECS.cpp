@@ -7,7 +7,7 @@
 
 namespace Rimfrost
 {
-	void removeIllegalChars(std::string& str)
+	std::string removeIllegalChars(const std::string& str)
 	{
 		std::string illegalChars = "\\/:?\"<>|";
 		std::string legalString = "";
@@ -17,28 +17,47 @@ namespace Rimfrost
 				legalString += str[i];
 			}
 		}
-		str = legalString;
+		return legalString;
+	}
+
+	struct JComponentInfoStruct
+	{
+		std::string path;
+		std::string typeName;
+		ComponentTypeID componentTypeID;
+		size_t componentSize;
+		size_t componentCount;
+	};
+	void to_json(nlohmann::json& j, const JComponentInfoStruct& c)
+	{
+		j = nlohmann::json{ {"path", c.path }, {"typeName", c.typeName}, {"componentTypeID", c.componentTypeID},
+					{ "componentSize", c.componentSize }, {"componentCount", c.componentCount} };
+	}
+	void from_json(const nlohmann::json& j, JComponentInfoStruct& c)
+	{
+		j.at("path").get_to(c.path);
+		j.at("typeName").get_to(c.typeName);
+		j.at("componentTypeID").get_to(c.componentTypeID);
+		j.at("componentSize").get_to(c.componentSize);
+		j.at("componentCount").get_to(c.componentCount);
 	}
 
 	//serialize ecs to json
 	void SerializeECS::serialize(const std::string& fileName)
 	{
 		nlohmann::json j;
-		int cIndex = 0;
+		size_t cIndex = 0;
 		for (auto& c : BaseComponent::s_componentRegister)
 		{
-			std::string componentPath(c.name);
-			removeIllegalChars(componentPath);
-			componentPath = "Saves/Components/" + componentPath;
+			std::string componentPath = "Saves/Components/" + removeIllegalChars(c.name);
 			writefileBin(c.getArrayPointer(), c.componentCount(), c.size, componentPath);
 			
-			nlohmann::json jcomponentInfo;
-			jcomponentInfo["path"] = componentPath;
-			jcomponentInfo["componentTypeID"] = cIndex;
-			jcomponentInfo["componentSize"] = c.size;
-			jcomponentInfo["componentCount"] = c.componentCount();
+			JComponentInfoStruct cInfo{ componentPath, c.name, cIndex, c.size, c.componentCount() };
+
+			nlohmann::json jc;
+			to_json(jc, cInfo);
 			
-			j["componentInfo"].push_back(jcomponentInfo);
+			j["componentInfo"].push_back(jc);
 			cIndex++;
 		}
 
@@ -49,6 +68,9 @@ namespace Rimfrost
 	//deserialize ecs from json
 	void SerializeECS::deSerialize(const std::string& fileName)
 	{
+		std::ifstream f(fileName);
 
+		nlohmann::json j = nlohmann::json::parse(f);
+		std::vector<JComponentInfoStruct> nodes = j["componentInfo"].get<std::vector<JComponentInfoStruct>>();
 	}
 }

@@ -69,6 +69,7 @@ void Game::testAddStuffToECS()
 	NodeComponent nc;
 
 	testE.addComponent(PointMass());
+	testE.addComponent(TransformComponent());
 	m_entities.push_back(std::move(testE));
 	nc.nodeHandel = m_acticeScene->sceneGraph().addModel("Models/red_cone.obj");
 
@@ -90,6 +91,7 @@ void Game::testAddStuffToECS()
 
 void Game::testLoadStuffToECS()
 {
+
 }
 
 void Game::onEvent(const Event& e)

@@ -34,19 +34,19 @@ namespace Rimfrost
 		Entity& operator=(const Entity&) = delete;
 		Entity(Entity&& other) noexcept
 		{
-			this->entityIndex = other.entityIndex;
+			this->m_entityIndex = other.m_entityIndex;
 			this->m_entRegRef = other.m_entRegRef;
 			//invalidate other
 			other.m_entRegRef = nullptr;
-			other.entityIndex = -1;
+			other.m_entityIndex = -1;
 		}
 		Entity& operator=(Entity&& other) noexcept
 		{
-			this->entityIndex = other.entityIndex;
+			this->m_entityIndex = other.m_entityIndex;
 			this->m_entRegRef = other.m_entRegRef;
 			//invalidate other
 			other.m_entRegRef = nullptr;
-			other.entityIndex = -1;
+			other.m_entityIndex = -1;
 			return *this;
 		}
 		template<typename T>
@@ -60,8 +60,9 @@ namespace Rimfrost
 		void removeComponent() const;
 
 	private:
-		Entity(EntityIndex ID, EntityRegistry* entReg) : entityIndex(ID), m_entRegRef(entReg) {}
-		EntityIndex entityIndex;
+		Entity(EntityIndex ID, EntityRegistry* entReg) : m_entityIndex(ID), m_entRegRef(entReg) {}
+		Entity() : m_entityIndex(-1), m_entRegRef(nullptr) {}
+		EntityIndex m_entityIndex;
 		EntityRegistry* m_entRegRef;
 	};
 
@@ -80,14 +81,14 @@ namespace Rimfrost
 	{
 		friend EntityRegistry;
 		friend SerializeECS;
-		static ComponentTypeID registerComponent(size_t size, std::string_view name, std::function<ComponentIndex(BaseComponent*)> createFunc, 
+		static ComponentTypeID registerComponent(size_t size, std::string name, std::function<ComponentIndex(BaseComponent*)> createFunc, 
 			std::function<BaseComponent* (ComponentIndex)> fetchFunc, std::function<EntityIndex(ComponentIndex)> deleteFunc,
 			std::function<void(size_t)> resize, std::function<char*()> getArray, std::function<size_t()> count)
 		{
 			ComponentTypeID compID = s_componentRegister.size();
 			ComponentUtility comUtil;
 			comUtil.size = size;
-			comUtil.name = name;
+			comUtil.name = std::move(name);
 			comUtil.createComponent = createFunc;
 			comUtil.fetchComponentAsBase = fetchFunc;
 			comUtil.deleteComponent = deleteFunc;
@@ -105,7 +106,7 @@ namespace Rimfrost
 		struct ComponentUtility
 		{
 			size_t size;
-			std::string_view name;
+			std::string name;
 			std::function<ComponentIndex(BaseComponent*)> createComponent;
 			std::function<BaseComponent* (ComponentIndex)> fetchComponentAsBase;
 			std::function<EntityIndex(ComponentIndex)> deleteComponent;
@@ -141,7 +142,7 @@ namespace Rimfrost
 		friend EntityRegistry;
 		static const ComponentTypeID typeID;
 		static const size_t size;
-		static const std::string_view componentName;
+		static const std::string componentName;
 		
 
 	private:
@@ -205,7 +206,7 @@ namespace Rimfrost
 	const size_t Component<T>::size = sizeof(T);
 
 	template<typename T>
-	const std::string_view Component<T>::componentName = typeid(T).name();
+	const std::string Component<T>::componentName = typeid(T).name();
 
 	class EC;
 	class EntityRegistry
@@ -236,13 +237,13 @@ namespace Rimfrost
 		}
 		void removeEntity(Entity& entity)
 		{
-			auto& components = m_entitiesComponentHandles[entity.entityIndex];
+			auto& components = m_entitiesComponentHandles[entity.m_entityIndex];
 			for (auto& c : components)
 			{
-				removeComponent(c.typeID, entity.entityIndex);
+				removeComponent(c.typeID, entity.m_entityIndex);
 			}
-			m_freeEntitySlots.push(entity.entityIndex);
-			m_entitiesComponentHandles[entity.entityIndex].clear();
+			m_freeEntitySlots.push(entity.m_entityIndex);
+			m_entitiesComponentHandles[entity.m_entityIndex].clear();
 			entity.m_entRegRef = nullptr;
 		}
 
@@ -259,7 +260,7 @@ namespace Rimfrost
 		{
 			auto createFunc = BaseComponent::getCreateComponentFunction(typeID);
 			ComponentIndex index = createFunc(component);
-			m_entitiesComponentHandles[entity.entityIndex].emplace_back(typeID, index, entity.entityIndex);
+			m_entitiesComponentHandles[entity.m_entityIndex].emplace_back(typeID, index, entity.m_entityIndex);
 		}
 
 		template<typename T>
@@ -305,7 +306,7 @@ namespace Rimfrost
 	{
 #ifdef _DEBUG
 		OutputDebugString(L"~Entity\tindex: ");
-		OutputDebugString(std::to_wstring(entityIndex).c_str());
+		OutputDebugString(std::to_wstring(m_entityIndex).c_str());
 		OutputDebugString(L"\n");
 #endif // _DEBUG
 
@@ -392,21 +393,21 @@ namespace Rimfrost
 		T::componentArray.emplace_back(comp);
 
 		T* compPtr = &T::componentArray[index];
-		compPtr->entityIndex = entity.entityIndex;
-		m_entitiesComponentHandles[entity.entityIndex].emplace_back(typeID, index, entity.entityIndex);
+		compPtr->entityIndex = entity.m_entityIndex;
+		m_entitiesComponentHandles[entity.m_entityIndex].emplace_back(typeID, index, entity.m_entityIndex);
 		return compPtr;
 	}
 
 	template<typename T>
 	inline void EntityRegistry::removeComponent(const Entity& entity)
 	{
-		removeComponent(T::typeID, entity.entityIndex);
+		removeComponent(T::typeID, entity.m_entityIndex);
 	}
 
 	template<typename T>
 	inline T* EntityRegistry::getComponent(const Entity& entity)
 	{
-		auto& entityComponents = m_entitiesComponentHandles[entity.entityIndex];
+		auto& entityComponents = m_entitiesComponentHandles[entity.m_entityIndex];
 		if (auto it = std::ranges::find_if(entityComponents.begin(), entityComponents.end(),
 			[](ComponentMetaData c) { return T::typeID == c.typeID; });
 			it != entityComponents.end())
