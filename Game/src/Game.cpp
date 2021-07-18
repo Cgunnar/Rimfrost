@@ -65,8 +65,11 @@ void Game::update(double dt)
 void Game::testAddStuffToECS()
 {
 	Entity redCone = EC::createEntity();
+	Entity testE = EC::createEntity();
 	NodeComponent nc;
 
+	testE.addComponent(PointMass());
+	m_entities.push_back(std::move(testE));
 	nc.nodeHandel = m_acticeScene->sceneGraph().addModel("Models/red_cone.obj");
 
 	redCone.addComponent<NodeComponent>(nc);

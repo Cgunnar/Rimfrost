@@ -1,0 +1,22 @@
+{
+    "componentInfo": [
+        {
+            "componentCount": 2,
+            "componentSize": 40,
+            "componentTypeID": 0,
+            "path": "Saves/Components/struct PointMass"
+        },
+        {
+            "componentCount": 1,
+            "componentSize": 48,
+            "componentTypeID": 1,
+            "path": "Saves/Components/struct PointLightComponent"
+        },
+        {
+            "componentCount": 1,
+            "componentSize": 40,
+            "componentTypeID": 2,
+            "path": "Saves/Components/struct RimfrostNodeComponent"
+        }
+    ]
+}
