@@ -75,12 +75,12 @@ namespace Rimfrost
 	};
 
 
-	class SerializeECS;
+	class ECSSerializer;
 	class EntityRegistry;
 	struct BaseComponent
 	{
 		friend EntityRegistry;
-		friend SerializeECS;
+		friend ECSSerializer;
 		static ComponentTypeID registerComponent(size_t size, std::string name, std::function<ComponentIndex(BaseComponent*)> createFunc, 
 			std::function<BaseComponent* (ComponentIndex)> fetchFunc, std::function<EntityIndex(ComponentIndex)> deleteFunc,
 			std::function<void(size_t)> resize, std::function<char*()> getArray, std::function<size_t()> count)

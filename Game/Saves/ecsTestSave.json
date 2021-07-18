@@ -2,10 +2,10 @@
     "componentInfo": [
         {
             "componentCount": 1,
-            "componentSize": 72,
+            "componentSize": 24,
             "componentTypeID": 0,
-            "path": "Saves/Components/struct TransformComponent",
-            "typeName": "struct TransformComponent"
+            "path": "Saves/Components/struct TestComponent",
+            "typeName": "struct TestComponent"
         },
         {
             "componentCount": 2,

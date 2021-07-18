@@ -31,13 +31,23 @@ Game::Game()
 
 	m_scenes.emplace_back(std::make_shared<LevelEditor>("Maps/SandboxMap.json", "Maps/LevelEditorOutPut.json"));
 	m_scenes.emplace_back(std::make_shared<SandboxMap>());
-	
+
 	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();
 
-	testAddStuffToECS();
+	
 
-	SerializeECS::serialize("Saves/ecsTestSave.json");
+	bool testDeSerialize = !false;
+	if (testDeSerialize)
+	{
+		testLoadStuffToECS();
+		ECSSerializer::deSerialize("Saves/ecsTestSave.json");
+	}
+	else
+	{
+		testAddStuffToECS();
+		ECSSerializer::serialize("Saves/ecsTestSave.json");
+	}
 
 	//SceneSerializer::serialize("Maps/SandboxMap.json", *m_acticeScene);
 }
@@ -52,7 +62,9 @@ void Game::update(double dt)
 
 	m_acticeScene->update(dt);
 
-	
+
+
+	assert(!m_entities.empty());
 	auto& e = m_entities.back(); //test stuf with entity
 
 	auto pc = e.getComponent<PointLightComponent>();
@@ -69,6 +81,7 @@ void Game::testAddStuffToECS()
 	NodeComponent nc;
 
 	testE.addComponent(PointMass());
+	//testE.addComponent(TestComponent());
 	testE.addComponent(TransformComponent());
 	m_entities.push_back(std::move(testE));
 	nc.nodeHandel = m_acticeScene->sceneGraph().addModel("Models/red_cone.obj");
@@ -77,15 +90,15 @@ void Game::testAddStuffToECS()
 	PointMass pm;
 	pm.mass = 42;
 	redCone.addComponent<PointMass>(pm);
-	
+
 	auto pl = redCone.addComponent<PointLightComponent>(PointLightComponent());
 	pl->color = { 0, 0, 1 };
-	pl->position = { 0, 2, 0};
+	pl->position = { 0, 2, 0 };
 	pl->strength = 100;
-	
+
 	m_poinLightMap.insert_or_assign(pl->getID(), PointLight(pl->position, pl->color, pl->strength));
 	m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[pl->getID()]);
-	
+
 	m_entities.push_back(std::move(redCone));
 }
 
