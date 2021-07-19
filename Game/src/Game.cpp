@@ -42,6 +42,7 @@ Game::Game()
 	{
 		testLoadStuffToECS();
 		ECSSerializer::deSerialize("ecsTestSave.json", m_entities);
+		ECSSerializer::reCoupleWithSceneGraph(m_acticeScene->sceneGraph(), m_entities);
 	}
 	else
 	{

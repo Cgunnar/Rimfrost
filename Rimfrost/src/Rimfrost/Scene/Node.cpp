@@ -22,11 +22,15 @@ namespace Rimfrost
 
 
 
-    NodeHandle::NodeHandle(SceneGraph& sceneGraph, NodeID nodeID) : m_sceneRef(sceneGraph), m_nodeID(nodeID)
+    NodeHandle::NodeHandle(SceneGraph& sceneGraph, NodeID nodeID, NodeID coldID) : m_sceneRef(sceneGraph), m_nodeID(nodeID), m_coldNodeID(coldID)
     {
     }
 
-    NodeHandle::NodeHandle() : m_sceneRef(std::nullopt), m_nodeID(-1)
+    NodeHandle::NodeHandle(SceneGraph& sceneGraph, Node node) : m_sceneRef(sceneGraph), m_nodeID(node.m_ID), m_coldNodeID(node.m_coldID)
+    {
+    }
+
+    NodeHandle::NodeHandle() : m_sceneRef(std::nullopt), m_nodeID(-1), m_coldNodeID(-1)
     {
     }
 

@@ -12,12 +12,14 @@ namespace Rimfrost
 	class SceneGraph;
 	class ForwardRenderer;
 	class SceneSerializer;
+	class NodeHandle;
 
 	class Node
 	{
 		friend SceneGraph;
 		friend ForwardRenderer;
 		friend SceneSerializer;
+		friend NodeHandle;
 	public:
 
 		Node(NodeID ID, NodeID parentID, NodeID coldID, bool modelRoot = false);
@@ -39,10 +41,13 @@ namespace Rimfrost
 		
 	};
 
+	class ECSSerializer;
 	class NodeHandle
 	{
+		friend ECSSerializer;
 	public:
-		NodeHandle(SceneGraph& sceneGraph, NodeID nodeID = rootNode);
+		NodeHandle(SceneGraph& sceneGraph, NodeID nodeID, NodeID coldID = -1);
+		NodeHandle(SceneGraph& sceneGraph, Node node);
 		NodeHandle();
 		Node& operator*() const;
 		Node* operator->() const;

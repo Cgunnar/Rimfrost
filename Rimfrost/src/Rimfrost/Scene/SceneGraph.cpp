@@ -75,7 +75,7 @@ namespace Rimfrost
 
 		modelID++;
 
-		return NodeHandle(*this, modelRoot);
+		return NodeHandle(*this, modelRoot, m_nodes[modelRoot].m_coldID);
 	}
 
 	NodeHandle SceneGraph::addModel(const std::string& filePath, const NodeHandle& parenthandle, ModelSettings modelSettings)
@@ -94,7 +94,7 @@ namespace Rimfrost
 		m_nodes.emplace_back(Node(newNodeID, parentNodeID, generateColdID()));
 		m_nodes.back().localMatrix = offset;
 
-		return NodeHandle(*this, newNodeID);
+		return NodeHandle(*this, m_nodes.back());
 	}
 
 	NodeHandle Rimfrost::SceneGraph::addNode(const Transform& offset, const NodeHandle& parenthandle)

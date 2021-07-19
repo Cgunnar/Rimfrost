@@ -6,6 +6,7 @@
 #include "SerializeECS.hpp"
 
 #include "Rimfrost\Utilities\FileUtility.hpp"
+#include "Rimfrost\EntCom\rfComponents.hpp"
 
 namespace Rimfrost
 {
@@ -162,6 +163,23 @@ namespace Rimfrost
 			index++;
 		}
 
+
+		
+
+
+	}
+
+	void ECSSerializer::reCoupleWithSceneGraph(SceneGraph& sceneGraph, std::vector<Entity>& allEntities)
+	{
+		//scene graph connection
+		for (auto& e : allEntities)
+		{
+			if (auto nodeComp = e.getComponent<NodeComponent>(); nodeComp)
+			{
+				nodeComp->nodeHandel.m_sceneRef = std::make_optional(std::reference_wrapper(sceneGraph));
+				if (sceneGraph.getNodes().size() <= nodeComp->nodeHandel.m_nodeID) throw std::runtime_error("NodeComponents ID does not even exist in sceneGraph.");
+			}
+		}
 	}
 
 	std::optional<std::map<ComponentTypeID, ComponentTypeID>> ECSSerializer::remapTypeID(std::vector<JComponentInfoStruct>& componentsFromJson)

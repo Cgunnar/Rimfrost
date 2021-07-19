@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Rimfrost\EntCom\rfEntity.hpp"
+#include "Rimfrost\Scene\SceneGraph.hpp"
 
 namespace Rimfrost
 {
@@ -23,8 +24,10 @@ namespace Rimfrost
 
 		static void serialize(std::string fileName);
 		static void deSerialize(std::string fileName, std::vector<Entity>& outEntities);
+		static void reCoupleWithSceneGraph(SceneGraph& sceneGraph, std::vector<Entity>& allEntities);
 
 	private:
 		static std::optional<std::map<ComponentTypeID, ComponentTypeID>> remapTypeID(std::vector<JComponentInfoStruct>& componentsFromJson);
+		
 	};
 }

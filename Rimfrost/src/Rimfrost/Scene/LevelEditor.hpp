@@ -74,8 +74,8 @@ namespace Rimfrost
 		PointLight m_whiteLight;
 		NodeHandle* m_lightSphere = nullptr;
 
-		NodeHandle m_selectedNode{ m_sceneGraph };
-		NodeHandle m_gizmoRootNode{ m_sceneGraph };
+		NodeHandle m_selectedNode;
+		NodeHandle m_gizmoRootNode;
 
 		Transform m_selectedNodeTransformOnStart;
 		Transform m_selectedReferencSystem;
@@ -83,13 +83,13 @@ namespace Rimfrost
 
 		std::vector<NodeHandle> m_pointLightGizmoHandles;
 
-		NodeHandle m_arrowX{ m_sceneGraph };
-		NodeHandle m_arrowY{ m_sceneGraph };
-		NodeHandle m_arrowZ{ m_sceneGraph };
+		NodeHandle m_arrowX;
+		NodeHandle m_arrowY;
+		NodeHandle m_arrowZ;
 
-		NodeHandle m_ringX{ m_sceneGraph };
-		NodeHandle m_ringY{ m_sceneGraph };
-		NodeHandle m_ringZ{ m_sceneGraph };
+		NodeHandle m_ringX;
+		NodeHandle m_ringY;
+		NodeHandle m_ringZ;
 		
 		Vector2 m_mouseCoord = { 0, 0 };
 		Vector2 m_mouseCoordOnClick = { 0, 0 };
