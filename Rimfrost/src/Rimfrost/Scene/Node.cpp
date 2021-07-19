@@ -10,6 +10,16 @@ namespace Rimfrost
     {
     }
 
+    NodeID Node::getColdID() const
+    {
+        return m_coldID;
+    }
+
+    NodeID Node::getID() const
+    {
+        return m_ID;
+    }
+
     std::optional<SubModel>& Node::operator->()
     {
         return m_subModel;

@@ -75,6 +75,15 @@ void Game::update(double dt)
 			assert(nodeComp);
 			
 			pcComp->position = nodeComp->nodeHandel->worldMatrix.getTranslation();
+
+			//assert(m_poinLightMap.contains(pcComp->getID()));
+			//fix a better solution, this is not good in the update loop
+			if (!m_poinLightMap.contains(pcComp->getID()))
+			{
+				m_poinLightMap.insert_or_assign(pcComp->getID(), PointLight(pcComp->position, pcComp->color, pcComp->strength));
+				m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[pcComp->getID()]);
+			}
+
 			auto& pointLight = m_poinLightMap[pcComp->getID()];
 
 			pointLight.setPosition(pcComp->position);

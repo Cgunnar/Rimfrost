@@ -40,7 +40,7 @@ namespace Rimfrost
 		size_t cIndex = 0;
 		for (auto& c : BaseComponent::s_componentRegister)
 		{
-			std::string componentPath = std::string(saveDirector) + "/Components/" + removeIllegalChars(c.name);
+			std::string componentPath = std::string(saveDirector) + "Components/" + removeIllegalChars(c.name);
 			writefileBin(c.getArrayPointer(), c.componentCount(), c.size, componentPath);
 
 			JComponentInfoStruct cInfo{ componentPath, c.name, cIndex, c.size, c.componentCount() };
@@ -178,6 +178,20 @@ namespace Rimfrost
 			{
 				nodeComp->nodeHandel.m_sceneRef = std::make_optional(std::reference_wrapper(sceneGraph));
 				if (sceneGraph.getNodes().size() <= nodeComp->nodeHandel.m_nodeID) throw std::runtime_error("NodeComponents ID does not even exist in sceneGraph.");
+
+				NodeID coldID = nodeComp->nodeHandel.m_coldNodeID;
+				NodeID normalID = nodeComp->nodeHandel.m_nodeID;
+				if (auto it = std::ranges::find_if(sceneGraph.getNodes().begin(), sceneGraph.getNodes().end(),
+					[coldID, normalID](Node n) { return coldID == n.getColdID() && normalID == n.getID(); });
+					it != sceneGraph.getNodes().end())
+				{
+
+				}
+				else
+				{
+					throw std::runtime_error("NodeComponents ID and coldID does not match with pair in sceneGraph.");
+				}
+				
 			}
 		}
 	}

@@ -24,6 +24,8 @@ namespace Rimfrost
 
 		Node(NodeID ID, NodeID parentID, NodeID coldID, bool modelRoot = false);
 
+		NodeID getColdID() const;
+		NodeID getID() const;
 		std::optional<SubModel>& operator->();
 		std::optional<SubModel>& operator*();
 
