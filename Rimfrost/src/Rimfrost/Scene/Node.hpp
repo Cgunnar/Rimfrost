@@ -39,6 +39,8 @@ namespace Rimfrost
 		std::vector<NodeID> m_childIDs;
 	private:
 		bool m_isHidden = false;
+
+		//coldID is a persisting id that survives when the scenegraph gets serialized
 		NodeID m_coldID;
 		
 	};

@@ -29,7 +29,8 @@ Game::Game()
 	EventSystem::addObserver(*this, KeyboardEvent::eventType);
 
 
-	m_scenes.emplace_back(std::make_shared<LevelEditor>("Maps/SandboxMap.json", "Maps/LevelEditorOutPut.json"));
+	m_scenes.emplace_back(std::make_shared<LevelEditor>("Maps/LevelEditorOutPut.json", "Maps/LevelEditorOutPut.json"));
+	//m_scenes.emplace_back(std::make_shared<LevelEditor>("Maps/SandboxMap.json", "Maps/LevelEditorOutPut.json"));
 	m_scenes.emplace_back(std::make_shared<SandboxMap>());
 
 	m_acticeScene = m_scenes[0];
@@ -37,12 +38,12 @@ Game::Game()
 
 	
 
-	bool testDeSerialize = !false;
+	bool testDeSerialize = true;
 	if (testDeSerialize)
 	{
-		testLoadStuffToECS();
 		ECSSerializer::deSerialize("ecsTestSave.json", m_entities);
 		ECSSerializer::reCoupleWithSceneGraph(m_acticeScene->sceneGraph(), m_entities);
+		testLoadStuffToECS();
 	}
 	else
 	{
@@ -67,36 +68,17 @@ void Game::update(double dt)
 
 	assert(!m_entities.empty());
 
-	for (auto& e : m_entities)
+	for (auto& pcComp : EC::getComponentArray<PointLightComponent>())
 	{
-		if (auto pcComp = e.getComponent<PointLightComponent>(); pcComp)
-		{
-			auto nodeComp = e.getComponent<NodeComponent>();
-			assert(nodeComp);
-			
-			pcComp->position = nodeComp->nodeHandel->worldMatrix.getTranslation();
+		if (auto nodeComp = EC::getComponent<NodeComponent>(pcComp.getEntityID()); nodeComp)
+		{	
+			assert(m_poinLightMap.contains(pcComp.getKey()));
+			auto& pointLight = m_poinLightMap[pcComp.getKey()];
 
-			//assert(m_poinLightMap.contains(pcComp->getID()));
-			//fix a better solution, this is not good in the update loop
-			if (!m_poinLightMap.contains(pcComp->getID()))
-			{
-				m_poinLightMap.insert_or_assign(pcComp->getID(), PointLight(pcComp->position, pcComp->color, pcComp->strength));
-				m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[pcComp->getID()]);
-			}
-
-			auto& pointLight = m_poinLightMap[pcComp->getID()];
-
-			pointLight.setPosition(pcComp->position);
+			pcComp.position = nodeComp->nodeHandel->worldMatrix.getTranslation();
+			pointLight.setPosition(pcComp.position);
 		}
 	}
-	//auto& e = m_entities.back(); //test stuf with entity
-
-	//auto pc = e.getComponent<PointLightComponent>();
-
-	//pc->position = e.getComponent<NodeComponent>()->nodeHandel->worldMatrix.getTranslation();
-	//auto& pointLight = m_poinLightMap[pc->getID()];
-
-	//pointLight.setPosition(pc->position);
 }
 
 void Game::testAddStuffToECS()
@@ -149,13 +131,20 @@ void Game::testAddStuffToECS()
 	pl->position = { 0, 2, 0 };
 	pl->strength = 100;
 
-	m_poinLightMap.insert_or_assign(pl->getID(), PointLight(pl->position, pl->color, pl->strength));
-	m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[pl->getID()]);
+	m_poinLightMap.insert_or_assign(pl->getKey(), PointLight(pl->position, pl->color, pl->strength));
+	m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[pl->getKey()]);
 	m_entities.push_back(std::move(redCone));
 }
 
 void Game::testLoadStuffToECS()
 {
+	//add lights from components
+	for (const auto& compL : EC::getComponentArray<PointLightComponent>())
+	{
+		assert(!m_poinLightMap.contains(compL.getKey()));
+		m_poinLightMap.insert_or_assign(compL.getKey(), PointLight(compL.position, compL.color, compL.strength));
+		m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[compL.getKey()]);
+	}
 
 }
 

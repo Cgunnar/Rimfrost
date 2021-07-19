@@ -22,8 +22,11 @@ namespace Rimfrost
 	using ComponentIndex = size_t;
 	using EntityIndex = size_t;
 
-	
 	class EntityRegistry;
+	class EC;
+	class ECSSerializer;
+
+	
 	class Entity
 	{
 		friend EntityRegistry;
@@ -79,12 +82,17 @@ namespace Rimfrost
 	};
 
 
-	class ECSSerializer;
-	class EntityRegistry;
-	struct BaseComponent
+	
+
+	class BaseComponent
 	{
 		friend EntityRegistry;
 		friend ECSSerializer;
+	public:
+		EntityIndex getEntityID() const { return entityIndex; }
+
+
+	protected:
 		static ComponentTypeID registerComponent(size_t size, std::string name, std::function<ComponentIndex(BaseComponent*)> createFunc, 
 			std::function<BaseComponent* (ComponentIndex)> fetchFunc, std::function<EntityIndex(ComponentIndex)> deleteFunc,
 			std::function<void(size_t)> resize, std::function<char*()> getArray, std::function<size_t()> count)
@@ -138,12 +146,13 @@ namespace Rimfrost
 
 
 	
-
+	
 
 	template<typename T>
-	struct Component : private BaseComponent
+	struct Component : public BaseComponent
 	{
 		friend EntityRegistry;
+		friend EC;
 		static const ComponentTypeID typeID;
 		static const size_t size;
 		static const std::string componentName;
@@ -211,7 +220,6 @@ namespace Rimfrost
 	template<typename T>
 	const std::string Component<T>::componentName = typeid(T).name();
 
-	class EC;
 	class EntityRegistry
 	{
 		friend EC;
@@ -266,25 +274,25 @@ namespace Rimfrost
 
 		template<typename T>
 		requires std::is_trivially_copy_assignable_v<T>
-		T* addComponent(const Entity& entity, const T& component);
+		T* addComponent(EntityIndex entityID, const T& component);
 
-		void addComponent(const Entity& entity, ComponentTypeID typeID, BaseComponent* component)
+		void addComponent(EntityIndex entityID, ComponentTypeID typeID, BaseComponent* component)
 		{
 			auto createFunc = BaseComponent::getCreateComponentFunction(typeID);
 			ComponentIndex index = createFunc(component);
-			m_entitiesComponentHandles[entity.m_entityIndex].emplace_back(typeID, index, entity.m_entityIndex);
+			m_entitiesComponentHandles[entityID].emplace_back(typeID, index, entityID);
 		}
 
 		template<typename T>
-		void removeComponent(const Entity& entity);
+		void removeComponent(EntityIndex entityID);
 
 		template<typename T>
-		T* getComponent(const Entity& entity);
+		T* getComponent(EntityIndex entityID);
 
 	private:
-		void removeComponent(ComponentTypeID type, EntityIndex entIndex)
+		void removeComponent(ComponentTypeID type, EntityIndex entityID)
 		{
-			auto& entityComponentHandles = m_entitiesComponentHandles[entIndex];
+			auto& entityComponentHandles = m_entitiesComponentHandles[entityID];
 			if (auto iti = std::ranges::find_if(entityComponentHandles.begin(), entityComponentHandles.end(),
 				[type](ComponentMetaData c) { return type == c.typeID; });
 				iti != entityComponentHandles.end())
@@ -353,28 +361,34 @@ namespace Rimfrost
 			m_entRegInstance.update(dt);
 		}
 
-		static void addComponent(const Entity& entity, ComponentTypeID typeID, BaseComponent* component)
+		static void addComponent(EntityIndex entityID, ComponentTypeID typeID, BaseComponent* component)
 		{
-			m_entRegInstance.addComponent(entity, typeID, component);
+			m_entRegInstance.addComponent(entityID, typeID, component);
 		}
 
 		template<typename T>
 		requires std::is_copy_assignable_v<T>&& std::is_copy_constructible_v<T>
-			static T* addComponent(const Entity& entity, const T& component)
+			static T* addComponent(EntityIndex entityID, const T& component)
 		{
-			return m_entRegInstance.addComponent<T>(entity, component);
+			return m_entRegInstance.addComponent<T>(entityID, component);
 		}
 
 		template<typename T>
-		static void removeComponent(const Entity& entity)
+		static void removeComponent(EntityIndex entityID)
 		{
-			m_entRegInstance.removeComponent<T>(entity);
+			m_entRegInstance.removeComponent<T>(entityID);
 		}
 
 		template<typename T>
-		static T* getComponent(const Entity& entity)
+		static T* getComponent(EntityIndex ID)
 		{
-			return m_entRegInstance.getComponent<T>(entity);
+			return m_entRegInstance.getComponent<T>(ID);
+		}
+
+		template<typename T>
+		static std::vector<T>& getComponentArray()
+		{
+			return T::componentArray;
 		}
 
 	private:
@@ -386,25 +400,25 @@ namespace Rimfrost
 	template<typename T>
 	inline T* Entity::getComponent()
 	{
-		return m_entRegRef->getComponent<T>(*this);
+		return m_entRegRef->getComponent<T>(this->m_entityIndex);
 	}
 
 	template<typename T>
 	requires std::is_trivially_copy_assignable_v<T>
 		inline T* Entity::addComponent(const T& component) const
 	{
-		return m_entRegRef->addComponent<T>(*this, component);
+		return m_entRegRef->addComponent<T>(this->m_entityIndex, component);
 	}
 
 	template<typename T>
 	inline void Entity::removeComponent() const
 	{
-		m_entRegRef->removeComponent<T>(*this);
+		m_entRegRef->removeComponent<T>(this->m_entityIndex);
 	}
 
 	template<typename T>
 	requires std::is_trivially_copy_assignable_v<T>
-	inline T* EntityRegistry::addComponent(const Entity& entity, const T& comp)
+	inline T* EntityRegistry::addComponent(EntityIndex entityID, const T& comp)
 	{
 		ComponentTypeID typeID = T::typeID;
 		ComponentIndex index;
@@ -412,21 +426,21 @@ namespace Rimfrost
 		T::componentArray.emplace_back(comp);
 
 		T* compPtr = &T::componentArray[index];
-		compPtr->entityIndex = entity.m_entityIndex;
-		m_entitiesComponentHandles[entity.m_entityIndex].emplace_back(typeID, index, entity.m_entityIndex);
+		compPtr->entityIndex = entityID;
+		m_entitiesComponentHandles[entityID].emplace_back(typeID, index, entityID);
 		return compPtr;
 	}
 
 	template<typename T>
-	inline void EntityRegistry::removeComponent(const Entity& entity)
+	inline void EntityRegistry::removeComponent(EntityIndex entityID)
 	{
-		removeComponent(T::typeID, entity.m_entityIndex);
+		removeComponent(T::typeID, entityID);
 	}
 
 	template<typename T>
-	inline T* EntityRegistry::getComponent(const Entity& entity)
+	inline T* EntityRegistry::getComponent(EntityIndex entityID)
 	{
-		auto& entityComponents = m_entitiesComponentHandles[entity.m_entityIndex];
+		auto& entityComponents = m_entitiesComponentHandles[entityID];
 		if (auto it = std::ranges::find_if(entityComponents.begin(), entityComponents.end(),
 			[](ComponentMetaData c) { return T::typeID == c.typeID; });
 			it != entityComponents.end())

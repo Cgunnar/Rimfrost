@@ -47,7 +47,7 @@ struct PointLightComponent : Rimfrost::Component<PointLightComponent>
 	Rimfrost::Vector3 color;
 	float strength;
 	bool lit;
-	int64_t getID() const { return m_pointLightKey; }
+	int64_t getKey() const { return m_pointLightKey; }
 private:
 	int64_t m_pointLightKey;
 	static int64_t genRandomID()

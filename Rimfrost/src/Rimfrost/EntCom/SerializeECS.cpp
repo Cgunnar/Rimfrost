@@ -82,7 +82,7 @@ namespace Rimfrost
 			if (compFromReg.name != jc.typeName)
 			{
 				remapNeeded = true;
-				Logger::getLogger().debugLog("[WARNING!] deSerialize: typeName: " +  jc.typeName + " found in file has typeID: " + std::to_string(jc.componentTypeID) +
+				Logger::getLogger().debugLog("[WARNING!] deSerialize: typeName: " + jc.typeName + " found in file has typeID: " + std::to_string(jc.componentTypeID) +
 					"\nwhich is referring to typeName: " + compFromReg.name + " from componentRegistry. \nTrying to remap ID. IF NAMES HAVE BEEN SWAPPED THIS WILL BE A FALSE POSITIVE AND CREATE A BUG!!!\n\n");
 			}
 		}
@@ -108,7 +108,7 @@ namespace Rimfrost
 			size_t byteStride = 0;
 #ifdef DEBUG
 			//want to know if something is weird, but this should never happen
-			
+
 			readfileBin(nullptr, byteStride, c.path);
 			assert(byteStride == c.componentCount * c.componentSize);
 #endif // DEBUG
@@ -120,7 +120,7 @@ namespace Rimfrost
 			byteStride = c.componentCount * c.componentSize;
 			readfileBin(compUtil.getArrayPointer(), byteStride, c.path);
 
-			
+
 			//create componentData for the entities
 			for (size_t i = 0; i < c.componentCount; i++)
 			{
@@ -138,7 +138,7 @@ namespace Rimfrost
 		readfileBin(nullptr, fileSize, std::string(saveDirector) + "free_ent_slots.bin");
 		freeSlotQueueAsVector.resize(fileSize / sizeof(EntityIndex));
 		readfileBin(reinterpret_cast<char*>(freeSlotQueueAsVector.data()), fileSize, std::string(saveDirector) + "free_ent_slots.bin");
-		for(const auto& e : freeSlotQueueAsVector)
+		for (const auto& e : freeSlotQueueAsVector)
 		{
 			EC::m_entRegInstance.m_freeEntitySlots.push(e);
 		}
@@ -162,37 +162,27 @@ namespace Rimfrost
 			}
 			index++;
 		}
-
-
-		
-
-
 	}
 
 	void ECSSerializer::reCoupleWithSceneGraph(SceneGraph& sceneGraph, std::vector<Entity>& allEntities)
 	{
 		//scene graph connection
-		for (auto& e : allEntities)
+		for (auto& nodeComp : EC::getComponentArray<NodeComponent>())
 		{
-			if (auto nodeComp = e.getComponent<NodeComponent>(); nodeComp)
+			nodeComp.nodeHandel.m_sceneRef = std::make_optional(std::reference_wrapper(sceneGraph));
+			//coldID is a persisting id that survives when the scenegraph gets serialized
+			NodeID coldID = nodeComp.nodeHandel.m_coldNodeID;
+			NodeID normalID = nodeComp.nodeHandel.m_nodeID;
+			if (auto it = std::ranges::find_if(sceneGraph.getNodes().begin(), sceneGraph.getNodes().end(),
+				[coldID, normalID](Node n) { return coldID == n.getColdID(); });
+				it != sceneGraph.getNodes().end())
 			{
-				nodeComp->nodeHandel.m_sceneRef = std::make_optional(std::reference_wrapper(sceneGraph));
-				if (sceneGraph.getNodes().size() <= nodeComp->nodeHandel.m_nodeID) throw std::runtime_error("NodeComponents ID does not even exist in sceneGraph.");
-
-				NodeID coldID = nodeComp->nodeHandel.m_coldNodeID;
-				NodeID normalID = nodeComp->nodeHandel.m_nodeID;
-				if (auto it = std::ranges::find_if(sceneGraph.getNodes().begin(), sceneGraph.getNodes().end(),
-					[coldID, normalID](Node n) { return coldID == n.getColdID() && normalID == n.getID(); });
-					it != sceneGraph.getNodes().end())
+				if (normalID != it->getID())
 				{
-
+					nodeComp.nodeHandel.m_nodeID = it->getID();
 				}
-				else
-				{
-					throw std::runtime_error("NodeComponents ID and coldID does not match with pair in sceneGraph.");
-				}
-				
 			}
+
 		}
 	}
 
@@ -221,7 +211,7 @@ namespace Rimfrost
 			Logger::getLogger().debugLog("number of names mismatched: " + std::to_string(componentsFromJson.size() - matchingNamesCounter) + "\n");
 			return std::nullopt;
 		}
-		
+
 	}
 
 
