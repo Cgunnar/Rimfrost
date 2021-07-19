@@ -59,6 +59,10 @@ namespace Rimfrost
 		template<typename T>
 		void removeComponent() const;
 
+		EntityIndex getID() const { return m_entityIndex; }
+
+		operator const EntityIndex() const { return m_entityIndex; }
+
 	private:
 		Entity(EntityIndex ID, EntityRegistry* entReg) : m_entityIndex(ID), m_entRegRef(entReg) {}
 		Entity() : m_entityIndex(-1), m_entRegRef(nullptr) {}
@@ -211,6 +215,7 @@ namespace Rimfrost
 	class EntityRegistry
 	{
 		friend EC;
+		friend ECSSerializer;
 		EntityRegistry() = default;
 		EntityRegistry(const EntityRegistry&) = delete;
 		EntityRegistry& operator=(const EntityRegistry&) = delete;
@@ -241,8 +246,16 @@ namespace Rimfrost
 			{
 				removeComponent(c.typeID, entity.m_entityIndex);
 			}
-			m_freeEntitySlots.push(entity.m_entityIndex);
-			m_entitiesComponentHandles[entity.m_entityIndex].clear();
+			//this is the entity in the back of the vector
+			if (entity.m_entityIndex + 1 == m_entitiesComponentHandles.size())
+			{
+				m_entitiesComponentHandles.pop_back();
+			}
+			else
+			{
+				m_entitiesComponentHandles[entity.m_entityIndex].clear();
+				m_freeEntitySlots.push(entity.m_entityIndex);
+			}
 			entity.m_entRegRef = nullptr;
 		}
 
@@ -295,6 +308,12 @@ namespace Rimfrost
 				entityComponentHandles.pop_back();
 			}
 		}
+
+		Entity createEntityForDeSerialization(EntityIndex id)
+		{
+
+			return Entity(id, this);
+		}
 		
 
 	private:
@@ -317,6 +336,7 @@ namespace Rimfrost
 
 	class EC
 	{
+		friend ECSSerializer;
 		EC() = delete;
 	public:
 		static Entity createEntity()

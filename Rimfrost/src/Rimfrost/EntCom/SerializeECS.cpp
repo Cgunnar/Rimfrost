@@ -16,14 +16,30 @@ namespace Rimfrost
 
 
 	//serialize ecs to json
-	void ECSSerializer::serialize(const std::string& fileName)
+	void ECSSerializer::serialize(std::string path)
 	{
+		path = saveDirector + path;
+
 		//write components
 		nlohmann::json j;
+
+		j["numberOfEntitiesAndFreeSlots"] = EC::m_entRegInstance.m_entitiesComponentHandles.size();
+
+		//save unused slots for entitys
+		std::vector<EntityIndex> freeSlotQueueAsVector;
+		while (!EC::m_entRegInstance.m_freeEntitySlots.empty())
+		{
+			freeSlotQueueAsVector.push_back(EC::m_entRegInstance.m_freeEntitySlots.front());
+			EC::m_entRegInstance.m_freeEntitySlots.pop();
+		}
+		writefileBin(reinterpret_cast<char*>(freeSlotQueueAsVector.data()), freeSlotQueueAsVector.size(), sizeof(EntityIndex),
+			std::string(saveDirector) + "free_ent_slots.bin");
+
+
 		size_t cIndex = 0;
 		for (auto& c : BaseComponent::s_componentRegister)
 		{
-			std::string componentPath = "Saves/Components/" + removeIllegalChars(c.name);
+			std::string componentPath = std::string(saveDirector) + "/Components/" + removeIllegalChars(c.name);
 			writefileBin(c.getArrayPointer(), c.componentCount(), c.size, componentPath);
 
 			JComponentInfoStruct cInfo{ componentPath, c.name, cIndex, c.size, c.componentCount() };
@@ -35,18 +51,19 @@ namespace Rimfrost
 			cIndex++;
 		}
 
-		std::ofstream o(fileName);
+		std::ofstream o(path);
 		o << std::setw(4) << j << std::endl;
 	}
 
 	//deserialize ecs from json
-	void ECSSerializer::deSerialize(const std::string& fileName, std::vector<Entity>& outEntities)
+	void ECSSerializer::deSerialize(std::string path, std::vector<Entity>& outEntities)
 	{
+		path = saveDirector + path;
 		if (!outEntities.empty())
 		{
 			throw std::runtime_error("Can only deserialize when ecs is empty.");
 		}
-		std::ifstream f(fileName);
+		std::ifstream f(path);
 
 		nlohmann::json j = nlohmann::json::parse(f);
 		std::vector<JComponentInfoStruct> componentInfoFromFile = j["componentInfo"].get<std::vector<JComponentInfoStruct>>();
@@ -81,6 +98,9 @@ namespace Rimfrost
 			}
 		}
 
+		size_t numberOfEntitiesAndFreeSlots = j["numberOfEntitiesAndFreeSlots"];
+		EC::m_entRegInstance.m_entitiesComponentHandles.resize(numberOfEntitiesAndFreeSlots);
+
 		//read componet bin files
 		for (const auto& c : componentInfoFromFile)
 		{
@@ -99,10 +119,49 @@ namespace Rimfrost
 			byteStride = c.componentCount * c.componentSize;
 			readfileBin(compUtil.getArrayPointer(), byteStride, c.path);
 
+			
+			//create componentData for the entities
+			for (size_t i = 0; i < c.componentCount; i++)
+			{
+				EntityIndex eID = reinterpret_cast<BaseComponent*>(compUtil.getArrayPointer() + i * c.componentSize)->entityIndex;
 
-
-
+				Logger::getLogger().debugLog("entity Index: " + std::to_string(eID) + " has Component: " + c.typeName + "\n");
+				EC::m_entRegInstance.m_entitiesComponentHandles[eID].emplace_back(c.componentTypeID, i, eID);
+			}
 		}
+
+
+		//load unused slots for entitys
+		std::vector<EntityIndex> freeSlotQueueAsVector;
+		size_t fileSize = 0;
+		readfileBin(nullptr, fileSize, std::string(saveDirector) + "free_ent_slots.bin");
+		freeSlotQueueAsVector.resize(fileSize / sizeof(EntityIndex));
+		readfileBin(reinterpret_cast<char*>(freeSlotQueueAsVector.data()), fileSize, std::string(saveDirector) + "free_ent_slots.bin");
+		for(const auto& e : freeSlotQueueAsVector)
+		{
+			EC::m_entRegInstance.m_freeEntitySlots.push(e);
+		}
+
+
+		//create the entities and return these
+
+		//reuse freeSlot vector to only create Entities not in freeSlots
+		std::ranges::sort(freeSlotQueueAsVector, std::greater<>());
+		EntityIndex index = 0;
+		outEntities.reserve(EC::m_entRegInstance.m_entitiesComponentHandles.size() - freeSlotQueueAsVector.size());
+		while (index < EC::m_entRegInstance.m_entitiesComponentHandles.size())
+		{
+			if (freeSlotQueueAsVector.empty() || index != freeSlotQueueAsVector.back())
+			{
+				outEntities.emplace_back(EC::m_entRegInstance.createEntityForDeSerialization(index));
+			}
+			else
+			{
+				freeSlotQueueAsVector.pop_back();
+			}
+			index++;
+		}
+
 	}
 
 	std::optional<std::map<ComponentTypeID, ComponentTypeID>> ECSSerializer::remapTypeID(std::vector<JComponentInfoStruct>& componentsFromJson)

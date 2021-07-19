@@ -41,12 +41,12 @@ Game::Game()
 	if (testDeSerialize)
 	{
 		testLoadStuffToECS();
-		ECSSerializer::deSerialize("Saves/ecsTestSave.json", m_entities);
+		ECSSerializer::deSerialize("ecsTestSave.json", m_entities);
 	}
 	else
 	{
 		testAddStuffToECS();
-		ECSSerializer::serialize("Saves/ecsTestSave.json");
+		ECSSerializer::serialize("ecsTestSave.json");
 	}
 
 	//SceneSerializer::serialize("Maps/SandboxMap.json", *m_acticeScene);
@@ -65,33 +65,68 @@ void Game::update(double dt)
 
 
 	assert(!m_entities.empty());
-	auto& e = m_entities.back(); //test stuf with entity
 
-	auto pc = e.getComponent<PointLightComponent>();
-	pc->position = e.getComponent<NodeComponent>()->nodeHandel->worldMatrix.getTranslation();
-	auto& pointLight = m_poinLightMap[pc->getID()];
+	for (auto& e : m_entities)
+	{
+		if (auto pcComp = e.getComponent<PointLightComponent>(); pcComp)
+		{
+			auto nodeComp = e.getComponent<NodeComponent>();
+			assert(nodeComp);
+			
+			pcComp->position = nodeComp->nodeHandel->worldMatrix.getTranslation();
+			auto& pointLight = m_poinLightMap[pcComp->getID()];
 
-	pointLight.setPosition(pc->position);
+			pointLight.setPosition(pcComp->position);
+		}
+	}
+	//auto& e = m_entities.back(); //test stuf with entity
+
+	//auto pc = e.getComponent<PointLightComponent>();
+
+	//pc->position = e.getComponent<NodeComponent>()->nodeHandel->worldMatrix.getTranslation();
+	//auto& pointLight = m_poinLightMap[pc->getID()];
+
+	//pointLight.setPosition(pc->position);
 }
 
 void Game::testAddStuffToECS()
 {
-	Entity redCone = EC::createEntity();
+	Entity removeTest0 = EC::createEntity();
+	
 	Entity testE = EC::createEntity();
+	Entity emptyE = EC::createEntity();
+	m_entities.push_back(std::move(emptyE));
 	NodeComponent nc;
 
 	testE.addComponent(TestComponent2());
-	testE.addComponent(TestComponent());
 	testE.addComponent(TestComponent());
 	testE.addComponent(TransformComponent());
 	testE.addComponent(PointMass());
 	m_entities.push_back(std::move(testE));
 
+	Entity removeThisTest = EC::createEntity();
+	
+
 	Entity testE2 = EC::createEntity();
+	testE2.addComponent(TestComponent());
 	testE2.addComponent(PointMass());
 	testE2.addComponent(SphereCollider());
 	m_entities.push_back(std::move(testE2));
 
+
+
+
+	
+
+	Entity emptyE2 = EC::createEntity();
+	m_entities.push_back(std::move(emptyE2));
+	Entity emptyE3 = EC::createEntity();
+	m_entities.push_back(std::move(emptyE3));
+
+	EC::removeEntity(removeThisTest);
+	EC::removeEntity(removeTest0);
+
+	Entity redCone = EC::createEntity();
 	nc.nodeHandel = m_acticeScene->sceneGraph().addModel("Models/red_cone.obj");
 
 	redCone.addComponent<NodeComponent>(nc);
@@ -106,7 +141,6 @@ void Game::testAddStuffToECS()
 
 	m_poinLightMap.insert_or_assign(pl->getID(), PointLight(pl->position, pl->color, pl->strength));
 	m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[pl->getID()]);
-
 	m_entities.push_back(std::move(redCone));
 }
 
