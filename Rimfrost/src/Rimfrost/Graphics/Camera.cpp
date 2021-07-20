@@ -199,9 +199,9 @@ namespace Rimfrost
 		if (e.type() == KeyboardEvent::eventType)
 		{
 			auto& keyboard = static_cast<const KeyboardEvent&>(e);
-			if (keyboard.keyAndState.second == KeyState::KEY_DOWN)
+			if (keyboard.keyAndState.state == KeyState::KEY_DOWN)
 			{
-				switch (keyboard.keyAndState.first)
+				switch (keyboard.keyAndState.key)
 				{
 				case Key::W:
 					m_moveDirection += {0, 0, 1};

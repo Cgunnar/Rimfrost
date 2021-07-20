@@ -17,6 +17,8 @@ namespace Rimfrost
 		SPACE, LCTRL, LSHIFT, ESC, ENTER, BACK_SPACE,
 		TAB, RIGHT, LEFT, UP, DOWN,
 	};
+	constexpr int numberOfkeys = 47;
+	
 
 	enum class KeyState
 	{
@@ -26,7 +28,22 @@ namespace Rimfrost
 		KEY_RELEASED,
 	};
 
+	
 
+	struct KeyAndState
+	{
+		Key key;
+		KeyState state;
+	};
+
+	class Keyboard;
+	class KeyboardState
+	{
+		friend Keyboard;
+		std::array<KeyState, numberOfkeys> m_keyArray;
+	public:
+		KeyState& operator[](Key k) { return m_keyArray[static_cast<size_t>(k)]; }
+	};
 
 	class Keyboard
 	{
@@ -42,6 +59,8 @@ namespace Rimfrost
 		bool IsKeyPressed(int key);
 		bool WasKeyPressed(int key);
 
+		
+
 
 
 	private:
@@ -51,5 +70,10 @@ namespace Rimfrost
 		BYTE m_keyBoardState[256] = { 0 };
 		BYTE m_keyBoardPrevState[256] = { 0 };
 
+		
+		std::shared_ptr<KeyboardState> m_boardState;
 	};
+
+	
+
 }

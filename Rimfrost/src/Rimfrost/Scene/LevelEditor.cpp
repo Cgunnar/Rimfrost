@@ -3,6 +3,7 @@
 #include "RandGen.hpp"
 #include "Logger.hpp"
 #include "MouseEvent.hpp"
+#include "Rimfrost\EventSystem\KeyboardEvent.hpp"
 #include "EventSystem.hpp"
 #include "SceneSerializer.hpp"
 #include <imgui.h>
@@ -85,6 +86,15 @@ namespace Rimfrost
 		}
 
 
+	}
+
+	void LevelEditor::loadFromFile(std::string path)
+	{
+
+	}
+
+	void LevelEditor::saveToFile(std::string path)
+	{
 	}
 
 	Camera& LevelEditor::camera()
@@ -477,6 +487,23 @@ namespace Rimfrost
 						std::bind(&LevelEditor::selectScale, this));
 
 					m_nodeEditGui.selectedTRS();
+				}
+			}
+		}
+
+		if (e.type() == KeyboardEvent::eventType)
+		{
+			auto& keyboard = static_cast<const KeyboardEvent&>(e);
+			if (keyboard.keyAndState.state == KeyState::KEY_DOWN)
+			{
+				switch (keyboard.keyAndState.key)
+				{
+				case Key::S:
+					break;
+				case Key::LCTRL:
+					break;
+				default:
+					break;
 				}
 			}
 		}

@@ -61,6 +61,16 @@ namespace Rimfrost
 
 	}
 
+	void SandboxMap::loadFromFile(std::string path)
+	{
+
+	}
+
+	void SandboxMap::saveToFile(std::string path)
+	{
+
+	}
+
 	Camera& SandboxMap::camera()
 	{
 		return m_camera;
