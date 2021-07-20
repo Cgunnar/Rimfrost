@@ -83,6 +83,13 @@ namespace Rimfrost
     void NodeHandle::invalidateHandle()
     {
         m_nodeID = -1;
+        m_sceneRef = std::nullopt;
+    }
+    void NodeHandle::removeNode()
+    {
+        assert(m_sceneRef);
+        m_sceneRef->get().removeNode(m_nodeID);
+        invalidateHandle();
     }
     Transform NodeHandle::getParentWorldMatrix() const
     {

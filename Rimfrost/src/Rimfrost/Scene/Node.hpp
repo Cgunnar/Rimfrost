@@ -59,6 +59,7 @@ namespace Rimfrost
 		bool isValid() const;
 		Node& get() const;
 		void invalidateHandle();
+		void removeNode();
 		Transform getParentWorldMatrix() const;
 
 	private:

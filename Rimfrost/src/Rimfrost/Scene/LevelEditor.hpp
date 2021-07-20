@@ -5,6 +5,7 @@
 #include "Rimfrost\Scene\SceneGraph.hpp"
 #include "Rimfrost\Scene\IScene.hpp"
 #include "Rimfrost\EventSystem\EventObserver.hpp"
+#include "Rimfrost\EntCom\rfEntity.hpp"
 
 namespace Rimfrost
 {
@@ -32,6 +33,9 @@ namespace Rimfrost
 		std::string m_inputMapFile;
 		std::string m_outPutMapFile;
 		bool m_saveOnExit = false;
+
+		//only used to work the scene, shall not be saved
+		std::vector<Entity> m_tempEntitis;
 
 		enum class GizmoXYZ
 		{

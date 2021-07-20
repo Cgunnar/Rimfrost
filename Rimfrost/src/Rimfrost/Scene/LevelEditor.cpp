@@ -28,6 +28,7 @@ namespace Rimfrost
 
 	LevelEditor::~LevelEditor()
 	{
+		m_tempEntitis.clear(); // this will go out of scope but if I later want to save entities in the destructor this must be called first
 		if (!m_outPutMapFile.empty() && m_saveOnExit)
 		{
 			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode);
