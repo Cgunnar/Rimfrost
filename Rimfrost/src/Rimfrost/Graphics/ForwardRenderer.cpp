@@ -286,7 +286,7 @@ namespace Rimfrost
 		{
 			auto& r = renderSubmits[i];
 
-			if (nodes[r].m_ID == -1) continue;
+			if (nodes[r].getID() == -1) continue;
 			if (!indexToChangeRenderPass.empty() && indexToChangeRenderPass.front() == i)
 			{
 				m_renderPasses.next();

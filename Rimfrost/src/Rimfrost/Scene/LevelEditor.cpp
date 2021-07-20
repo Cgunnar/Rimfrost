@@ -30,10 +30,10 @@ namespace Rimfrost
 	{
 		if (!m_outPutMapFile.empty() && m_saveOnExit)
 		{
-			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode->m_ID);
+			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode);
 			for (auto& p : m_pointLightGizmoHandles)
 			{
-				m_sceneGraph.removeNode(p->m_ID);
+				m_sceneGraph.removeNode(p);
 			}
 			m_pointLightGizmoHandles.clear();
 			m_sceneGraph.packSceneGraph();
@@ -74,7 +74,7 @@ namespace Rimfrost
 		m_ringY->localMatrix.scale(2.15f);
 		m_ringZ->localMatrix.scale(2.3f);
 
-		m_sceneGraph.hideNode(m_gizmoRootNode->m_ID, true);
+		m_sceneGraph.hideNode(m_gizmoRootNode, true);
 
 		for (const auto& p : m_lights.pointLights->getPointLights())
 		{
@@ -181,9 +181,9 @@ namespace Rimfrost
 
 		m_translationIsSelected = true;
 
-		m_sceneGraph.hideNode(m_arrowX->m_ID, false);
-		m_sceneGraph.hideNode(m_arrowY->m_ID, false);
-		m_sceneGraph.hideNode(m_arrowZ->m_ID, false);
+		m_sceneGraph.hideNode(m_arrowX, false);
+		m_sceneGraph.hideNode(m_arrowY, false);
+		m_sceneGraph.hideNode(m_arrowZ, false);
 
 		m_selectedReferencSystem = referenceSystem;
 	}
@@ -193,9 +193,9 @@ namespace Rimfrost
 		m_translationIsSelected = false;
 		stopTranslate();
 
-		m_sceneGraph.hideNode(m_arrowX->m_ID, true);
-		m_sceneGraph.hideNode(m_arrowY->m_ID, true);
-		m_sceneGraph.hideNode(m_arrowZ->m_ID, true);
+		m_sceneGraph.hideNode(m_arrowX, true);
+		m_sceneGraph.hideNode(m_arrowY, true);
+		m_sceneGraph.hideNode(m_arrowZ, true);
 	}
 
 
@@ -213,9 +213,9 @@ namespace Rimfrost
 
 		m_rotationIsSelected = true;
 
-		m_sceneGraph.hideNode(m_ringX->m_ID, false);
-		m_sceneGraph.hideNode(m_ringY->m_ID, false);
-		m_sceneGraph.hideNode(m_ringZ->m_ID, false);
+		m_sceneGraph.hideNode(m_ringX, false);
+		m_sceneGraph.hideNode(m_ringY, false);
+		m_sceneGraph.hideNode(m_ringZ, false);
 
 		m_selectedReferencSystem = referenceSystem;
 	}
@@ -225,9 +225,9 @@ namespace Rimfrost
 		m_rotationIsSelected = false;
 		stopRotate();
 
-		m_sceneGraph.hideNode(m_ringX->m_ID, true);
-		m_sceneGraph.hideNode(m_ringY->m_ID, true);
-		m_sceneGraph.hideNode(m_ringZ->m_ID, true);
+		m_sceneGraph.hideNode(m_ringX, true);
+		m_sceneGraph.hideNode(m_ringY, true);
+		m_sceneGraph.hideNode(m_ringZ, true);
 	}
 
 	void LevelEditor::selectScale()
@@ -332,21 +332,21 @@ namespace Rimfrost
 	{
 		bool clickedOnArrow = false;
 		Vector3 translationDirection;
-		if (m_arrowX.isValid() && m_arrowX->m_ID == id) //click in arrow
+		if (m_arrowX.isValid() && m_arrowX->getID() == id) //click in arrow
 		{
 			Logger::getLogger().debugLog("klick on arrowX\n");
 			translationDirection = m_selectedNode->localMatrix.right();
 			translationDirection = { 1,0,0 };
 			clickedOnArrow = true;
 		}
-		else if (m_arrowY.isValid() && m_arrowY->m_ID == id) //click in arrow
+		else if (m_arrowY.isValid() && m_arrowY->getID() == id) //click in arrow
 		{
 			Logger::getLogger().debugLog("klick on arrowY\n");
 			translationDirection = m_selectedNode->localMatrix.up();
 			translationDirection = { 0,1,0 };
 			clickedOnArrow = true;
 		}
-		else if (m_arrowZ.isValid() && m_arrowZ->m_ID == id) //click in arrow
+		else if (m_arrowZ.isValid() && m_arrowZ->getID() == id) //click in arrow
 		{
 			Logger::getLogger().debugLog("klick on arrowZ\n");
 			translationDirection = m_selectedNode->localMatrix.forward();
@@ -365,20 +365,20 @@ namespace Rimfrost
 	{
 		LevelEditor::GizmoXYZ clickedRing = LevelEditor::GizmoXYZ::NONE;
 		Vector3 rotationNormal;
-		if (m_ringX.isValid() && m_ringX->m_ID == id)
+		if (m_ringX.isValid() && m_ringX->getID() == id)
 		{
 			Logger::getLogger().debugLog("klick on ringX\n");
 			rotationNormal = { 1,0,0 };
 			clickedRing = LevelEditor::GizmoXYZ::X;
 		}
-		else if (m_ringY.isValid() && m_ringY->m_ID == id)
+		else if (m_ringY.isValid() && m_ringY->getID() == id)
 		{
 			Logger::getLogger().debugLog("klick on ringY\n");
 			rotationNormal = { 0,1,0 };
 
 			clickedRing = LevelEditor::GizmoXYZ::Y;
 		}
-		else if (m_ringZ.isValid() && m_ringZ->m_ID == id)
+		else if (m_ringZ.isValid() && m_ringZ->getID() == id)
 		{
 			Logger::getLogger().debugLog("klick on ringZ\n");
 			rotationNormal = { 0,0,1 };
@@ -447,10 +447,10 @@ namespace Rimfrost
 			if (temp.isValid() && **temp)
 			{
 				//find the root of the model and get the parent
-				NodeID tempParent = temp->m_parentID;
-				while (!m_sceneGraph.getNodes()[tempParent].m_isModelParent)
+				NodeID tempParent = temp->getParentID();
+				while (!m_sceneGraph.getNodes()[tempParent].isParentToModel())
 				{
-					tempParent = m_sceneGraph.getNodes()[tempParent].m_parentID;
+					tempParent = m_sceneGraph.getNodes()[tempParent].getParentID();
 					assert(tempParent != rootNode);
 				}
 
@@ -462,7 +462,7 @@ namespace Rimfrost
 				{
 					Logger::getLogger().debugLog("clicked on ring\n");
 				}
-				else if (!(m_selectedNode.isValid() && m_selectedNode->m_ID == tempParent))//clicked on unselected
+				else if (!(m_selectedNode.isValid() && m_selectedNode->getID() == tempParent))//clicked on unselected
 				{
 					deSelectTranslate();
 					deSelectRotate();

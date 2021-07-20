@@ -20,6 +20,21 @@ namespace Rimfrost
         return m_ID;
     }
 
+    NodeID Node::getParentID() const
+    {
+        return m_parentID;
+    }
+
+    const std::vector<NodeID>& Node::getChildIDs() const
+    {
+        return m_childIDs;
+    }
+
+    bool Node::isParentToModel() const
+    {
+        return m_isModelParent;
+    }
+
     std::optional<SubModel>& Node::operator->()
     {
         return m_subModel;

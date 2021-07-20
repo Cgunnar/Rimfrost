@@ -8,24 +8,24 @@
 
 namespace Rimfrost
 {
-
 	class SceneGraph;
-	class ForwardRenderer;
 	class SceneSerializer;
 	class NodeHandle;
 
 	class Node
 	{
 		friend SceneGraph;
-		friend ForwardRenderer;
 		friend SceneSerializer;
 		friend NodeHandle;
 	public:
 
 		Node(NodeID ID, NodeID parentID, NodeID coldID, bool modelRoot = false);
-
+		operator const NodeID() const { return m_ID; }
 		NodeID getColdID() const;
 		NodeID getID() const;
+		NodeID getParentID() const;
+		const std::vector<NodeID>& getChildIDs() const;
+		bool isParentToModel() const;
 		std::optional<SubModel>& operator->();
 		std::optional<SubModel>& operator*();
 
@@ -33,15 +33,15 @@ namespace Rimfrost
 		Transform worldMatrix;
 
 		std::optional<SubModel> m_subModel;
-		bool m_isModelParent;
+	private:
+		std::vector<NodeID> m_childIDs;
 		NodeID m_ID;
 		NodeID m_parentID;
-		std::vector<NodeID> m_childIDs;
-	private:
-		bool m_isHidden = false;
-
 		//coldID is a persisting id that survives when the scenegraph gets serialized
 		NodeID m_coldID;
+
+		bool m_isModelParent;
+		bool m_isHidden = false;
 		
 	};
 
@@ -53,6 +53,7 @@ namespace Rimfrost
 		NodeHandle(SceneGraph& sceneGraph, NodeID nodeID, NodeID coldID = -1);
 		NodeHandle(SceneGraph& sceneGraph, Node node);
 		NodeHandle();
+		operator const NodeID() const { assert(this->isValid()); return m_nodeID; }
 		Node& operator*() const;
 		Node* operator->() const;
 		bool isValid() const;
