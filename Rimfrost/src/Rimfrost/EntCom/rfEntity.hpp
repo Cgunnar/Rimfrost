@@ -12,6 +12,7 @@
 #include <windows.h>
 #include <debugapi.h>
 #include <string>
+#include "Logger.hpp"
 #endif // _DEBUG
 
 
@@ -20,16 +21,16 @@ namespace Rimfrost
 
 	using ComponentTypeID = size_t;
 	using ComponentIndex = size_t;
-	using EntityIndex = size_t;
+	using EntityID = size_t;
 
-	class EntityRegistry;
-	class EC;
+	class EntityComponentManager;
+	class EntityReg;
 	class ECSSerializer;
 
 	
 	class Entity
 	{
-		friend EntityRegistry;
+		friend EntityComponentManager;
 	public:
 		~Entity();
 
@@ -38,17 +39,17 @@ namespace Rimfrost
 		Entity(Entity&& other) noexcept
 		{
 			this->m_entityIndex = other.m_entityIndex;
-			this->m_entRegRef = other.m_entRegRef;
+			this->m_entCompManRef = other.m_entCompManRef;
 			//invalidate other
-			other.m_entRegRef = nullptr;
+			other.m_entCompManRef = nullptr;
 			other.m_entityIndex = -1;
 		}
 		Entity& operator=(Entity&& other) noexcept
 		{
 			this->m_entityIndex = other.m_entityIndex;
-			this->m_entRegRef = other.m_entRegRef;
+			this->m_entCompManRef = other.m_entCompManRef;
 			//invalidate other
-			other.m_entRegRef = nullptr;
+			other.m_entCompManRef = nullptr;
 			other.m_entityIndex = -1;
 			return *this;
 		}
@@ -62,23 +63,23 @@ namespace Rimfrost
 		template<typename T>
 		void removeComponent() const;
 
-		EntityIndex getID() const { return m_entityIndex; }
+		EntityID getID() const { return m_entityIndex; }
 
-		operator const EntityIndex() const { return m_entityIndex; }
+		operator const EntityID() const { return m_entityIndex; }
 
 	private:
-		Entity(EntityIndex ID, EntityRegistry* entReg) : m_entityIndex(ID), m_entRegRef(entReg) {}
-		Entity() : m_entityIndex(-1), m_entRegRef(nullptr) {}
-		EntityIndex m_entityIndex;
-		EntityRegistry* m_entRegRef;
+		Entity(EntityID ID, EntityComponentManager* entReg) : m_entityIndex(ID), m_entCompManRef(entReg) {}
+		Entity() : m_entityIndex(-1), m_entCompManRef(nullptr) {}
+		EntityID m_entityIndex;
+		EntityComponentManager* m_entCompManRef;
 	};
 
 	struct ComponentMetaData
 	{
-		ComponentMetaData(ComponentTypeID typeID, ComponentIndex index, EntityIndex entIndex) : typeID(typeID), index(index), entityIndex(entIndex) {}
+		ComponentMetaData(ComponentTypeID typeID, ComponentIndex index, EntityID entIndex) : typeID(typeID), index(index), entityIndex(entIndex) {}
 		ComponentTypeID typeID;
 		ComponentIndex index;
-		EntityIndex entityIndex;
+		EntityID entityIndex;
 	};
 
 
@@ -86,15 +87,15 @@ namespace Rimfrost
 
 	class BaseComponent
 	{
-		friend EntityRegistry;
+		friend EntityComponentManager;
 		friend ECSSerializer;
 	public:
-		EntityIndex getEntityID() const { return entityIndex; }
+		EntityID getEntityID() const { return entityIndex; }
 
 
 	protected:
 		static ComponentTypeID registerComponent(size_t size, std::string name, std::function<ComponentIndex(BaseComponent*)> createFunc, 
-			std::function<BaseComponent* (ComponentIndex)> fetchFunc, std::function<EntityIndex(ComponentIndex)> deleteFunc,
+			std::function<BaseComponent* (ComponentIndex)> fetchFunc, std::function<EntityID(ComponentIndex)> deleteFunc,
 			std::function<void(size_t)> resize, std::function<char*()> getArray, std::function<size_t()> count)
 		{
 			ComponentTypeID compID = s_componentRegister.size();
@@ -111,7 +112,7 @@ namespace Rimfrost
 			return compID;
 		}
 
-		EntityIndex entityIndex = -1;
+		EntityID entityIndex = -1;
 	private:
 
 
@@ -121,7 +122,7 @@ namespace Rimfrost
 			std::string name;
 			std::function<ComponentIndex(BaseComponent*)> createComponent;
 			std::function<BaseComponent* (ComponentIndex)> fetchComponentAsBase;
-			std::function<EntityIndex(ComponentIndex)> deleteComponent;
+			std::function<EntityID(ComponentIndex)> deleteComponent;
 			std::function<void(size_t)> resizeArrayT;
 			std::function<char*()> getArrayPointer;
 			std::function<size_t()> componentCount;
@@ -151,11 +152,20 @@ namespace Rimfrost
 	template<typename T>
 	struct Component : public BaseComponent
 	{
-		friend EntityRegistry;
-		friend EC;
+		friend EntityComponentManager;
+		friend EntityReg;
 		static const ComponentTypeID typeID;
 		static const size_t size;
 		static const std::string componentName;
+
+#ifdef DEBUG
+		~Component()
+		{
+			auto& v = componentArray;
+			Logger::getLogger().debugLog("~" + componentName + "(), number of components deleted: " + std::to_string(v.size()) + "\n");
+		}
+#endif // DEBUG
+
 		
 
 	private:
@@ -174,9 +184,9 @@ namespace Rimfrost
 		}
 
 		template<typename T>
-		static EntityIndex deleteComponent(ComponentIndex index)
+		static EntityID deleteComponent(ComponentIndex index)
 		{
-			EntityIndex entityOwningBackComponent = -1;
+			EntityID entityOwningBackComponent = -1;
 			if (index + 1 != componentArray.size()) // last component
 			{
 				componentArray[index] = componentArray.back();
@@ -220,32 +230,37 @@ namespace Rimfrost
 	template<typename T>
 	const std::string Component<T>::componentName = typeid(T).name();
 
-	class EntityRegistry
+	class EntityComponentManager
 	{
-		friend EC;
+		friend EntityReg;
 		friend ECSSerializer;
-		EntityRegistry() = default;
-		EntityRegistry(const EntityRegistry&) = delete;
-		EntityRegistry& operator=(const EntityRegistry&) = delete;
-		~EntityRegistry() = default;
+		EntityComponentManager() = default;
+		EntityComponentManager(const EntityComponentManager&) = delete;
+		EntityComponentManager& operator=(const EntityComponentManager&) = delete;
+		~EntityComponentManager()
+		{
+			m_entityRegistry.clear(); // this will delete alla entities and components, before componentesArray gets destroyed
+		}
 	public:
 
-		Entity createEntity()
+		Entity& createEntity()
 		{
-			EntityIndex index;
+			EntityID index;
 			if (!m_freeEntitySlots.empty())
 			{
 				index = m_freeEntitySlots.front();
 				m_freeEntitySlots.pop();
 				m_entitiesComponentHandles[index].clear();
+				m_entityRegistry[index] = std::move(Entity(index, this));
 			}
 			else
 			{
 				index = m_entitiesComponentHandles.size();
 				m_entitiesComponentHandles.emplace_back(std::vector<ComponentMetaData>());
+				m_entityRegistry.emplace_back(Entity(index, this));
+				//assert(m_entityRegistry.back().getID() == m_entityRegistry[index].getID());
 			}
-
-			return Entity(index, this);
+			return m_entityRegistry[index];
 		}
 		void removeEntity(Entity& entity)
 		{
@@ -264,7 +279,7 @@ namespace Rimfrost
 				m_entitiesComponentHandles[entity.m_entityIndex].clear();
 				m_freeEntitySlots.push(entity.m_entityIndex);
 			}
-			entity.m_entRegRef = nullptr;
+			entity.m_entCompManRef = nullptr;
 		}
 
 		void update(double dt)
@@ -274,9 +289,9 @@ namespace Rimfrost
 
 		template<typename T>
 		requires std::is_trivially_copy_assignable_v<T>
-		T* addComponent(EntityIndex entityID, const T& component);
+		T* addComponent(EntityID entityID, const T& component);
 
-		void addComponent(EntityIndex entityID, ComponentTypeID typeID, BaseComponent* component)
+		void addComponent(EntityID entityID, ComponentTypeID typeID, BaseComponent* component)
 		{
 			auto createFunc = BaseComponent::getCreateComponentFunction(typeID);
 			ComponentIndex index = createFunc(component);
@@ -284,13 +299,13 @@ namespace Rimfrost
 		}
 
 		template<typename T>
-		void removeComponent(EntityIndex entityID);
+		void removeComponent(EntityID entityID);
 
 		template<typename T>
-		T* getComponent(EntityIndex entityID);
+		T* getComponent(EntityID entityID);
 
 	private:
-		void removeComponent(ComponentTypeID type, EntityIndex entityID)
+		void removeComponent(ComponentTypeID type, EntityID entityID)
 		{
 			auto& entityComponentHandles = m_entitiesComponentHandles[entityID];
 			if (auto iti = std::ranges::find_if(entityComponentHandles.begin(), entityComponentHandles.end(),
@@ -298,7 +313,7 @@ namespace Rimfrost
 				iti != entityComponentHandles.end())
 			{
 				auto componentUtilityFunctions = BaseComponent::getComponentUtility(iti->typeID);
-				if (EntityIndex movedCompEntity = componentUtilityFunctions.deleteComponent(iti->index); movedCompEntity != -1)
+				if (EntityID movedCompEntity = componentUtilityFunctions.deleteComponent(iti->index); movedCompEntity != -1)
 				{
 					auto& movedCompEntityHandles = m_entitiesComponentHandles[movedCompEntity];
 					if (auto itj = std::ranges::find_if(movedCompEntityHandles.begin(), movedCompEntityHandles.end(),
@@ -317,7 +332,7 @@ namespace Rimfrost
 			}
 		}
 
-		Entity createEntityForDeSerialization(EntityIndex id)
+		Entity createEntityForDeSerialization(EntityID id)
 		{
 
 			return Entity(id, this);
@@ -326,7 +341,8 @@ namespace Rimfrost
 
 	private:
 		std::vector<std::vector<ComponentMetaData>> m_entitiesComponentHandles;
-		std::queue<EntityIndex> m_freeEntitySlots;
+		std::queue<EntityID> m_freeEntitySlots;
+		std::vector<Entity> m_entityRegistry;
 	};
 	inline Entity::~Entity()
 	{
@@ -336,53 +352,53 @@ namespace Rimfrost
 		OutputDebugString(L"\n");
 #endif // _DEBUG
 
-		if (m_entRegRef)
+		if (m_entCompManRef)
 		{
-			m_entRegRef->removeEntity(*this);
+			m_entCompManRef->removeEntity(*this);
 		}
 	}
 
-	class EC
+	class EntityReg
 	{
 		friend ECSSerializer;
-		EC() = delete;
+		EntityReg() = delete;
 	public:
-		static Entity createEntity()
+		static Entity& createEntity()
 		{
-			return m_entRegInstance.createEntity();
+			return m_entCompManInstance.createEntity();
 		}
 		static void removeEntity(Entity& entity)
 		{
-			m_entRegInstance.removeEntity(entity);
+			m_entCompManInstance.removeEntity(entity);
 		}
 
 		static void update(double dt)
 		{
-			m_entRegInstance.update(dt);
+			m_entCompManInstance.update(dt);
 		}
 
-		static void addComponent(EntityIndex entityID, ComponentTypeID typeID, BaseComponent* component)
+		static void addComponent(EntityID entityID, ComponentTypeID typeID, BaseComponent* component)
 		{
-			m_entRegInstance.addComponent(entityID, typeID, component);
+			m_entCompManInstance.addComponent(entityID, typeID, component);
 		}
 
 		template<typename T>
 		requires std::is_copy_assignable_v<T>&& std::is_copy_constructible_v<T>
-			static T* addComponent(EntityIndex entityID, const T& component)
+			static T* addComponent(EntityID entityID, const T& component)
 		{
-			return m_entRegInstance.addComponent<T>(entityID, component);
+			return m_entCompManInstance.addComponent<T>(entityID, component);
 		}
 
 		template<typename T>
-		static void removeComponent(EntityIndex entityID)
+		static void removeComponent(EntityID entityID)
 		{
-			m_entRegInstance.removeComponent<T>(entityID);
+			m_entCompManInstance.removeComponent<T>(entityID);
 		}
 
 		template<typename T>
-		static T* getComponent(EntityIndex ID)
+		static T* getComponent(EntityID ID)
 		{
-			return m_entRegInstance.getComponent<T>(ID);
+			return m_entCompManInstance.getComponent<T>(ID);
 		}
 
 		template<typename T>
@@ -391,8 +407,14 @@ namespace Rimfrost
 			return T::componentArray;
 		}
 
+		static std::vector<Entity>& getAllEntities()
+		{
+			return m_entCompManInstance.m_entityRegistry;
+		}
+
 	private:
-		inline static EntityRegistry m_entRegInstance;
+		inline static EntityComponentManager m_entCompManInstance;
+		
 	};
 
 
@@ -400,25 +422,25 @@ namespace Rimfrost
 	template<typename T>
 	inline T* Entity::getComponent()
 	{
-		return m_entRegRef->getComponent<T>(this->m_entityIndex);
+		return m_entCompManRef->getComponent<T>(this->m_entityIndex);
 	}
 
 	template<typename T>
 	requires std::is_trivially_copy_assignable_v<T>
 		inline T* Entity::addComponent(const T& component) const
 	{
-		return m_entRegRef->addComponent<T>(this->m_entityIndex, component);
+		return m_entCompManRef->addComponent<T>(this->m_entityIndex, component);
 	}
 
 	template<typename T>
 	inline void Entity::removeComponent() const
 	{
-		m_entRegRef->removeComponent<T>(this->m_entityIndex);
+		m_entCompManRef->removeComponent<T>(this->m_entityIndex);
 	}
 
 	template<typename T>
 	requires std::is_trivially_copy_assignable_v<T>
-	inline T* EntityRegistry::addComponent(EntityIndex entityID, const T& comp)
+	inline T* EntityComponentManager::addComponent(EntityID entityID, const T& comp)
 	{
 		ComponentTypeID typeID = T::typeID;
 		ComponentIndex index;
@@ -432,13 +454,13 @@ namespace Rimfrost
 	}
 
 	template<typename T>
-	inline void EntityRegistry::removeComponent(EntityIndex entityID)
+	inline void EntityComponentManager::removeComponent(EntityID entityID)
 	{
 		removeComponent(T::typeID, entityID);
 	}
 
 	template<typename T>
-	inline T* EntityRegistry::getComponent(EntityIndex entityID)
+	inline T* EntityComponentManager::getComponent(EntityID entityID)
 	{
 		auto& entityComponents = m_entitiesComponentHandles[entityID];
 		if (auto it = std::ranges::find_if(entityComponents.begin(), entityComponents.end(),

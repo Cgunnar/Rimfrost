@@ -41,8 +41,8 @@ Game::Game()
 	bool testDeSerialize = true;
 	if (testDeSerialize)
 	{
-		ECSSerializer::deSerialize("Saves/TestSave/", m_entities);
-		ECSSerializer::reCoupleWithSceneGraph(m_acticeScene->sceneGraph(), m_entities);
+		ECSSerializer::deSerialize("Saves/TestSave/", EntityReg::getAllEntities());
+		ECSSerializer::reCoupleWithSceneGraph(m_acticeScene->sceneGraph(), EntityReg::getAllEntities());
 		testLoadStuffToECS();
 	}
 	/*else
@@ -56,21 +56,23 @@ Game::Game()
 
 Game::~Game()
 {
+	
+
 }
 
 void Game::update(double dt)
 {
-	EC::update(dt);
+	EntityReg::update(dt);
 
 	m_acticeScene->update(dt);
 
 
 
-	assert(!m_entities.empty());
+	assert(!EntityReg::getAllEntities().empty());
 
-	for (auto& pcComp : EC::getComponentArray<PointLightComponent>())
+	for (auto& pcComp : EntityReg::getComponentArray<PointLightComponent>())
 	{
-		if (auto nodeComp = EC::getComponent<NodeComponent>(pcComp.getEntityID()); nodeComp)
+		if (auto nodeComp = EntityReg::getComponent<NodeComponent>(pcComp.getEntityID()); nodeComp)
 		{	
 			assert(m_poinLightMap.contains(pcComp.getKey()));
 			auto& pointLight = m_poinLightMap[pcComp.getKey()];
@@ -83,42 +85,37 @@ void Game::update(double dt)
 
 void Game::testAddStuffToECS()
 {
-	Entity removeTest0 = EC::createEntity();
+	Entity& removeTest0 = EntityReg::createEntity();
 	
-	Entity testE = EC::createEntity();
-	Entity emptyE = EC::createEntity();
-	m_entities.push_back(std::move(emptyE));
+	Entity& testE = EntityReg::createEntity();
+	Entity& emptyE = EntityReg::createEntity();
 	NodeComponent nc;
 
 	testE.addComponent(TestComponent2());
 	testE.addComponent(TestComponent());
 	testE.addComponent(TransformComponent());
 	testE.addComponent(PointMass());
-	m_entities.push_back(std::move(testE));
 
-	Entity removeThisTest = EC::createEntity();
+	Entity& removeThisTest = EntityReg::createEntity();
 	
 
-	Entity testE2 = EC::createEntity();
+	Entity& testE2 = EntityReg::createEntity();
 	testE2.addComponent(TestComponent());
 	testE2.addComponent(PointMass());
 	testE2.addComponent(SphereCollider());
-	m_entities.push_back(std::move(testE2));
 
 
 
 
 	
 
-	Entity emptyE2 = EC::createEntity();
-	m_entities.push_back(std::move(emptyE2));
-	Entity emptyE3 = EC::createEntity();
-	m_entities.push_back(std::move(emptyE3));
+	Entity& emptyE2 = EntityReg::createEntity();
+	Entity& emptyE3 = EntityReg::createEntity();
 
-	EC::removeEntity(removeThisTest);
-	EC::removeEntity(removeTest0);
+	EntityReg::removeEntity(removeThisTest);
+	EntityReg::removeEntity(removeTest0);
 
-	Entity redCone = EC::createEntity();
+	Entity& redCone = EntityReg::createEntity();
 	nc.nodeHandel = m_acticeScene->sceneGraph().addModel("Models/red_cone.obj");
 
 	redCone.addComponent<NodeComponent>(nc);
@@ -133,13 +130,12 @@ void Game::testAddStuffToECS()
 
 	m_poinLightMap.insert_or_assign(pl->getKey(), PointLight(pl->position, pl->color, pl->strength));
 	m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[pl->getKey()]);
-	m_entities.push_back(std::move(redCone));
 }
 
 void Game::testLoadStuffToECS()
 {
 	//add lights from components
-	for (const auto& compL : EC::getComponentArray<PointLightComponent>())
+	for (const auto& compL : EntityReg::getComponentArray<PointLightComponent>())
 	{
 		assert(!m_poinLightMap.contains(compL.getKey()));
 		m_poinLightMap.insert_or_assign(compL.getKey(), PointLight(compL.position, compL.color, compL.strength));

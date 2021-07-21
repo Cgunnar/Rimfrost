@@ -23,16 +23,16 @@ namespace Rimfrost
 		//write components
 		nlohmann::json j;
 
-		j["numberOfEntitiesAndFreeSlots"] = EC::m_entRegInstance.m_entitiesComponentHandles.size();
+		j["numberOfEntitiesAndFreeSlots"] = EntityReg::m_entCompManInstance.m_entitiesComponentHandles.size();
 
 		//save unused slots for entitys
-		std::vector<EntityIndex> freeSlotQueueAsVector;
-		while (!EC::m_entRegInstance.m_freeEntitySlots.empty())
+		std::vector<EntityID> freeSlotQueueAsVector;
+		while (!EntityReg::m_entCompManInstance.m_freeEntitySlots.empty())
 		{
-			freeSlotQueueAsVector.push_back(EC::m_entRegInstance.m_freeEntitySlots.front());
-			EC::m_entRegInstance.m_freeEntitySlots.pop();
+			freeSlotQueueAsVector.push_back(EntityReg::m_entCompManInstance.m_freeEntitySlots.front());
+			EntityReg::m_entCompManInstance.m_freeEntitySlots.pop();
 		}
-		writefileBin(reinterpret_cast<char*>(freeSlotQueueAsVector.data()), freeSlotQueueAsVector.size(), sizeof(EntityIndex),
+		writefileBin(reinterpret_cast<char*>(freeSlotQueueAsVector.data()), freeSlotQueueAsVector.size(), sizeof(EntityID),
 			path + freeEntitySlotsFileName);
 
 
@@ -104,7 +104,7 @@ namespace Rimfrost
 		}
 
 		size_t numberOfEntitiesAndFreeSlots = j["numberOfEntitiesAndFreeSlots"];
-		EC::m_entRegInstance.m_entitiesComponentHandles.resize(numberOfEntitiesAndFreeSlots);
+		EntityReg::m_entCompManInstance.m_entitiesComponentHandles.resize(numberOfEntitiesAndFreeSlots);
 
 		//read componet bin files
 		for (const auto& c : componentInfoFromFile)
@@ -128,23 +128,23 @@ namespace Rimfrost
 			//create componentData for the entities
 			for (size_t i = 0; i < c.componentCount; i++)
 			{
-				EntityIndex eID = reinterpret_cast<BaseComponent*>(compUtil.getArrayPointer() + i * c.componentSize)->entityIndex;
+				EntityID eID = reinterpret_cast<BaseComponent*>(compUtil.getArrayPointer() + i * c.componentSize)->entityIndex;
 
 				Logger::getLogger().debugLog("entity Index: " + std::to_string(eID) + " has Component: " + c.typeName + "\n");
-				EC::m_entRegInstance.m_entitiesComponentHandles[eID].emplace_back(c.componentTypeID, i, eID);
+				EntityReg::m_entCompManInstance.m_entitiesComponentHandles[eID].emplace_back(c.componentTypeID, i, eID);
 			}
 		}
 
 
 		//load unused slots for entitys
-		std::vector<EntityIndex> freeSlotQueueAsVector;
+		std::vector<EntityID> freeSlotQueueAsVector;
 		size_t fileSize = 0;
 		readfileBin(nullptr, fileSize, path + freeEntitySlotsFileName);
-		freeSlotQueueAsVector.resize(fileSize / sizeof(EntityIndex));
+		freeSlotQueueAsVector.resize(fileSize / sizeof(EntityID));
 		readfileBin(reinterpret_cast<char*>(freeSlotQueueAsVector.data()), fileSize, path + freeEntitySlotsFileName);
 		for (const auto& e : freeSlotQueueAsVector)
 		{
-			EC::m_entRegInstance.m_freeEntitySlots.push(e);
+			EntityReg::m_entCompManInstance.m_freeEntitySlots.push(e);
 		}
 
 
@@ -152,13 +152,13 @@ namespace Rimfrost
 
 		//reuse freeSlot vector to only create Entities not in freeSlots
 		std::ranges::sort(freeSlotQueueAsVector, std::greater<>());
-		EntityIndex index = 0;
-		outEntities.reserve(EC::m_entRegInstance.m_entitiesComponentHandles.size() - freeSlotQueueAsVector.size());
-		while (index < EC::m_entRegInstance.m_entitiesComponentHandles.size())
+		EntityID index = 0;
+		outEntities.reserve(EntityReg::m_entCompManInstance.m_entitiesComponentHandles.size() - freeSlotQueueAsVector.size());
+		while (index < EntityReg::m_entCompManInstance.m_entitiesComponentHandles.size())
 		{
 			if (freeSlotQueueAsVector.empty() || index != freeSlotQueueAsVector.back())
 			{
-				outEntities.emplace_back(EC::m_entRegInstance.createEntityForDeSerialization(index));
+				outEntities.emplace_back(EntityReg::m_entCompManInstance.createEntityForDeSerialization(index));
 			}
 			else
 			{
@@ -171,7 +171,7 @@ namespace Rimfrost
 	void ECSSerializer::reCoupleWithSceneGraph(SceneGraph& sceneGraph, std::vector<Entity>& allEntities)
 	{
 		//scene graph connection
-		for (auto& nodeComp : EC::getComponentArray<NodeComponent>())
+		for (auto& nodeComp : EntityReg::getComponentArray<NodeComponent>())
 		{
 			nodeComp.nodeHandel.m_sceneRef = std::make_optional(std::reference_wrapper(sceneGraph));
 			//coldID is a persisting id that survives when the scenegraph gets serialized
