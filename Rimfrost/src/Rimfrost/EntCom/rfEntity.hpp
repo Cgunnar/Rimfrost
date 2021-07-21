@@ -53,6 +53,7 @@ namespace Rimfrost
 			other.m_entityIndex = -1;
 			return *this;
 		}
+
 		template<typename T>
 		T* getComponent();
 
@@ -239,7 +240,17 @@ namespace Rimfrost
 		EntityComponentManager& operator=(const EntityComponentManager&) = delete;
 		~EntityComponentManager()
 		{
-			m_entityRegistry.clear(); // this will delete alla entities and components, before componentesArray gets destroyed
+			if (!clearHasBeenCalled)
+			{
+				OutputDebugString(L"[ERROR] call clear on EntityReg before main returns.\n");
+				OutputDebugString(L"[ERROR] call clear on EntityReg before main returns.\n");
+				OutputDebugString(L"[ERROR] call clear on EntityReg before main returns.\n");
+				OutputDebugString(L"[ERROR] call clear on EntityReg before main returns.\n");
+				OutputDebugString(L"[ERROR] call clear on EntityReg before main returns.\n");
+				OutputDebugString(L"[ERROR] call clear on EntityReg before main returns.\n");
+				assert(false);
+			}
+			
 		}
 	public:
 
@@ -343,6 +354,7 @@ namespace Rimfrost
 		std::vector<std::vector<ComponentMetaData>> m_entitiesComponentHandles;
 		std::queue<EntityID> m_freeEntitySlots;
 		std::vector<Entity> m_entityRegistry;
+		bool clearHasBeenCalled = false;
 	};
 	inline Entity::~Entity()
 	{
@@ -363,6 +375,12 @@ namespace Rimfrost
 		friend ECSSerializer;
 		EntityReg() = delete;
 	public:
+		static void clear()
+		{
+			m_entCompManInstance.m_entityRegistry.clear(); // this will delete alla entities and components, before componentesArray gets destroyed
+			m_entCompManInstance.clearHasBeenCalled = true;
+		}
+
 		static Entity& createEntity()
 		{
 			return m_entCompManInstance.createEntity();

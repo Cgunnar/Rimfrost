@@ -57,7 +57,7 @@ Game::Game()
 Game::~Game()
 {
 	
-
+	EntityReg::clear();
 }
 
 void Game::update(double dt)
