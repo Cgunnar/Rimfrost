@@ -32,11 +32,21 @@ namespace Rimfrost
 	{
 		friend EntityComponentManager;
 	public:
+		Entity() : m_entityIndex(-1), m_entCompManRef(nullptr) {}
 		~Entity();
-
-		Entity(const Entity&) = delete;
+		Entity(const Entity& other)
+		{
+			this->m_entCompManRef = other.m_entCompManRef;
+			this->m_entityIndex = other.m_entityIndex;
+			s_refCounts[m_entityIndex]++;
+		}
 		Entity& operator=(const Entity& other)
 		{
+			this->reset();
+			this->m_entCompManRef = other.m_entCompManRef;
+			this->m_entityIndex = other.m_entityIndex;
+			s_refCounts[m_entityIndex]++;
+			return *this;
 
 		}
 		Entity(Entity&& other) noexcept
@@ -68,14 +78,32 @@ namespace Rimfrost
 		void removeComponent() const;
 
 		EntityID getID() const { return m_entityIndex; }
+		int getRefCount() const { return s_refCounts[m_entityIndex]; }
+		void reset() 
+		{ 
+			s_refCounts[m_entityIndex]--;
+			m_entityIndex = -1;
+			m_entCompManRef = nullptr;
+		};
 
 		operator const EntityID() const { return m_entityIndex; }
 
 	private:
-		Entity(EntityID ID, EntityComponentManager* entReg) : m_entityIndex(ID), m_entCompManRef(entReg) {}
-		Entity() : m_entityIndex(-1), m_entCompManRef(nullptr) {}
+		Entity(EntityID ID, EntityComponentManager* entReg) : m_entityIndex(ID), m_entCompManRef(entReg) 
+		{
+			if (ID >= s_refCounts.size())
+			{
+				s_refCounts.push_back(1);
+			}
+			else
+			{
+				s_refCounts[ID]++;
+			}
+		}
+		
 		EntityID m_entityIndex;
 		EntityComponentManager* m_entCompManRef;
+		inline static std::vector<int> s_refCounts;
 	};
 
 	struct ComponentMetaData
@@ -278,6 +306,7 @@ namespace Rimfrost
 		}
 		void removeEntity(Entity& entity)
 		{
+			assert(entity.s_refCounts[entity.m_entityIndex] == 0);
 			auto& components = m_entitiesComponentHandles[entity.m_entityIndex];
 			for (auto& c : components)
 			{
@@ -361,15 +390,30 @@ namespace Rimfrost
 	};
 	inline Entity::~Entity()
 	{
-#ifdef _DEBUG
-		OutputDebugString(L"~Entity\tindex: ");
-		OutputDebugString(std::to_wstring(m_entityIndex).c_str());
-		OutputDebugString(L"\n");
-#endif // _DEBUG
-
-		if (m_entCompManRef)
+		if (m_entityIndex == -1)
 		{
-			m_entCompManRef->removeEntity(*this);
+			assert(!m_entCompManRef);
+#ifdef _DEBUG
+			OutputDebugString(L"~Entity\t empty Entity.\n");
+#endif // _DEBUG
+		}
+		else
+		{
+			s_refCounts[m_entityIndex]--;
+
+			#ifdef _DEBUG
+				OutputDebugString(L"~Entity\tindex: ");
+				OutputDebugString(std::to_wstring(m_entityIndex).c_str());
+				OutputDebugString(L", new refCount: ");
+				OutputDebugString(std::to_wstring(s_refCounts[m_entityIndex]).c_str());
+				OutputDebugString(L"\n");
+			#endif // _DEBUG
+
+
+			if (m_entCompManRef && !s_refCounts[m_entityIndex])
+			{
+				m_entCompManRef->removeEntity(*this);
+			}
 		}
 	}
 

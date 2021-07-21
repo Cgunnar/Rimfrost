@@ -86,10 +86,10 @@ void Game::update(double dt)
 
 void Game::testAddStuffToECS()
 {
-	Entity& removeTest0 = EntityReg::createEntity();
+	Entity removeTest0 = EntityReg::createEntity();
 	
-	Entity& testE = EntityReg::createEntity();
-	Entity& emptyE = EntityReg::createEntity();
+	Entity testE = EntityReg::createEntity();
+	Entity emptyE = EntityReg::createEntity();
 	NodeComponent nc;
 
 	testE.addComponent(TestComponent2());
@@ -97,10 +97,10 @@ void Game::testAddStuffToECS()
 	testE.addComponent(TransformComponent());
 	testE.addComponent(PointMass());
 
-	Entity& removeThisTest = EntityReg::createEntity();
+	Entity removeThisTest = EntityReg::createEntity();
 	
 
-	Entity& testE2 = EntityReg::createEntity();
+	Entity testE2 = EntityReg::createEntity();
 	testE2.addComponent(TestComponent());
 	testE2.addComponent(PointMass());
 	testE2.addComponent(SphereCollider());
@@ -110,13 +110,13 @@ void Game::testAddStuffToECS()
 
 	
 
-	Entity& emptyE2 = EntityReg::createEntity();
-	Entity& emptyE3 = EntityReg::createEntity();
+	Entity emptyE2 = EntityReg::createEntity();
+	Entity emptyE3 = EntityReg::createEntity();
 
-	EntityReg::removeEntity(removeThisTest);
-	EntityReg::removeEntity(removeTest0);
+	//EntityReg::removeEntity(removeThisTest);
+	//EntityReg::removeEntity(removeTest0);
 
-	Entity& redCone = EntityReg::createEntity();
+	Entity redCone = EntityReg::createEntity();
 	nc.nodeHandel = m_acticeScene->sceneGraph().addModel("Models/red_cone.obj");
 
 	redCone.addComponent<NodeComponent>(nc);
