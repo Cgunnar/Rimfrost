@@ -35,7 +35,10 @@ namespace Rimfrost
 		~Entity();
 
 		Entity(const Entity&) = delete;
-		Entity& operator=(const Entity&) = delete;
+		Entity& operator=(const Entity& other)
+		{
+
+		}
 		Entity(Entity&& other) noexcept
 		{
 			this->m_entityIndex = other.m_entityIndex;
@@ -269,7 +272,7 @@ namespace Rimfrost
 				index = m_entitiesComponentHandles.size();
 				m_entitiesComponentHandles.emplace_back(std::vector<ComponentMetaData>());
 				m_entityRegistry.emplace_back(Entity(index, this));
-				//assert(m_entityRegistry.back().getID() == m_entityRegistry[index].getID());
+				assert(m_entityRegistry.back().getID() == m_entityRegistry[index].getID());
 			}
 			return m_entityRegistry[index];
 		}

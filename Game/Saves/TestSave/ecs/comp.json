@@ -1,54 +1,54 @@
 {
     "componentInfo": [
         {
-            "componentCount": 2,
+            "componentCount": 0,
             "componentSize": 24,
             "componentTypeID": 0,
             "path": "Saves/TestSave/ecs/comp_bin/struct TestComponent",
             "typeName": "struct TestComponent"
         },
         {
-            "componentCount": 1,
+            "componentCount": 0,
             "componentSize": 56,
             "componentTypeID": 1,
             "path": "Saves/TestSave/ecs/comp_bin/struct TestComponent2",
             "typeName": "struct TestComponent2"
         },
         {
-            "componentCount": 1,
+            "componentCount": 0,
             "componentSize": 72,
             "componentTypeID": 2,
             "path": "Saves/TestSave/ecs/comp_bin/struct TransformComponent",
             "typeName": "struct TransformComponent"
         },
         {
-            "componentCount": 1,
+            "componentCount": 0,
             "componentSize": 24,
             "componentTypeID": 3,
             "path": "Saves/TestSave/ecs/comp_bin/struct SphereCollider",
             "typeName": "struct SphereCollider"
         },
         {
-            "componentCount": 3,
+            "componentCount": 0,
             "componentSize": 40,
             "componentTypeID": 4,
             "path": "Saves/TestSave/ecs/comp_bin/struct PointMass",
             "typeName": "struct PointMass"
         },
         {
-            "componentCount": 1,
+            "componentCount": 0,
             "componentSize": 48,
             "componentTypeID": 5,
             "path": "Saves/TestSave/ecs/comp_bin/struct PointLightComponent",
             "typeName": "struct PointLightComponent"
         },
         {
-            "componentCount": 1,
+            "componentCount": 0,
             "componentSize": 40,
             "componentTypeID": 6,
             "path": "Saves/TestSave/ecs/comp_bin/struct RimfrostNodeComponent",
             "typeName": "struct Rimfrost::NodeComponent"
         }
     ],
-    "numberOfEntitiesAndFreeSlots": 7
+    "numberOfEntitiesAndFreeSlots": 6
 }

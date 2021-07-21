@@ -23,8 +23,8 @@ namespace Rimfrost
 
 
 		static void serialize(std::string fileName);
-		static void deSerialize(std::string fileName, std::vector<Entity>& outEntities);
-		static void reCoupleWithSceneGraph(SceneGraph& sceneGraph, std::vector<Entity>& allEntities);
+		static void deSerialize(std::string fileName);
+		static void reCoupleWithSceneGraph(SceneGraph& sceneGraph);
 
 	private:
 		static constexpr char saveDirector[] = "ecs/";

@@ -17,7 +17,6 @@ namespace Rimfrost
 		virtual Camera& camera() = 0;
 		virtual Lights& lights() = 0;
 		virtual SceneGraph& sceneGraph() = 0;
-	protected:
 		virtual void load(std::string path = "") = 0;
 		virtual void save(std::string path = "") = 0;
 	};

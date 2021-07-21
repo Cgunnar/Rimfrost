@@ -60,10 +60,10 @@ namespace Rimfrost
 	}
 
 	//deserialize ecs from json
-	void ECSSerializer::deSerialize(std::string path, std::vector<Entity>& outEntities)
+	void ECSSerializer::deSerialize(std::string path)
 	{
 		path = path + saveDirector;
-		if (!outEntities.empty())
+		if (!EntityReg::getAllEntities().empty())
 		{
 			throw std::runtime_error("Can only deserialize when ecs is empty.");
 		}
@@ -153,12 +153,12 @@ namespace Rimfrost
 		//reuse freeSlot vector to only create Entities not in freeSlots
 		std::ranges::sort(freeSlotQueueAsVector, std::greater<>());
 		EntityID index = 0;
-		outEntities.reserve(EntityReg::m_entCompManInstance.m_entitiesComponentHandles.size() - freeSlotQueueAsVector.size());
+		EntityReg::getAllEntities().reserve(EntityReg::m_entCompManInstance.m_entitiesComponentHandles.size() - freeSlotQueueAsVector.size());
 		while (index < EntityReg::m_entCompManInstance.m_entitiesComponentHandles.size())
 		{
 			if (freeSlotQueueAsVector.empty() || index != freeSlotQueueAsVector.back())
 			{
-				outEntities.emplace_back(EntityReg::m_entCompManInstance.createEntityForDeSerialization(index));
+				EntityReg::getAllEntities().emplace_back(EntityReg::m_entCompManInstance.createEntityForDeSerialization(index));
 			}
 			else
 			{
@@ -168,7 +168,7 @@ namespace Rimfrost
 		}
 	}
 
-	void ECSSerializer::reCoupleWithSceneGraph(SceneGraph& sceneGraph, std::vector<Entity>& allEntities)
+	void ECSSerializer::reCoupleWithSceneGraph(SceneGraph& sceneGraph)
 	{
 		//scene graph connection
 		for (auto& nodeComp : EntityReg::getComponentArray<NodeComponent>())
@@ -186,7 +186,6 @@ namespace Rimfrost
 					nodeComp.nodeHandel.m_nodeID = it->getID();
 				}
 			}
-
 		}
 	}
 

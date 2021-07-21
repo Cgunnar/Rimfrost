@@ -41,22 +41,23 @@ Game::Game()
 	bool testDeSerialize = true;
 	if (testDeSerialize)
 	{
-		ECSSerializer::deSerialize("Saves/TestSave/", EntityReg::getAllEntities());
-		ECSSerializer::reCoupleWithSceneGraph(m_acticeScene->sceneGraph(), EntityReg::getAllEntities());
-		testLoadStuffToECS();
+		/*ECSSerializer::deSerialize("Saves/TestSave/");
+		ECSSerializer::reCoupleWithSceneGraph(m_acticeScene->sceneGraph());
+		testLoadStuffToECS();*/
 	}
 	/*else
 	{
 		testAddStuffToECS();
 		ECSSerializer::serialize("Saves/TestSave/");
 	}*/
+	testAddStuffToECS();
 
 	//SceneSerializer::serialize("Maps/SandboxMap.json", *m_acticeScene);
 }
 
 Game::~Game()
 {
-	
+	m_acticeScene->save("Saves/TestSave/");
 	EntityReg::clear();
 }
 

@@ -4,8 +4,9 @@
 #include "Logger.hpp"
 #include "MouseEvent.hpp"
 #include "Rimfrost\EventSystem\KeyboardEvent.hpp"
-#include "EventSystem.hpp"
-#include "SceneSerializer.hpp"
+#include "Rimfrost\EventSystem\EventSystem.hpp"
+#include "Rimfrost\Scene\SceneSerializer.hpp"
+#include "Rimfrost\EntCom\SerializeECS.hpp"
 #include <imgui.h>
 
 #include "RfextendedMath.hpp"
@@ -30,10 +31,7 @@ namespace Rimfrost
 	}
 
 	LevelEditor::~LevelEditor()
-	{
-		OutputDebugString(L"save level from leveleditor destructor\n");
-		this->save(m_outPutMapFile);
-		
+	{		
 		if (m_lightSphere) delete m_lightSphere;
 		OutputDebugString(L"~LevelEditor\n");
 	}
@@ -97,8 +95,11 @@ namespace Rimfrost
 		}
 
 		m_tempEntitis.clear(); // this will go out of scope but if I later want to save entities in the destructor this must be called first
+
+
 		if (!m_outPutMapFile.empty() && m_saveOnExit)
 		{
+
 			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode);
 			for (auto& p : m_pointLightGizmoHandles)
 			{
@@ -106,8 +107,8 @@ namespace Rimfrost
 			}
 			m_pointLightGizmoHandles.clear();
 			m_sceneGraph.packSceneGraph();
-			
-			Rimfrost::SceneSerializer::serialize(m_outPutMapFile, *this);
+			ECSSerializer::serialize(m_outPutMapFile);
+			SceneSerializer::serialize(m_outPutMapFile, *this);
 		}
 
 
