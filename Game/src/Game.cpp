@@ -41,14 +41,14 @@ Game::Game()
 	bool testDeSerialize = true;
 	if (testDeSerialize)
 	{
-		ECSSerializer::deSerialize("ecsTestSave.json", m_entities);
+		ECSSerializer::deSerialize("Saves/TestSave/", m_entities);
 		ECSSerializer::reCoupleWithSceneGraph(m_acticeScene->sceneGraph(), m_entities);
 		testLoadStuffToECS();
 	}
 	else
 	{
 		testAddStuffToECS();
-		ECSSerializer::serialize("ecsTestSave.json");
+		ECSSerializer::serialize("Saves/TestSave/");
 	}
 
 	//SceneSerializer::serialize("Maps/SandboxMap.json", *m_acticeScene);

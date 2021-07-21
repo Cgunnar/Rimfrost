@@ -25,6 +25,7 @@ namespace Rimfrost
 		{
 			input.seekg(0, input.end);
 			fileSize = input.tellg();
+			assert(fileSize != -1); // tellg fail
 		}
 		input.close();
 	}

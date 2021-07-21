@@ -6,7 +6,7 @@
 namespace Rimfrost
 {
 
-	constexpr char saveDirector[] = "Saves/";
+	
 
 	//learn c++20 modules to get encapsulation, these static classes are not nice
 	class ECSSerializer
@@ -27,6 +27,10 @@ namespace Rimfrost
 		static void reCoupleWithSceneGraph(SceneGraph& sceneGraph, std::vector<Entity>& allEntities);
 
 	private:
+		static constexpr char saveDirector[] = "ecs/";
+		static constexpr char compBin[] = "comp_bin/";
+		static constexpr char compFileName[] = "comp.json";
+		static constexpr char freeEntitySlotsFileName[] = "free_entity_slots.bin";
 		static std::optional<std::map<ComponentTypeID, ComponentTypeID>> remapTypeID(std::vector<JComponentInfoStruct>& componentsFromJson);
 		
 	};

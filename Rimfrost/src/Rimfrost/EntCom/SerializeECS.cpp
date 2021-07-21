@@ -1,6 +1,7 @@
 #include "rfpch.hpp"
 
 #include <stdexcept>
+#include <filesystem>
 #include <json.hpp>
 
 #include "SerializeECS.hpp"
@@ -19,7 +20,9 @@ namespace Rimfrost
 	//serialize ecs to json
 	void ECSSerializer::serialize(std::string path)
 	{
-		path = saveDirector + path;
+		path = path + saveDirector;
+		if (!std::filesystem::exists(path)) 
+			std::filesystem::create_directories(path);
 
 		//write components
 		nlohmann::json j;
@@ -34,16 +37,20 @@ namespace Rimfrost
 			EC::m_entRegInstance.m_freeEntitySlots.pop();
 		}
 		writefileBin(reinterpret_cast<char*>(freeSlotQueueAsVector.data()), freeSlotQueueAsVector.size(), sizeof(EntityIndex),
-			std::string(saveDirector) + "free_ent_slots.bin");
+			path + freeEntitySlotsFileName);
 
 
 		size_t cIndex = 0;
+		
+		std::string componentPath = path + compBin;
+		if (!std::filesystem::exists(componentPath))
+			std::filesystem::create_directories(componentPath);
 		for (auto& c : BaseComponent::s_componentRegister)
 		{
-			std::string componentPath = std::string(saveDirector) + "Components/" + removeIllegalChars(c.name);
-			writefileBin(c.getArrayPointer(), c.componentCount(), c.size, componentPath);
+			std::string componentPathAndName = componentPath + removeIllegalChars(c.name);
+			writefileBin(c.getArrayPointer(), c.componentCount(), c.size, componentPathAndName);
 
-			JComponentInfoStruct cInfo{ componentPath, c.name, cIndex, c.size, c.componentCount() };
+			JComponentInfoStruct cInfo{ componentPathAndName, c.name, cIndex, c.size, c.componentCount() };
 
 			nlohmann::json jc;
 			to_json(jc, cInfo);
@@ -52,19 +59,20 @@ namespace Rimfrost
 			cIndex++;
 		}
 
-		std::ofstream o(path);
+		std::ofstream o(path + compFileName);
 		o << std::setw(4) << j << std::endl;
 	}
 
 	//deserialize ecs from json
 	void ECSSerializer::deSerialize(std::string path, std::vector<Entity>& outEntities)
 	{
-		path = saveDirector + path;
+		path = path + saveDirector;
 		if (!outEntities.empty())
 		{
 			throw std::runtime_error("Can only deserialize when ecs is empty.");
 		}
-		std::ifstream f(path);
+		assert(std::filesystem::exists(path + compFileName));
+		std::ifstream f(path + compFileName);
 
 		nlohmann::json j = nlohmann::json::parse(f);
 		std::vector<JComponentInfoStruct> componentInfoFromFile = j["componentInfo"].get<std::vector<JComponentInfoStruct>>();
@@ -135,9 +143,9 @@ namespace Rimfrost
 		//load unused slots for entitys
 		std::vector<EntityIndex> freeSlotQueueAsVector;
 		size_t fileSize = 0;
-		readfileBin(nullptr, fileSize, std::string(saveDirector) + "free_ent_slots.bin");
+		readfileBin(nullptr, fileSize, path + freeEntitySlotsFileName);
 		freeSlotQueueAsVector.resize(fileSize / sizeof(EntityIndex));
-		readfileBin(reinterpret_cast<char*>(freeSlotQueueAsVector.data()), fileSize, std::string(saveDirector) + "free_ent_slots.bin");
+		readfileBin(reinterpret_cast<char*>(freeSlotQueueAsVector.data()), fileSize, path + freeEntitySlotsFileName);
 		for (const auto& e : freeSlotQueueAsVector)
 		{
 			EC::m_entRegInstance.m_freeEntitySlots.push(e);
