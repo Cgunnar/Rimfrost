@@ -21,27 +21,19 @@ namespace Rimfrost
 
 
 
-	LevelEditor::LevelEditor(const std::string& inputMap, const std::string& outPutMap) : m_whiteLight({ 0, 8, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight"),
-		m_inputMapFile(inputMap), m_outPutMapFile(outPutMap)
+	LevelEditor::LevelEditor(const std::string& inputMap, const std::string& outPutMap) : m_whiteLight({ 0, 8, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
 	{
-
+		assert(outPutMap.back() == '\\' || outPutMap.back() == '/');
+		assert(inputMap.back() == '\\' || inputMap.back() == '/');
+		m_outPutMapFile = outPutMap;
+		m_inputMapFile = inputMap;
 	}
 
 	LevelEditor::~LevelEditor()
 	{
-		m_tempEntitis.clear(); // this will go out of scope but if I later want to save entities in the destructor this must be called first
-		if (!m_outPutMapFile.empty() && m_saveOnExit)
-		{
-			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode);
-			for (auto& p : m_pointLightGizmoHandles)
-			{
-				m_sceneGraph.removeNode(p);
-			}
-			m_pointLightGizmoHandles.clear();
-			m_sceneGraph.packSceneGraph();
-			OutputDebugString(L"save level from leveleditor destructor\n");
-			Rimfrost::SceneSerializer::serialize(m_outPutMapFile, *this);
-		}
+		OutputDebugString(L"save level from leveleditor destructor\n");
+		this->save(m_outPutMapFile);
+		
 		if (m_lightSphere) delete m_lightSphere;
 		OutputDebugString(L"~LevelEditor\n");
 	}
@@ -104,7 +96,19 @@ namespace Rimfrost
 			Logger::getLogger().debugLog("[WARNING] LevelEditor::save(std::string path) uses default argument: [ " + path + " ], saves will be overitten next call.\n");
 		}
 
-		
+		m_tempEntitis.clear(); // this will go out of scope but if I later want to save entities in the destructor this must be called first
+		if (!m_outPutMapFile.empty() && m_saveOnExit)
+		{
+			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode);
+			for (auto& p : m_pointLightGizmoHandles)
+			{
+				m_sceneGraph.removeNode(p);
+			}
+			m_pointLightGizmoHandles.clear();
+			m_sceneGraph.packSceneGraph();
+			
+			Rimfrost::SceneSerializer::serialize(m_outPutMapFile, *this);
+		}
 
 
 	}
@@ -513,7 +517,7 @@ namespace Rimfrost
 					switch (keyboard.keyAndState.key)
 					{
 					case Key::S:
-						this->save();
+						//this->save();
 						break;
 					case Key::Y:
 						break;

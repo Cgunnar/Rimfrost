@@ -1,8 +1,6 @@
 #include "rfpch.hpp"
 
 #include "Camera.hpp"
-#include <cstring>
-#include <cmath>
 #include <EventSystem.hpp>
 #include "Rimfrost\EventSystem\KeyboardEvent.hpp"
 #include "Rimfrost\EventSystem\MouseEvent.hpp"

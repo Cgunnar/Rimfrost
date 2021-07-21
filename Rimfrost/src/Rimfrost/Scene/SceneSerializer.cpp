@@ -77,8 +77,9 @@ namespace Rimfrost
 	}
 
 	
-	void SceneSerializer::serialize(const std::string& fileName, IScene& scene)
+	void SceneSerializer::serialize(const std::string& path, IScene& scene)
 	{
+		if(!std::filesystem::exists(path)) throw std::runtime_error("path supplied to SceneSerializer::serialize() does not exist.");
 		const SceneGraph& sceneGraph = scene.sceneGraph();
 		const Camera& camera = scene.camera();
 
@@ -120,17 +121,17 @@ namespace Rimfrost
 		}
 
 
-		std::ofstream o(fileName);
+		std::ofstream o(path + sceneFileName);
 		o << std::setw(4) << j << std::endl;
 	}
 
-	void SceneSerializer::deSerialize(const string& fileName, IScene& scene)
+	void SceneSerializer::deSerialize(const string& path, IScene& scene)
 	{
 		SceneGraph& sceneGraph = scene.sceneGraph();
 		Camera& camera = scene.camera();
 
-
-		std::ifstream f(fileName);
+		if (!std::filesystem::exists(path + sceneFileName)) throw std::runtime_error("path supplied to SceneSerializer::deSerialize does not exist.");
+		std::ifstream f(path + sceneFileName);
 
 		auto j = nlohmann::json::parse(f);
 

@@ -13,12 +13,12 @@ namespace Rimfrost
 	class LevelEditor : public IScene, public EventObserver
 	{
 	public:
-		LevelEditor(const std::string& inputMap = "", const std::string& outPutMap = "");
+		LevelEditor(const std::string& inputMap = "", const std::string& outPutMap = "tempLevelEditorSave/");
 		~LevelEditor();
 
 		void setUpScene() override;
-		void load(std::string path = "") override;
-		void save(std::string path = "tempLevelEditorSave/") override;
+		void load(std::string path) override;
+		void save(std::string path) override;
 		Camera& camera() override;
 		SceneGraph& sceneGraph() override;
 		Lights& lights() override;

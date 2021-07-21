@@ -29,7 +29,7 @@ Game::Game()
 	EventSystem::addObserver(*this, KeyboardEvent::eventType);
 
 
-	m_scenes.emplace_back(std::make_shared<LevelEditor>("Maps/LevelEditorOutPut.json", "Maps/LevelEditorOutPut.json"));
+	m_scenes.emplace_back(std::make_shared<LevelEditor>("Saves/TestSave/", "Saves/TestSave/"));
 	//m_scenes.emplace_back(std::make_shared<LevelEditor>("Maps/SandboxMap.json", "Maps/LevelEditorOutPut.json"));
 	m_scenes.emplace_back(std::make_shared<SandboxMap>());
 
@@ -45,11 +45,11 @@ Game::Game()
 		ECSSerializer::reCoupleWithSceneGraph(m_acticeScene->sceneGraph(), m_entities);
 		testLoadStuffToECS();
 	}
-	else
+	/*else
 	{
 		testAddStuffToECS();
 		ECSSerializer::serialize("Saves/TestSave/");
-	}
+	}*/
 
 	//SceneSerializer::serialize("Maps/SandboxMap.json", *m_acticeScene);
 }

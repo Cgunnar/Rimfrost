@@ -18,6 +18,8 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
+#include <filesystem>
 
 #include <chrono>
 #include <memory>
