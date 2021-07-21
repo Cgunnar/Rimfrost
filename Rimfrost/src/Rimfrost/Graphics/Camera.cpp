@@ -218,7 +218,7 @@ namespace Rimfrost
 				case Key::SPACE:
 					m_moveDirection += GetViewMatrix() * Vector4(0, 1, 0, 0);
 					break;
-				case Key::LCTRL:
+				case Key::C:
 					m_moveDirection += GetViewMatrix() * Vector4(0, -1, 0, 0);
 					break;
 				case Key::LSHIFT:

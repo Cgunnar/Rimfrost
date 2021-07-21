@@ -61,12 +61,12 @@ namespace Rimfrost
 
 	}
 
-	void SandboxMap::loadFromFile(std::string path)
+	void SandboxMap::load(std::string path)
 	{
 
 	}
 
-	void SandboxMap::saveToFile(std::string path)
+	void SandboxMap::save(std::string path)
 	{
 
 	}

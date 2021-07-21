@@ -13,8 +13,8 @@ namespace Rimfrost
 		~SandboxMap();
 
 		void setUpScene() override;
-		void loadFromFile(std::string path) override;
-		void saveToFile(std::string path) override;
+		void load(std::string path = "") override;
+		void save(std::string path = "") override;
 		Camera& camera() override;
 		SceneGraph& sceneGraph() override;
 		Lights& lights() override;

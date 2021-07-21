@@ -88,13 +88,25 @@ namespace Rimfrost
 
 	}
 
-	void LevelEditor::loadFromFile(std::string path)
+	void LevelEditor::load(std::string path)
 	{
+		if (path.empty())
+			throw std::runtime_error("Path to savefolder was not given.");
+
 
 	}
 
-	void LevelEditor::saveToFile(std::string path)
+	void LevelEditor::save(std::string path)
 	{
+		assert(!path.empty());
+		if (path == "tempLevelEditorSave/")
+		{
+			Logger::getLogger().debugLog("[WARNING] LevelEditor::save(std::string path) uses default argument: [ " + path + " ], saves will be overitten next call.\n");
+		}
+
+		
+
+
 	}
 
 	Camera& LevelEditor::camera()
@@ -494,16 +506,22 @@ namespace Rimfrost
 		if (e.type() == KeyboardEvent::eventType)
 		{
 			auto& keyboard = static_cast<const KeyboardEvent&>(e);
-			if (keyboard.keyAndState.state == KeyState::KEY_DOWN)
+			if (keyboard.keyAndState.state == KeyState::KEY_CLICKED)
 			{
-				switch (keyboard.keyAndState.key)
+				if ((*keyboard.boardState)[Key::LCTRL] == KeyState::KEY_DOWN)
 				{
-				case Key::S:
-					break;
-				case Key::LCTRL:
-					break;
-				default:
-					break;
+					switch (keyboard.keyAndState.key)
+					{
+					case Key::S:
+						this->save();
+						break;
+					case Key::Y:
+						break;
+					case Key::Z:
+						break;
+					default:
+						break;
+					}
 				}
 			}
 		}
