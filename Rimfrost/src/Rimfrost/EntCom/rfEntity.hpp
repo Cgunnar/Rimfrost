@@ -27,7 +27,7 @@ namespace Rimfrost
 	class EntityReg;
 	class ECSSerializer;
 
-	
+
 	class Entity
 	{
 		friend EntityComponentManager;
@@ -36,18 +36,33 @@ namespace Rimfrost
 		~Entity();
 		Entity(const Entity& other)
 		{
-			this->m_entCompManRef = other.m_entCompManRef;
-			this->m_entityIndex = other.m_entityIndex;
-			s_refCounts[m_entityIndex]++;
+			if (!other.empty())
+			{
+				this->m_entCompManRef = other.m_entCompManRef;
+				this->m_entityIndex = other.m_entityIndex;
+				s_refCounts[m_entityIndex]++;
+			}
+			else
+			{
+				this->m_entCompManRef = nullptr;
+				this->m_entityIndex = -1;
+			}
 		}
 		Entity& operator=(const Entity& other)
 		{
 			this->reset();
-			this->m_entCompManRef = other.m_entCompManRef;
-			this->m_entityIndex = other.m_entityIndex;
-			s_refCounts[m_entityIndex]++;
+			if (!other.empty())
+			{
+				this->m_entCompManRef = other.m_entCompManRef;
+				this->m_entityIndex = other.m_entityIndex;
+				s_refCounts[m_entityIndex]++;
+			}
+			else
+			{
+				this->m_entCompManRef = nullptr;
+				this->m_entityIndex = -1;
+			}
 			return *this;
-
 		}
 		Entity(Entity&& other) noexcept
 		{
@@ -79,17 +94,25 @@ namespace Rimfrost
 
 		EntityID getID() const { return m_entityIndex; }
 		int getRefCount() const { return s_refCounts[m_entityIndex]; }
-		void reset() 
-		{ 
+		void reset()
+		{
+			if (empty()) return;
 			s_refCounts[m_entityIndex]--;
 			m_entityIndex = -1;
 			m_entCompManRef = nullptr;
 		};
+		bool empty() const
+		{
+			if (m_entityIndex == -1) return true;
+			if (!m_entCompManRef) return true;
+			if (s_refCounts[m_entityIndex] <= 0) return true;
+			return false;
+		}
 
 		operator const EntityID() const { return m_entityIndex; }
 
 	private:
-		Entity(EntityID ID, EntityComponentManager* entReg) : m_entityIndex(ID), m_entCompManRef(entReg) 
+		Entity(EntityID ID, EntityComponentManager* entReg) : m_entityIndex(ID), m_entCompManRef(entReg)
 		{
 			if (ID >= s_refCounts.size())
 			{
@@ -100,7 +123,7 @@ namespace Rimfrost
 				s_refCounts[ID]++;
 			}
 		}
-		
+
 		EntityID m_entityIndex;
 		EntityComponentManager* m_entCompManRef;
 		inline static std::vector<int> s_refCounts;
@@ -115,7 +138,7 @@ namespace Rimfrost
 	};
 
 
-	
+
 
 	class BaseComponent
 	{
@@ -126,9 +149,9 @@ namespace Rimfrost
 
 
 	protected:
-		static ComponentTypeID registerComponent(size_t size, std::string name, std::function<ComponentIndex(BaseComponent*)> createFunc, 
+		static ComponentTypeID registerComponent(size_t size, std::string name, std::function<ComponentIndex(BaseComponent*)> createFunc,
 			std::function<BaseComponent* (ComponentIndex)> fetchFunc, std::function<EntityID(ComponentIndex)> deleteFunc,
-			std::function<void(size_t)> resize, std::function<char*()> getArray, std::function<size_t()> count)
+			std::function<void(size_t)> resize, std::function<char* ()> getArray, std::function<size_t()> count)
 		{
 			ComponentTypeID compID = s_componentRegister.size();
 			ComponentUtility comUtil;
@@ -156,7 +179,7 @@ namespace Rimfrost
 			std::function<BaseComponent* (ComponentIndex)> fetchComponentAsBase;
 			std::function<EntityID(ComponentIndex)> deleteComponent;
 			std::function<void(size_t)> resizeArrayT;
-			std::function<char*()> getArrayPointer;
+			std::function<char* ()> getArrayPointer;
 			std::function<size_t()> componentCount;
 
 		};
@@ -178,8 +201,8 @@ namespace Rimfrost
 	};
 
 
-	
-	
+
+
 
 	template<typename T>
 	struct Component : public BaseComponent
@@ -194,17 +217,17 @@ namespace Rimfrost
 		~Component()
 		{
 			auto& v = componentArray;
-			Logger::getLogger().debugLog("~" + componentName + "(), number of components deleted: " + std::to_string(v.size()) + "\n");
+			Logger::getLogger().debugLog("~" + componentName + "(), " + "EntityID: " + std::to_string(entityIndex) + ", number of components in vector : " + std::to_string(v.size()) + "\n");
 		}
 #endif // DEBUG
 
-		
+
 
 	private:
 		template<typename T>
 		requires std::is_trivially_copy_assignable_v<T>
-		static ComponentIndex createComponent(BaseComponent* comp)
-		{	
+			static ComponentIndex createComponent(BaseComponent* comp)
+		{
 
 			componentArray.push_back(*static_cast<T*>(comp));
 			return componentArray.size() - 1;
@@ -219,7 +242,7 @@ namespace Rimfrost
 		static EntityID deleteComponent(ComponentIndex index)
 		{
 			EntityID entityOwningBackComponent = -1;
-			if (index + 1 != componentArray.size()) // last component
+			if (index + 1 != componentArray.size()) // last component skip this step
 			{
 				componentArray[index] = componentArray.back();
 				//componentArray[index].
@@ -281,7 +304,7 @@ namespace Rimfrost
 				OutputDebugString(L"[ERROR] call clear on EntityReg before main returns.\n");
 				assert(false);
 			}
-			
+
 		}
 	public:
 
@@ -306,7 +329,18 @@ namespace Rimfrost
 		}
 		void removeEntity(Entity& entity)
 		{
-			assert(entity.s_refCounts[entity.m_entityIndex] == 0);
+			assert(!entity.empty());
+
+			if (entity.s_refCounts[entity.m_entityIndex] > 2)
+			{
+				std::string debugOut = "[ERROR] release " + std::to_string(entity.s_refCounts[entity.m_entityIndex] - 2) +
+					" references to Entity, ID: " + std::to_string(entity.m_entityIndex) +
+					"\n\tOnly two references is allowd when removeEntity(Entity) is called.\n\tOne internal and one for the argument to the call.\n";
+				Logger::getLogger().debugLog(debugOut);
+
+				throw std::runtime_error(debugOut);
+			}
+
 			auto& components = m_entitiesComponentHandles[entity.m_entityIndex];
 			for (auto& c : components)
 			{
@@ -322,7 +356,10 @@ namespace Rimfrost
 				m_entitiesComponentHandles[entity.m_entityIndex].clear();
 				m_freeEntitySlots.push(entity.m_entityIndex);
 			}
+			Logger::getLogger().debugLog("Removed Entity: " + std::to_string(entity.m_entityIndex) + ", refCount: "
+				+ std::to_string(entity.s_refCounts[entity.m_entityIndex]) + "\n");
 			entity.m_entCompManRef = nullptr;
+			entity.m_entityIndex = -1;
 		}
 
 		void update(double dt)
@@ -332,7 +369,7 @@ namespace Rimfrost
 
 		template<typename T>
 		requires std::is_trivially_copy_assignable_v<T>
-		T* addComponent(EntityID entityID, const T& component);
+			T* addComponent(EntityID entityID, const T& component);
 
 		void addComponent(EntityID entityID, ComponentTypeID typeID, BaseComponent* component)
 		{
@@ -380,7 +417,7 @@ namespace Rimfrost
 
 			return Entity(id, this);
 		}
-		
+
 
 	private:
 		std::vector<std::vector<ComponentMetaData>> m_entitiesComponentHandles;
@@ -390,30 +427,29 @@ namespace Rimfrost
 	};
 	inline Entity::~Entity()
 	{
-		if (m_entityIndex == -1)
-		{
-			assert(!m_entCompManRef);
-#ifdef _DEBUG
-			OutputDebugString(L"~Entity\t empty Entity.\n");
-#endif // _DEBUG
-		}
-		else
+		if (!this->empty())
 		{
 			s_refCounts[m_entityIndex]--;
 
-			#ifdef _DEBUG
-				OutputDebugString(L"~Entity\tindex: ");
-				OutputDebugString(std::to_wstring(m_entityIndex).c_str());
-				OutputDebugString(L", new refCount: ");
-				OutputDebugString(std::to_wstring(s_refCounts[m_entityIndex]).c_str());
-				OutputDebugString(L"\n");
-			#endif // _DEBUG
+#ifdef _DEBUG
+			OutputDebugString(L"~Entity\tindex: ");
+			OutputDebugString(std::to_wstring(m_entityIndex).c_str());
+			OutputDebugString(L", new refCount: ");
+			OutputDebugString(std::to_wstring(s_refCounts[m_entityIndex]).c_str());
+			OutputDebugString(L"\n");
+#endif // _DEBUG
 
 
-			if (m_entCompManRef && !s_refCounts[m_entityIndex])
+			if (s_refCounts[m_entityIndex] == 2) // only 2 references is allowed, one internal in entReg and the one destructing
 			{
 				m_entCompManRef->removeEntity(*this);
 			}
+		}
+		else
+		{
+			#ifdef _DEBUG
+				OutputDebugString(L"~Entity\t empty Entity.\n");
+			#endif // _DEBUG
 		}
 	}
 
@@ -424,7 +460,12 @@ namespace Rimfrost
 	public:
 		static void clear()
 		{
-			m_entCompManInstance.m_entityRegistry.clear(); // this will delete alla entities and components, before componentesArray gets destroyed
+			// this will delete alla entities and components, before componentesArray gets destroyed
+			for (auto& e : m_entCompManInstance.m_entityRegistry)
+			{
+				m_entCompManInstance.removeEntity(e);
+			}
+			m_entCompManInstance.m_entityRegistry.clear(); 
 			m_entCompManInstance.clearHasBeenCalled = true;
 		}
 
@@ -479,7 +520,7 @@ namespace Rimfrost
 
 	private:
 		inline static EntityComponentManager m_entCompManInstance;
-		
+
 	};
 
 
@@ -505,7 +546,7 @@ namespace Rimfrost
 
 	template<typename T>
 	requires std::is_trivially_copy_assignable_v<T>
-	inline T* EntityComponentManager::addComponent(EntityID entityID, const T& comp)
+		inline T* EntityComponentManager::addComponent(EntityID entityID, const T& comp)
 	{
 		ComponentTypeID typeID = T::typeID;
 		ComponentIndex index;

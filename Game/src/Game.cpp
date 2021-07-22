@@ -113,8 +113,9 @@ void Game::testAddStuffToECS()
 	Entity emptyE2 = EntityReg::createEntity();
 	Entity emptyE3 = EntityReg::createEntity();
 
-	//EntityReg::removeEntity(removeThisTest);
-	//EntityReg::removeEntity(removeTest0);
+	EntityReg::removeEntity(removeThisTest);
+	removeTest0.addComponent(SphereCollider());
+	EntityReg::removeEntity(removeTest0);
 
 	Entity redCone = EntityReg::createEntity();
 	nc.nodeHandel = m_acticeScene->sceneGraph().addModel("Models/red_cone.obj");
