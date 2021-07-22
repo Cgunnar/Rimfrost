@@ -34,7 +34,6 @@ Game::Game()
 
 	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();
-	//testAddStuffToECS();
 }
 
 Game::~Game()
@@ -48,18 +47,6 @@ void Game::update(double dt)
 	m_acticeScene->update(dt);
 
 	assert(!EntityReg::getAllEntities().empty());
-
-	/*for (auto& pcComp : EntityReg::getComponentArray<PointLightComponent>())
-	{
-		if (auto nodeComp = EntityReg::getComponent<NodeComponent>(pcComp.getEntityID()); nodeComp)
-		{	
-			assert(m_poinLightMap.contains(pcComp.getKey()));
-			auto& pointLight = m_poinLightMap[pcComp.getKey()];
-
-			pcComp.position = nodeComp->nodeHandel->worldMatrix.getTranslation();
-			pointLight.setPosition(pcComp.position);
-		}
-	}*/
 }
 
 void Game::testAddStuffToECS()

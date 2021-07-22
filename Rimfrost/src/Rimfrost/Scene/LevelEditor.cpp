@@ -149,11 +149,14 @@ namespace Rimfrost
 		{
 			if (auto nodeComp = EntityReg::getComponent<NodeComponent>(pcComp.getEntityID()); nodeComp)
 			{
-				assert(m_poinLightMap.contains(pcComp.getKey()));
-				auto& pointLight = m_poinLightMap[pcComp.getKey()];
+				//assert(m_poinLightMap.contains(pcComp.getKey()));
+				if(m_poinLightMap.contains(pcComp.getKey()))
+				{
+					auto& pointLight = m_poinLightMap[pcComp.getKey()];
 
-				pcComp.position = nodeComp->nodeHandel->worldMatrix.getTranslation();
-				pointLight.setPosition(pcComp.position);
+					pcComp.position = nodeComp->nodeHandel->worldMatrix.getTranslation();
+					pointLight.setPosition(pcComp.position);
+				}
 			}
 		}
 
