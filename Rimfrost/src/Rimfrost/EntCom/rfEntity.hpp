@@ -332,7 +332,6 @@ namespace Rimfrost
 		void removeEntity(Entity& entity)
 		{
 			assert(!entity.empty());
-
 			if (entity.s_refCounts[entity.m_entityIndex] > 2)
 			{
 				std::string debugOut = "[ERROR] release " + std::to_string(entity.s_refCounts[entity.m_entityIndex] - 2) +
@@ -415,7 +414,6 @@ namespace Rimfrost
 
 		Entity createEntityForDeSerialization(EntityID id)
 		{
-
 			return Entity(id, this);
 		}
 
@@ -476,6 +474,7 @@ namespace Rimfrost
 		}
 		static void removeEntity(Entity& entity)
 		{
+			assert(&entity != &m_entCompManInstance.m_entityRegistry[entity.getID()]);
 			m_entCompManInstance.removeEntity(entity);
 		}
 

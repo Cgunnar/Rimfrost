@@ -98,7 +98,6 @@ void Game::testAddStuffToECS()
 	testE.addComponent(PointMass());
 
 	Entity removeThisTest = EntityReg::createEntity();
-	
 
 	Entity testE2 = EntityReg::createEntity();
 	testE2.addComponent(TestComponent());
