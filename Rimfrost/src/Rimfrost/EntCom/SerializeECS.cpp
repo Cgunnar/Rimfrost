@@ -153,12 +153,12 @@ namespace Rimfrost
 		//reuse freeSlot vector to only create Entities not in freeSlots
 		std::ranges::sort(freeSlotQueueAsVector, std::greater<>());
 		EntityID index = 0;
-		EntityReg::getAllEntities().reserve(EntityReg::m_entCompManInstance.m_entitiesComponentHandles.size() - freeSlotQueueAsVector.size());
+		EntityReg::m_entCompManInstance.m_entityRegistry.reserve(EntityReg::m_entCompManInstance.m_entitiesComponentHandles.size() - freeSlotQueueAsVector.size());
 		while (index < EntityReg::m_entCompManInstance.m_entitiesComponentHandles.size())
 		{
 			if (freeSlotQueueAsVector.empty() || index != freeSlotQueueAsVector.back())
 			{
-				EntityReg::getAllEntities().emplace_back(EntityReg::m_entCompManInstance.createEntityForDeSerialization(index));
+				EntityReg::m_entCompManInstance.m_entityRegistry.emplace_back(EntityReg::m_entCompManInstance.createEntityForDeSerialization(index));
 			}
 			else
 			{

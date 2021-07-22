@@ -1,11 +1,11 @@
 #pragma once
 
 #include <unordered_map>
-#include <any>
 #include <queue>
 #include <vector>
 #include <type_traits>
 #include <functional>
+#include <stdexcept>
 #include <assert.h>
 
 #ifdef _DEBUG
@@ -74,11 +74,16 @@ namespace Rimfrost
 		}
 		Entity& operator=(Entity&& other) noexcept
 		{
+			Logger::getLogger().debugLog("move assignStart\n");
+			Logger::getLogger().debugLog(std::to_string(other.s_refCounts[other.m_entityIndex]) + "\n");
+			this->reset();
 			this->m_entityIndex = other.m_entityIndex;
 			this->m_entCompManRef = other.m_entCompManRef;
 			//invalidate other
 			other.m_entCompManRef = nullptr;
 			other.m_entityIndex = -1;
+			Logger::getLogger().debugLog(std::to_string(this->s_refCounts[this->m_entityIndex]) + "\n");
+			Logger::getLogger().debugLog("move assignEnd\n");
 			return *this;
 		}
 
@@ -103,10 +108,7 @@ namespace Rimfrost
 		};
 		bool empty() const
 		{
-			if (m_entityIndex == -1) return true;
-			if (!m_entCompManRef) return true;
-			if (s_refCounts[m_entityIndex] <= 0) return true;
-			return false;
+			return m_entityIndex == -1 || !m_entCompManRef || s_refCounts[m_entityIndex] <= 0;
 		}
 
 		operator const EntityID() const { return m_entityIndex; }
@@ -213,13 +215,13 @@ namespace Rimfrost
 		static const size_t size;
 		static const std::string componentName;
 
-#ifdef DEBUG
-		~Component()
-		{
-			auto& v = componentArray;
-			Logger::getLogger().debugLog("~" + componentName + "(), " + "EntityID: " + std::to_string(entityIndex) + ", number of components in vector : " + std::to_string(v.size()) + "\n");
-		}
-#endif // DEBUG
+//#ifdef DEBUG
+//		~Component()
+//		{
+//			auto& v = componentArray;
+//			Logger::getLogger().debugLog("~" + componentName + "(), " + "EntityID: " + std::to_string(entityIndex) + ", number of components in vector : " + std::to_string(v.size()) + "\n");
+//		}
+//#endif // DEBUG
 
 
 
@@ -358,8 +360,7 @@ namespace Rimfrost
 			}
 			Logger::getLogger().debugLog("Removed Entity: " + std::to_string(entity.m_entityIndex) + ", refCount: "
 				+ std::to_string(entity.s_refCounts[entity.m_entityIndex]) + "\n");
-			entity.m_entCompManRef = nullptr;
-			entity.m_entityIndex = -1;
+			entity.reset();
 		}
 
 		void update(double dt)
@@ -513,7 +514,7 @@ namespace Rimfrost
 			return T::componentArray;
 		}
 
-		static std::vector<Entity>& getAllEntities()
+		static const std::vector<Entity>& getAllEntities()
 		{
 			return m_entCompManInstance.m_entityRegistry;
 		}
