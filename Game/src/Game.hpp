@@ -19,6 +19,6 @@ private:
 	void testLoadStuffToECS();
 
 private:
-	std::unordered_map<int64_t, Rimfrost::PointLight> m_poinLightMap;
+	
 
 };

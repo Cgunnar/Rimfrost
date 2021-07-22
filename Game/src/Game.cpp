@@ -34,15 +34,7 @@ Game::Game()
 
 	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();
-
-	bool testDeSerialize = true;
-	if (testDeSerialize)
-	{
-		/*ECSSerializer::deSerialize("Saves/TestSave/");
-		ECSSerializer::reCoupleWithSceneGraph(m_acticeScene->sceneGraph());
-		testLoadStuffToECS();*/
-	}
-	testAddStuffToECS();
+	//testAddStuffToECS();
 }
 
 Game::~Game()
@@ -57,7 +49,7 @@ void Game::update(double dt)
 
 	assert(!EntityReg::getAllEntities().empty());
 
-	for (auto& pcComp : EntityReg::getComponentArray<PointLightComponent>())
+	/*for (auto& pcComp : EntityReg::getComponentArray<PointLightComponent>())
 	{
 		if (auto nodeComp = EntityReg::getComponent<NodeComponent>(pcComp.getEntityID()); nodeComp)
 		{	
@@ -67,7 +59,7 @@ void Game::update(double dt)
 			pcComp.position = nodeComp->nodeHandel->worldMatrix.getTranslation();
 			pointLight.setPosition(pcComp.position);
 		}
-	}
+	}*/
 }
 
 void Game::testAddStuffToECS()
@@ -111,19 +103,14 @@ void Game::testAddStuffToECS()
 	pl->position = { 0, 2, 0 };
 	pl->strength = 100;
 
-	m_poinLightMap.insert_or_assign(pl->getKey(), PointLight(pl->position, pl->color, pl->strength));
-	m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[pl->getKey()]);
+	/*m_poinLightMap.insert_or_assign(pl->getKey(), PointLight(pl->position, pl->color, pl->strength));
+	m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[pl->getKey()]);*/
 }
 
 void Game::testLoadStuffToECS()
 {
 	//add lights from components
-	for (const auto& compL : EntityReg::getComponentArray<PointLightComponent>())
-	{
-		assert(!m_poinLightMap.contains(compL.getKey()));
-		m_poinLightMap.insert_or_assign(compL.getKey(), PointLight(compL.position, compL.color, compL.strength));
-		m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[compL.getKey()]);
-	}
+	
 
 }
 

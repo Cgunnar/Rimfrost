@@ -7,6 +7,7 @@
 #include "Rimfrost\EventSystem\EventSystem.hpp"
 #include "Rimfrost\Scene\SceneSerializer.hpp"
 #include "Rimfrost\EntCom\SerializeECS.hpp"
+#include "Rimfrost\EntCom\rfComponents.hpp"
 #include <imgui.h>
 
 #include "RfextendedMath.hpp"
@@ -44,8 +45,21 @@ namespace Rimfrost
 		m_lights.pointLights = std::make_shared<PointLightContainer>();
 		m_lights.pointLights->addPointLight(m_whiteLight);
 
-		if(!m_inputMapFile.empty())
+		if (!m_inputMapFile.empty())
+		{
 			SceneSerializer::deSerialize(m_inputMapFile, *this);
+
+			ECSSerializer::deSerialize("Saves/TestSave/");
+			ECSSerializer::reCoupleWithSceneGraph(m_sceneGraph);
+			for (const auto& compL : EntityReg::getComponentArray<PointLightComponent>())
+			{
+				assert(!m_poinLightMap.contains(compL.getKey()));
+				m_poinLightMap.insert_or_assign(compL.getKey(), PointLight(compL.position, compL.color, compL.strength));
+				this->lights().pointLights->addPointLight(m_poinLightMap[compL.getKey()]);
+			}
+		}
+
+
 
 		m_saveOnExit = true;
 
@@ -131,6 +145,20 @@ namespace Rimfrost
 
 	void LevelEditor::update(double dt)
 	{
+		for (auto& pcComp : EntityReg::getComponentArray<PointLightComponent>())
+		{
+			if (auto nodeComp = EntityReg::getComponent<NodeComponent>(pcComp.getEntityID()); nodeComp)
+			{
+				assert(m_poinLightMap.contains(pcComp.getKey()));
+				auto& pointLight = m_poinLightMap[pcComp.getKey()];
+
+				pcComp.position = nodeComp->nodeHandel->worldMatrix.getTranslation();
+				pointLight.setPosition(pcComp.position);
+			}
+		}
+
+
+
 		m_camera.update(static_cast<float>(dt));
 		m_nodeEditGui.view();
 

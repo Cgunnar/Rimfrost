@@ -39,6 +39,9 @@ namespace Rimfrost
 		//only used to work the scene, shall not be saved
 		std::vector<Entity> m_tempEntitis;
 
+		// uesed to map pointLightComponents to PointLights
+		std::unordered_map<int64_t, Rimfrost::PointLight> m_poinLightMap;
+
 		enum class GizmoXYZ
 		{
 			NONE = 0,

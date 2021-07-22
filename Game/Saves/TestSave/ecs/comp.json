@@ -37,17 +37,17 @@
         },
         {
             "componentCount": 1,
-            "componentSize": 48,
+            "componentSize": 40,
             "componentTypeID": 5,
-            "path": "Saves/TestSave/ecs/comp_bin/struct PointLightComponent",
-            "typeName": "struct PointLightComponent"
+            "path": "Saves/TestSave/ecs/comp_bin/struct RimfrostNodeComponent",
+            "typeName": "struct Rimfrost::NodeComponent"
         },
         {
             "componentCount": 1,
-            "componentSize": 40,
+            "componentSize": 48,
             "componentTypeID": 6,
-            "path": "Saves/TestSave/ecs/comp_bin/struct RimfrostNodeComponent",
-            "typeName": "struct Rimfrost::NodeComponent"
+            "path": "Saves/TestSave/ecs/comp_bin/struct RimfrostPointLightComponent",
+            "typeName": "struct Rimfrost::PointLightComponent"
         }
     ],
     "numberOfEntitiesAndFreeSlots": 7

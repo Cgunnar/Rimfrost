@@ -156,14 +156,11 @@ namespace Rimfrost
 		EntityReg::m_entCompManInstance.m_entityRegistry.reserve(EntityReg::m_entCompManInstance.m_entitiesComponentHandles.size() - freeSlotQueueAsVector.size());
 		while (index < EntityReg::m_entCompManInstance.m_entitiesComponentHandles.size())
 		{
-			if (freeSlotQueueAsVector.empty() || index != freeSlotQueueAsVector.back())
+			if (!freeSlotQueueAsVector.empty() && index == freeSlotQueueAsVector.back())
 			{
-				EntityReg::m_entCompManInstance.m_entityRegistry.emplace_back(EntityReg::m_entCompManInstance.createEntityForDeSerialization(index));
+				freeSlotQueueAsVector.pop_back();	
 			}
-			else
-			{
-				freeSlotQueueAsVector.pop_back();
-			}
+			EntityReg::m_entCompManInstance.m_entityRegistry.emplace_back(EntityReg::m_entCompManInstance.createEntityForDeSerialization(index));
 			index++;
 		}
 	}

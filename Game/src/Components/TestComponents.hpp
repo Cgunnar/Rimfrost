@@ -37,24 +37,3 @@ struct PointMass : Rimfrost::Component<PointMass>
 	Rimfrost::Vector3 velocity = { 0,0,0 };
 	float mass = 1.0f;
 };
-
-
-
-struct PointLightComponent : Rimfrost::Component<PointLightComponent>
-{
-	PointLightComponent() : m_pointLightKey(genRandomID()) {}
-	Rimfrost::Vector3 position;
-	Rimfrost::Vector3 color;
-	float strength;
-	bool lit;
-	int64_t getKey() const { return m_pointLightKey; }
-private:
-	int64_t m_pointLightKey;
-	static int64_t genRandomID()
-	{
-		std::random_device rdev;
-		std::mt19937 gen(rdev());
-		std::uniform_int_distribution<int64_t> udis(1, INT64_MAX);
-		return udis(gen);
-	}
-};
