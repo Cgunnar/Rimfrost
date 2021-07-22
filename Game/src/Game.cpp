@@ -30,13 +30,10 @@ Game::Game()
 
 
 	m_scenes.emplace_back(std::make_shared<LevelEditor>("Saves/TestSave/", "Saves/TestSave/"));
-	//m_scenes.emplace_back(std::make_shared<LevelEditor>("Maps/SandboxMap.json", "Maps/LevelEditorOutPut.json"));
 	m_scenes.emplace_back(std::make_shared<SandboxMap>());
 
 	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();
-
-	
 
 	bool testDeSerialize = true;
 	if (testDeSerialize)
@@ -45,14 +42,7 @@ Game::Game()
 		ECSSerializer::reCoupleWithSceneGraph(m_acticeScene->sceneGraph());
 		testLoadStuffToECS();*/
 	}
-	/*else
-	{
-		testAddStuffToECS();
-		ECSSerializer::serialize("Saves/TestSave/");
-	}*/
 	testAddStuffToECS();
-
-	//SceneSerializer::serialize("Maps/SandboxMap.json", *m_acticeScene);
 }
 
 Game::~Game()
@@ -63,11 +53,7 @@ Game::~Game()
 
 void Game::update(double dt)
 {
-	EntityReg::update(dt);
-
 	m_acticeScene->update(dt);
-
-
 
 	assert(!EntityReg::getAllEntities().empty());
 
@@ -103,10 +89,6 @@ void Game::testAddStuffToECS()
 	testE2.addComponent(TestComponent());
 	testE2.addComponent(PointMass());
 	testE2.addComponent(SphereCollider());
-
-
-
-
 	
 
 	Entity emptyE2 = EntityReg::createEntity();
