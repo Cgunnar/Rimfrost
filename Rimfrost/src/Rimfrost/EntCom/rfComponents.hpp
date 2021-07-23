@@ -12,8 +12,7 @@ namespace Rimfrost
 		NodeHandle nodeHandel;
 		void destroy()
 		{
-			Logger::getLogger().debugLog("HEJEHJEHEJ\n");
-			Logger::getLogger().debugLog(this->componentName);
+			if (nodeHandel.isValid()) nodeHandel.removeNode();
 		}
 	};
 	template typename Rimfrost::Component<NodeComponent>;

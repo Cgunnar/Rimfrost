@@ -108,7 +108,7 @@ namespace Rimfrost
 			Logger::getLogger().debugLog("[WARNING] LevelEditor::save(std::string path) uses default argument: [ " + path + " ], saves will be overitten next call.\n");
 		}
 
-		m_tempEntitis.clear(); // this will go out of scope but if I later want to save entities in the destructor this must be called first
+		m_tempEntitis.clear();
 
 
 		if (!m_outPutMapFile.empty() && m_saveOnExit)
