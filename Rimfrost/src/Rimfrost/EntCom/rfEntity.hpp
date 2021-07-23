@@ -468,7 +468,11 @@ namespace Rimfrost
 		assert(m_entitiesComponentHandles.size() == m_entityRegistry.size());
 		assert(&entity == &m_entityRegistry[entity.m_entityIndex]);
 
-		
+		auto& components = m_entitiesComponentHandles[entity.m_entityIndex];
+		for (auto& c : components)
+		{
+			removeComponent(c.typeID, entity.m_entityIndex);
+		}
 		if (entity.m_entityIndex + 1 == m_entitiesComponentHandles.size())
 		{
 			m_entitiesComponentHandles.pop_back();
