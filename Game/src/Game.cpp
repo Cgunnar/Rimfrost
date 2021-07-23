@@ -52,10 +52,14 @@ void Game::update(double dt)
 void Game::testAddStuffToECS()
 {
 	//warning
-	/*auto n = m_acticeScene->sceneGraph().addModel("Models/green_glass.obj", ModelSettings::TRANSPARENCY_IS_TWOSIDED);
-	n->localMatrix.setTranslation(4, 1, 1);
+	auto n = m_acticeScene->sceneGraph().addNode();
+	n->localMatrix.setTranslation(-7, 1, 1);
 	Entity e = EntityReg::createEntity();
-	e.addComponent(NodeComponent())->nodeHandel = n;*/
+	e.addComponent(NodeComponent())->nodeHandel = n;
+	PointLightComponent p;
+	p.color = { 1,0,0 };
+	p.strength = 300;
+	e.addComponent(p);
 }
 
 void Game::testLoadStuffToECS()
