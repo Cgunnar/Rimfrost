@@ -59,6 +59,7 @@ void Game::testAddStuffToECS()
 	PointLightComponent p;
 	p.color = { 1,0,0 };
 	p.strength = 300;
+	p.position = { -7, 1, 1 };
 	e.addComponent(p);
 }
 
