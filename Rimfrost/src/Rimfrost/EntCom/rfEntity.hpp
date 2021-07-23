@@ -92,7 +92,7 @@ namespace Rimfrost
 
 		static ComponentTypeID registerComponent(size_t size, std::string name, std::function<ComponentIndex(BaseComponent*)> createFunc,
 			std::function<BaseComponent* (ComponentIndex)> fetchFunc, std::function<EntityID(ComponentIndex)> deleteFunc,
-			std::function<void(size_t)> resize, std::function<char* ()> getArray, std::function<size_t()> count);
+			std::function<void(size_t)> resize, std::function<char* ()> getArray, std::function<size_t()> count, std::function<void(ComponentIndex)> destroy);
 	private:
 		struct ComponentUtility
 		{
@@ -104,6 +104,7 @@ namespace Rimfrost
 			std::function<void(size_t)> resizeArrayT;
 			std::function<char* ()> getArrayPointer;
 			std::function<size_t()> componentCount;
+			std::function<void(ComponentIndex)> compDestroy;
 		};
 
 		inline static std::vector<ComponentUtility> s_componentRegister;
@@ -131,8 +132,21 @@ namespace Rimfrost
 		static const size_t size;
 		static const std::string componentName;
 
+		
+
 	private:
 		static std::vector<T> componentArray;
+
+		void destroy()
+		{
+
+		}
+
+		template<typename T>
+		static void destroy(ComponentIndex index)
+		{
+			componentArray[index].destroy();
+		}
 
 		template<typename T>
 		requires std::is_trivially_copy_assignable_v<T>
@@ -169,7 +183,7 @@ namespace Rimfrost
 	template<typename T>
 	const ComponentTypeID Component<T>::typeID = BaseComponent::registerComponent(sizeof(T), typeid(T).name(), Component<T>::createComponent<T>,
 		Component<T>::fetchComponent<T>, Component<T>::deleteComponent<T>, Component<T>::resizeComponentArray, Component<T>::getArrayStartPointer,
-		Component<T>::getCount);
+		Component<T>::getCount, Component<T>::destroy<T>);
 
 	template<typename T>
 	const size_t Component<T>::size = sizeof(T);
@@ -477,9 +491,16 @@ namespace Rimfrost
 		assert(m_entitiesComponentHandles.size() == m_entityRegistry.size());
 		assert(&entity == &m_entityRegistry[entity.m_entityIndex]);
 
+
+		
+
+
 		auto& components = m_entitiesComponentHandles[entity.m_entityIndex];
 		for (auto& c : components)
 		{
+			auto compUtil = BaseComponent::getComponentUtility(c.typeID);
+			compUtil.compDestroy(c.index);
+
 			removeComponent(c.typeID, entity.m_entityIndex);
 		}
 		if (entity.m_entityIndex + 1 == m_entitiesComponentHandles.size())
@@ -644,7 +665,7 @@ namespace Rimfrost
 	//---------------------------------------------------
 	inline ComponentTypeID BaseComponent::registerComponent(size_t size, std::string name, std::function<ComponentIndex(BaseComponent*)> createFunc,
 		std::function<BaseComponent* (ComponentIndex)> fetchFunc, std::function<EntityID(ComponentIndex)> deleteFunc,
-		std::function<void(size_t)> resize, std::function<char* ()> getArray, std::function<size_t()> count)
+		std::function<void(size_t)> resize, std::function<char* ()> getArray, std::function<size_t()> count, std::function<void(ComponentIndex)> destroy)
 	{
 		ComponentTypeID compID = s_componentRegister.size();
 		ComponentUtility comUtil;
@@ -656,6 +677,7 @@ namespace Rimfrost
 		comUtil.getArrayPointer = getArray;
 		comUtil.resizeArrayT = resize;
 		comUtil.componentCount = count;
+		comUtil.compDestroy = destroy;
 		s_componentRegister.push_back(comUtil);
 		return compID;
 	}

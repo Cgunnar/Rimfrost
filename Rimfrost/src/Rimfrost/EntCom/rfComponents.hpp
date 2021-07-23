@@ -10,6 +10,11 @@ namespace Rimfrost
 	struct NodeComponent : Rimfrost::Component<NodeComponent>
 	{
 		NodeHandle nodeHandel;
+		void destroy()
+		{
+			Logger::getLogger().debugLog("HEJEHJEHEJ\n");
+			Logger::getLogger().debugLog(this->componentName);
+		}
 	};
 	template typename Rimfrost::Component<NodeComponent>;
 
