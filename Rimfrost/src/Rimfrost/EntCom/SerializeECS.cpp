@@ -53,6 +53,9 @@ namespace Rimfrost
 					Logger::getLogger().debugLog("------------------------\n");
 					Logger::getLogger().debugLog(std::to_string(p->nodeHandel.m_nodeID) + "\n");
 					Logger::getLogger().debugLog(std::to_string(p->nodeHandel.m_coldNodeID) + "\n");
+					Logger::getLogger().debugLog(std::to_string((uint64_t)p->nodeHandel.m_sceneRef) + "\n");
+					p->nodeHandel.m_sceneRef = nullptr;
+					Logger::getLogger().debugLog(std::to_string((uint64_t)p->nodeHandel.m_sceneRef) + "\n");
 					Logger::getLogger().debugLog("------------------------\n");
 
 				}

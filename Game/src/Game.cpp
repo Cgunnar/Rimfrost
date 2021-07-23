@@ -51,10 +51,6 @@ Game::Game()
 
 Game::~Game()
 {
- 	for(const auto& n : EntityReg::getComponentArray<NodeComponent>())
-	{
-		//Logger::getLogger().debugLog("nodeID: " + std::to_string(n.nodeHandel->getColdID()) + "\n");
-	}
 	m_entities.clear();
 	m_acticeScene->save("Saves/TestSave/");
 	EntityReg::clear();
