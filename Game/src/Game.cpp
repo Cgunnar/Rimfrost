@@ -9,6 +9,7 @@
 #include "Rimfrost\Scene\LevelEditor.hpp"
 #include "Rimfrost\Scene\SceneSerializer.hpp"
 #include "Rimfrost\EntCom\SerializeECS.hpp"
+#include "Rimfrost\EntCom\rfEntity.hpp"
 #include "SandboxMap.hpp"
 
 
@@ -33,11 +34,24 @@ Game::Game()
 	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();
 
-	testAddStuffToECS();
+	/*auto n = m_acticeScene->sceneGraph().addModel("Models/green_glass.obj", ModelSettings::TRANSPARENCY_IS_TWOSIDED);
+	n->localMatrix.setTranslation(-7, 1, 1);
+	Entity e = EntityReg::createEntity();
+	e.addComponent(NodeComponent())->nodeHandel = n;
+	PointLightComponent p;
+	p.color = { 1,0,0 };
+	p.strength = 300;
+	p.position = { -7, 1, 1 };
+	e.addComponent(p);
+
+	m_entities.emplace_back(std::move(e));*/
+
+	//testAddStuffToECS();
 }
 
 Game::~Game()
 {
+	m_entities.clear();
 	m_acticeScene->save("Saves/TestSave/");
 	EntityReg::clear();
 }
@@ -61,6 +75,7 @@ void Game::testAddStuffToECS()
 	p.strength = 300;
 	p.position = { -7, 1, 1 };
 	e.addComponent(p);
+	
 	
 	//EntityReg::removeEntity(e);
 }

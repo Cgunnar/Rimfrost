@@ -258,6 +258,15 @@ namespace Rimfrost
 		// this will delete alla entities and components, before componentesArray gets destroyed
 		for (auto& e : m_entCompManInstance.m_entityRegistry)
 		{
+			if (e.getRefCount() != 1)
+			{
+				OutputDebugString(L"[ERROR] Release all outstanding references to entities before calling EntityReg::clear(). \n\tEntityID: ");
+				OutputDebugString(std::to_wstring(e.getID()).c_str());
+				OutputDebugString(L"\n\tNumRefs needed to be released: ");
+				OutputDebugString(std::to_wstring(e.getRefCount() - 1).c_str());
+				OutputDebugString(L"\n");
+				throw std::runtime_error("release all outstanding references to entities before calling EntityReg::clear().");
+			}
 			m_entCompManInstance.removeEntity(e);
 		}
 		m_entCompManInstance.m_entityRegistry.clear();

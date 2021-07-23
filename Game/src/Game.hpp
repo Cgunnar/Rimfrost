@@ -19,6 +19,6 @@ private:
 	void testLoadStuffToECS();
 
 private:
-	
+	std::vector<Rimfrost::Entity> m_entities;
 
 };

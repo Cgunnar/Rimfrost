@@ -46,9 +46,11 @@ namespace Rimfrost
 	};
 
 	class ECSSerializer;
+	struct NodeComponent; 
 	class NodeHandle
 	{
 		friend ECSSerializer;
+		friend NodeComponent; // not a good solution
 	public:
 		NodeHandle(SceneGraph& sceneGraph, NodeID nodeID, NodeID coldID = -1);
 		NodeHandle(SceneGraph& sceneGraph, Node node);
