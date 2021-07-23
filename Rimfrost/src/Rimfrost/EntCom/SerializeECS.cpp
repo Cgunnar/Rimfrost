@@ -76,13 +76,13 @@ namespace Rimfrost
 		bool remapNeeded = false;
 		for (auto& jc : componentInfoFromFile)
 		{
-			const auto& compFromReg = BaseComponent::s_componentRegister[jc.componentTypeID];
 			if (jc.componentTypeID >= BaseComponent::s_componentRegister.size())
 			{
 				//if more types of components are saved then what this verison supports
 				throw std::runtime_error("componentRegister does not contain typeID:" + std::to_string(jc.componentTypeID) +
 					" found in file: " + jc.path);
 			}
+			const auto& compFromReg = BaseComponent::s_componentRegister[jc.componentTypeID];
 			if (compFromReg.name != jc.typeName)
 			{
 				remapNeeded = true;

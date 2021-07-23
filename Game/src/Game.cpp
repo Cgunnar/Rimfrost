@@ -19,8 +19,6 @@ Rimfrost::EngineApp* Rimfrost::CreateApp()
 
 using namespace Rimfrost;
 
-
-
 Game::Game()
 {
 	EventSystem::addObserver(*this, PauseEvent::eventType);
@@ -34,6 +32,8 @@ Game::Game()
 
 	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();
+
+	testAddStuffToECS();
 }
 
 Game::~Game()
@@ -51,47 +51,11 @@ void Game::update(double dt)
 
 void Game::testAddStuffToECS()
 {
-	Entity removeTest0 = EntityReg::createEntity();
-	
-	Entity testE = EntityReg::createEntity();
-	Entity emptyE = EntityReg::createEntity();
-	NodeComponent nc;
-
-	testE.addComponent(TestComponent2());
-	testE.addComponent(TestComponent());
-	testE.addComponent(TransformComponent());
-	testE.addComponent(PointMass());
-
-	Entity removeThisTest = EntityReg::createEntity();
-
-	Entity testE2 = EntityReg::createEntity();
-	testE2.addComponent(TestComponent());
-	testE2.addComponent(PointMass());
-	testE2.addComponent(SphereCollider());
-	
-
-	Entity emptyE2 = EntityReg::createEntity();
-	Entity emptyE3 = EntityReg::createEntity();
-
-	EntityReg::removeEntity(removeThisTest);
-	removeTest0.addComponent(SphereCollider());
-	EntityReg::removeEntity(removeTest0);
-
-	Entity redCone = EntityReg::createEntity();
-	nc.nodeHandel = m_acticeScene->sceneGraph().addModel("Models/red_cone.obj");
-
-	redCone.addComponent<NodeComponent>(nc);
-	PointMass pm;
-	pm.mass = 42;
-	redCone.addComponent<PointMass>(pm);
-
-	auto pl = redCone.addComponent<PointLightComponent>(PointLightComponent());
-	pl->color = { 0, 0, 1 };
-	pl->position = { 0, 2, 0 };
-	pl->strength = 100;
-
-	/*m_poinLightMap.insert_or_assign(pl->getKey(), PointLight(pl->position, pl->color, pl->strength));
-	m_acticeScene->lights().pointLights->addPointLight(m_poinLightMap[pl->getKey()]);*/
+	//warning
+	/*auto n = m_acticeScene->sceneGraph().addModel("Models/green_glass.obj", ModelSettings::TRANSPARENCY_IS_TWOSIDED);
+	n->localMatrix.setTranslation(4, 1, 1);
+	Entity e = EntityReg::createEntity();
+	e.addComponent(NodeComponent())->nodeHandel = n;*/
 }
 
 void Game::testLoadStuffToECS()

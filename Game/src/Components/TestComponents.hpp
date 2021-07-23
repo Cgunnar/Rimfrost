@@ -4,7 +4,6 @@
 #include "Rimfrost\Math\RimfrostMath.hpp"
 #include <random>
 
-
 struct TestComponent : Rimfrost::Component<TestComponent>
 {
 	int a = 2;
@@ -12,10 +11,14 @@ struct TestComponent : Rimfrost::Component<TestComponent>
 	double y = 5.2;
 };
 
+template typename Rimfrost::Component<TestComponent>;
+
 struct TestComponent2 : Rimfrost::Component<TestComponent2>
 {
 	float arr[12];
 };
+
+template typename Rimfrost::Component<TestComponent2>;
 
 struct TransformComponent : Rimfrost::Component<TransformComponent>
 {
@@ -25,11 +28,14 @@ struct TransformComponent : Rimfrost::Component<TransformComponent>
 	operator const Rimfrost::Transform& () const { return transform; }
 };
 
+template typename Rimfrost::Component<TransformComponent>;
+
 struct SphereCollider : Rimfrost::Component<SphereCollider>
 {
 	Rimfrost::Vector3 center;
 	float radius = 1;
 };
+template typename Rimfrost::Component<SphereCollider>;
 
 struct PointMass : Rimfrost::Component<PointMass>
 {
@@ -37,3 +43,4 @@ struct PointMass : Rimfrost::Component<PointMass>
 	Rimfrost::Vector3 velocity = { 0,0,0 };
 	float mass = 1.0f;
 };
+template typename Rimfrost::Component<PointMass>;

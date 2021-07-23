@@ -11,6 +11,7 @@ namespace Rimfrost
 	{
 		NodeHandle nodeHandel;
 	};
+	template typename Rimfrost::Component<NodeComponent>;
 
 	struct PointLightComponent : Rimfrost::Component<PointLightComponent>
 	{
@@ -30,4 +31,5 @@ namespace Rimfrost
 			return udis(gen);
 		}
 	};
+	template typename Rimfrost::Component<PointLightComponent>;
 }
