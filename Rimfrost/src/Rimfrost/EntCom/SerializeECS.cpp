@@ -53,6 +53,7 @@ namespace Rimfrost
 				for (auto& t : temp)
 					t.nodeHandel.m_sceneRef = nullptr;
 
+				//should set the real array to nullptr, the scenegraph has been packed and the nodhandles should be invalid anyways
 				writefileBin(reinterpret_cast<char*>(temp.data()), c.componentCount(), c.size, componentPathAndName);
 			}
 			else

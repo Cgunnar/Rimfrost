@@ -34,7 +34,7 @@ Game::Game()
 	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();
 
-	auto n = m_acticeScene->sceneGraph().addModel("Models/green_glass.obj", ModelSettings::TRANSPARENCY_IS_TWOSIDED);
+	/*auto n = m_acticeScene->sceneGraph().addModel("Models/green_glass.obj", ModelSettings::TRANSPARENCY_IS_TWOSIDED);
 	n->localMatrix.setTranslation(-7, 1, 1);
 	Entity e = EntityReg::createEntity();
 	e.addComponent(NodeComponent())->nodeHandel = n;
@@ -44,7 +44,7 @@ Game::Game()
 	p.position = { -7, 1, 1 };
 	e.addComponent(p);
 
-	m_entities.emplace_back(std::move(e));
+	m_entities.emplace_back(std::move(e));*/
 
 	//testAddStuffToECS();
 }

@@ -105,6 +105,7 @@ namespace Rimfrost
 	void Rimfrost::SceneGraph::removeNode(NodeID id)
 	{
 		assert(id != rootNode);
+		assert(id < m_nodes.size()); // scenegraph has likely been packed before a destruction of NodeComponenets
 		for (auto childID : m_nodes[id].m_childIDs)
 		{
 			removeNode(childID);

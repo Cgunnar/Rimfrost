@@ -12,6 +12,7 @@ namespace Rimfrost
 		NodeHandle nodeHandel;
 		void destroy()
 		{
+			assert(nodeHandel.isValid());
 			if (nodeHandel.isValid()) nodeHandel.removeNode();
 		}
 	};
