@@ -65,7 +65,7 @@ namespace Rimfrost
 		Transform getParentWorldMatrix() const;
 
 	private:
-		std::optional<std::reference_wrapper<SceneGraph>> m_sceneRef;
+		SceneGraph* m_sceneRef;
 		NodeID m_nodeID;
 		NodeID m_coldNodeID = -1;
 	};

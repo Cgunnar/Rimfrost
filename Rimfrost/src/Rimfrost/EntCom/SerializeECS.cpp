@@ -50,11 +50,28 @@ namespace Rimfrost
 				{
 					auto p = reinterpret_cast<NodeComponent*>(c.getArrayPointer() + i * c.size);
 
-					p->nodeHandel.m_sceneRef = std::nullopt;
+					Logger::getLogger().debugLog("------------------------\n");
+					Logger::getLogger().debugLog(std::to_string(p->nodeHandel.m_nodeID) + "\n");
+					Logger::getLogger().debugLog(std::to_string(p->nodeHandel.m_coldNodeID) + "\n");
+					Logger::getLogger().debugLog("------------------------\n");
 
 				}
 			}
-
+			/*------------------------
+				116
+				806
+				2242397957736
+				------------------------
+				------------------------
+				118
+				825
+				2242397957776
+				------------------------
+				------------------------
+				119
+				845
+				2242397957816
+				------------------------*/
 
 			std::string componentPathAndName = componentPath + removeIllegalChars(c.name);
 			writefileBin(c.getArrayPointer(), c.componentCount(), c.size, componentPathAndName);
@@ -183,7 +200,7 @@ namespace Rimfrost
 		//scene graph connection
 		for (auto& nodeComp : EntityReg::getComponentArray<NodeComponent>())
 		{
-			nodeComp.nodeHandel.m_sceneRef = std::make_optional(std::reference_wrapper(sceneGraph));
+			nodeComp.nodeHandel.m_sceneRef = &sceneGraph;
 			//coldID is a persisting id that survives when the scenegraph gets serialized
 			NodeID coldID = nodeComp.nodeHandel.m_coldNodeID;
 			NodeID normalID = nodeComp.nodeHandel.m_nodeID;
