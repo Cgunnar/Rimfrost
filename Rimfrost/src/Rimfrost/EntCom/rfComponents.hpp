@@ -10,10 +10,10 @@ namespace Rimfrost
 	struct NodeComponent : Rimfrost::Component<NodeComponent>
 	{
 		NodeHandle nodeHandel;
-		void destroy()
+		/*void destroy()
 		{
 			if (nodeHandel.isValid()) nodeHandel.removeNode();
-		}
+		}*/
 	};
 	template typename Rimfrost::Component<NodeComponent>;
 
