@@ -52,7 +52,7 @@ void Game::update(double dt)
 void Game::testAddStuffToECS()
 {
 	//warning
-	auto n = m_acticeScene->sceneGraph().addNode();
+	auto n = m_acticeScene->sceneGraph().addModel("Models/green_glass.obj", ModelSettings::TRANSPARENCY_IS_TWOSIDED);
 	n->localMatrix.setTranslation(-7, 1, 1);
 	Entity e = EntityReg::createEntity();
 	e.addComponent(NodeComponent())->nodeHandel = n;
