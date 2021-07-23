@@ -43,41 +43,22 @@ namespace Rimfrost
 			std::filesystem::create_directories(componentPath);
 		for (auto& c : BaseComponent::s_componentRegister)
 		{
-			if (NodeComponent::typeID == cIndex)
-			{
-
-				for (size_t i = 0; i < c.componentCount(); i++)
-				{
-					auto p = reinterpret_cast<NodeComponent*>(c.getArrayPointer() + i * c.size);
-
-					Logger::getLogger().debugLog("------------------------\n");
-					Logger::getLogger().debugLog(std::to_string(p->nodeHandel.m_nodeID) + "\n");
-					Logger::getLogger().debugLog(std::to_string(p->nodeHandel.m_coldNodeID) + "\n");
-					Logger::getLogger().debugLog(std::to_string((uint64_t)p->nodeHandel.m_sceneRef) + "\n");
-					p->nodeHandel.m_sceneRef = nullptr;
-					Logger::getLogger().debugLog(std::to_string((uint64_t)p->nodeHandel.m_sceneRef) + "\n");
-					Logger::getLogger().debugLog("------------------------\n");
-
-				}
-			}
-			/*------------------------
-				116
-				806
-				2242397957736
-				------------------------
-				------------------------
-				118
-				825
-				2242397957776
-				------------------------
-				------------------------
-				119
-				845
-				2242397957816
-				------------------------*/
-
 			std::string componentPathAndName = componentPath + removeIllegalChars(c.name);
-			writefileBin(c.getArrayPointer(), c.componentCount(), c.size, componentPathAndName);
+
+			if (NodeComponent::typeID == cIndex) //ugly fix to not save pointer
+			{
+				std::vector<NodeComponent> temp;
+				temp.resize(c.componentCount());
+				memcpy(temp.data(), c.getArrayPointer(), c.componentCount() * c.size);
+				for (auto& t : temp)
+					t.nodeHandel.m_sceneRef = nullptr;
+
+				writefileBin(reinterpret_cast<char*>(temp.data()), c.componentCount(), c.size, componentPathAndName);
+			}
+			else
+			{
+				writefileBin(c.getArrayPointer(), c.componentCount(), c.size, componentPathAndName);
+			}
 
 			JComponentInfoStruct cInfo{ componentPathAndName, c.name, cIndex, c.size, c.componentCount() };
 
