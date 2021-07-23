@@ -43,6 +43,19 @@ namespace Rimfrost
 			std::filesystem::create_directories(componentPath);
 		for (auto& c : BaseComponent::s_componentRegister)
 		{
+			if (NodeComponent::typeID == cIndex)
+			{
+
+				for (size_t i = 0; i < c.componentCount(); i++)
+				{
+					auto p = reinterpret_cast<NodeComponent*>(c.getArrayPointer() + i * c.size);
+
+					p->nodeHandel.m_sceneRef = std::nullopt;
+
+				}
+			}
+
+
 			std::string componentPathAndName = componentPath + removeIllegalChars(c.name);
 			writefileBin(c.getArrayPointer(), c.componentCount(), c.size, componentPathAndName);
 
