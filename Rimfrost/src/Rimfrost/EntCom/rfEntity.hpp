@@ -51,7 +51,24 @@ namespace Rimfrost
 		void reset();
 		EntityID getID() const { return m_entityIndex; }
 		int getRefCount() const { return s_refCounts[m_entityIndex]; }
-		bool empty() const { return m_entityIndex == -1 || !m_entCompManRef || s_refCounts[m_entityIndex] <= 0; }
+		bool empty() const 
+		{
+#ifdef DEBUG
+			if (m_entityIndex != -1)
+			{
+				assert(s_refCounts[m_entityIndex] > 0);
+				assert(m_entCompManRef);
+			}
+			else
+			{
+				assert(!m_entCompManRef);
+			}
+			
+#endif // DEBUG
+
+
+			return m_entityIndex == -1 || !m_entCompManRef || s_refCounts[m_entityIndex] <= 0; 
+		}
 		operator const EntityID() const { return m_entityIndex; }
 
 	private:
@@ -174,7 +191,7 @@ namespace Rimfrost
 
 	public:
 		Entity& createEntity();
-		void removeEntity(Entity& entity);
+		void removeEntity(Entity& entity); // this should be encapsulated better
 		void addComponent(EntityID entityID, ComponentTypeID typeID, BaseComponent* component);
 
 		template<typename T>
@@ -189,6 +206,7 @@ namespace Rimfrost
 
 	private:
 		void removeComponent(ComponentTypeID type, EntityID entityID);
+		void removeInternalEntity(Entity& entity);
 		Entity createEntityForDeSerialization(EntityID id) { return Entity(id, this); }
 
 	private:
@@ -207,7 +225,7 @@ namespace Rimfrost
 		static void clear();
 
 		static Entity& createEntity();
-		static void removeEntity(Entity& entity);
+		//static void removeEntity(Entity& entity);
 		static void addComponent(EntityID entityID, ComponentTypeID typeID, BaseComponent* component);
 		static const std::vector<Entity>& getAllEntities();
 
@@ -246,11 +264,11 @@ namespace Rimfrost
 		m_entCompManInstance.clearHasBeenCalled = true;
 	}
 
-	inline void EntityReg::removeEntity(Entity& entity)
+	/*inline void EntityReg::removeEntity(Entity& entity)
 	{
 		assert(&entity != &m_entCompManInstance.m_entityRegistry[entity.getID()]);
 		m_entCompManInstance.removeEntity(entity);
-	}
+	}*/
 
 	inline void EntityReg::addComponent(EntityID entityID, ComponentTypeID typeID, BaseComponent* component)
 	{
@@ -320,22 +338,18 @@ namespace Rimfrost
 
 	inline Entity::~Entity()
 	{
+		
+#ifdef _DEBUG
 		if (!this->empty())
 		{
-			s_refCounts[m_entityIndex]--;
-
-#ifdef _DEBUG
 			OutputDebugString(L"~Entity\tindex: ");
 			OutputDebugString(std::to_wstring(m_entityIndex).c_str());
-			OutputDebugString(L", new refCount: ");
+			OutputDebugString(L", refCount: ");
 			OutputDebugString(std::to_wstring(s_refCounts[m_entityIndex]).c_str());
 			OutputDebugString(L"\n");
-#endif // _DEBUG
-			if (s_refCounts[m_entityIndex] == 2) // only 2 references is allowed, one internal in entReg and the one destructing
-			{
-				m_entCompManRef->removeEntity(*this);
-			}
 		}
+#endif // _DEBUG
+		this->reset();
 	}
 
 	inline Entity& Entity::operator=(const Entity& other)
@@ -377,9 +391,17 @@ namespace Rimfrost
 	inline void Entity::reset()
 	{
 		if (empty()) return;
-		s_refCounts[m_entityIndex]--;
-		m_entityIndex = -1;
-		m_entCompManRef = nullptr;
+		if (s_refCounts[m_entityIndex] <= 2)
+		{
+			m_entCompManRef->removeEntity(*this);
+			assert(this->empty()); //removeEntity take care of reseting the entity
+		}
+		else
+		{
+			s_refCounts[m_entityIndex]--;
+			m_entityIndex = -1;
+			m_entCompManRef = nullptr;
+		}
 	};
 
 	template<typename T>
@@ -438,9 +460,38 @@ namespace Rimfrost
 		}
 		return m_entityRegistry[index];
 	}
+
+	inline void EntityComponentManager::removeInternalEntity(Entity& entity)
+	{
+		assert(!entity.empty());
+		assert(entity.s_refCounts[entity.m_entityIndex] == 1);
+		assert(m_entitiesComponentHandles.size() == m_entityRegistry.size());
+		assert(&entity == &m_entityRegistry[entity.m_entityIndex]);
+
+		
+		if (entity.m_entityIndex + 1 == m_entitiesComponentHandles.size())
+		{
+			m_entitiesComponentHandles.pop_back();
+		}
+		else
+		{
+			m_entitiesComponentHandles[entity.m_entityIndex].clear();
+			m_freeEntitySlots.push(entity.m_entityIndex);
+		}
+
+		//reset
+		entity.s_refCounts[entity.m_entityIndex] = 0;
+		entity.m_entCompManRef = nullptr;
+		entity.m_entityIndex = -1;
+	}
+
 	inline void EntityComponentManager::removeEntity(Entity& entity)
 	{
 		assert(!entity.empty());
+
+		Logger::getLogger().debugLog("Removed Entity: " + std::to_string(entity.m_entityIndex) + ", refCount: "
+			+ std::to_string(entity.s_refCounts[entity.m_entityIndex]) + "\n");
+
 		if (entity.s_refCounts[entity.m_entityIndex] > 2)
 		{
 			std::string debugOut = "[ERROR] release " + std::to_string(entity.s_refCounts[entity.m_entityIndex] - 2) +
@@ -451,24 +502,58 @@ namespace Rimfrost
 			throw std::runtime_error(debugOut);
 		}
 
-		auto& components = m_entitiesComponentHandles[entity.m_entityIndex];
-		for (auto& c : components)
+
+		if (entity.getRefCount() == 1)
 		{
-			removeComponent(c.typeID, entity.m_entityIndex);
+			removeInternalEntity(entity);
 		}
-		//this is the entity in the back of the vector
-		if (entity.m_entityIndex + 1 == m_entitiesComponentHandles.size())
+		else if (entity.getRefCount() == 2)
 		{
-			m_entitiesComponentHandles.pop_back();
+			EntityID id = entity.getID();
+			
+			//first reset entity: ref count will now be 1, can't call entity.reset(), because that will lead to recursion
+			entity.m_entCompManRef = nullptr;
+			entity.s_refCounts[entity.m_entityIndex]--;
+			entity.m_entityIndex = -1;
+			
+			if (id + 1 == m_entitiesComponentHandles.size())
+			{
+				m_entityRegistry.pop_back(); //second reset internal entity
+			}
+			else
+			{
+				m_entityRegistry[id].reset(); //second reset internal entity
+			}
+			assert(entity.s_refCounts[id] == 0);
 		}
-		else
-		{
-			m_entitiesComponentHandles[entity.m_entityIndex].clear();
-			m_freeEntitySlots.push(entity.m_entityIndex);
-		}
-		Logger::getLogger().debugLog("Removed Entity: " + std::to_string(entity.m_entityIndex) + ", refCount: "
-			+ std::to_string(entity.s_refCounts[entity.m_entityIndex]) + "\n");
-		entity.reset();
+
+		
+
+		
+
+		//return;
+		////----------------------------
+
+
+		//
+
+		//auto& components = m_entitiesComponentHandles[entity.m_entityIndex];
+		//for (auto& c : components)
+		//{
+		//	removeComponent(c.typeID, entity.m_entityIndex);
+		//}
+		////this is the entity in the back of the vector
+		//if (entity.m_entityIndex + 1 == m_entitiesComponentHandles.size())
+		//{
+		//	m_entityRegistry.pop_back();
+		//	m_entitiesComponentHandles.pop_back();
+		//}
+		//else
+		//{
+		//	m_entitiesComponentHandles[entity.m_entityIndex].clear();
+		//	m_freeEntitySlots.push(entity.m_entityIndex);
+		//}
+		
 	}
 
 	inline void EntityComponentManager::addComponent(EntityID entityID, ComponentTypeID typeID, BaseComponent* component)

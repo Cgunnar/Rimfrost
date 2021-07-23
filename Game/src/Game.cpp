@@ -61,6 +61,8 @@ void Game::testAddStuffToECS()
 	p.strength = 300;
 	p.position = { -7, 1, 1 };
 	e.addComponent(p);
+	
+	//EntityReg::removeEntity(e);
 }
 
 void Game::testLoadStuffToECS()
