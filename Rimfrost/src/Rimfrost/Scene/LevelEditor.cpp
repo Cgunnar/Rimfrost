@@ -28,11 +28,11 @@ namespace Rimfrost
 		assert(outPutMap.back() == '\\' || outPutMap.back() == '/');
 		assert(inputMap.back() == '\\' || inputMap.back() == '/');
 		m_outPutMapFile = outPutMap;
-		m_inputMapFile = inputMap;
+		m_inputMap = inputMap;
 	}
 
 	LevelEditor::~LevelEditor()
-	{		
+	{
 		if (m_lightSphere) delete m_lightSphere;
 		OutputDebugString(L"~LevelEditor\n");
 	}
@@ -45,20 +45,8 @@ namespace Rimfrost
 		m_lights.pointLights = std::make_shared<PointLightContainer>();
 		m_lights.pointLights->addPointLight(m_whiteLight);
 
-		if (!m_inputMapFile.empty())
-		{
-			SceneSerializer::deSerialize(m_inputMapFile, *this);
 
-			ECSSerializer::deSerialize("Saves/TestSave/");
-			ECSSerializer::reCoupleWithSceneGraph(m_sceneGraph);
-			for (const auto& compL : EntityReg::getComponentArray<PointLightComponent>())
-			{
-				assert(!m_poinLightMap.contains(compL.getKey()));
-				m_poinLightMap.insert_or_assign(compL.getKey(), PointLight(compL.position, compL.color, compL.strength));
-				this->lights().pointLights->addPointLight(m_poinLightMap[compL.getKey()]);
-			}
-		}
-
+		this->load(m_inputMap);
 
 
 		m_saveOnExit = true;
@@ -96,8 +84,15 @@ namespace Rimfrost
 	{
 		if (path.empty())
 			throw std::runtime_error("Path to savefolder was not given.");
-
-
+		SceneSerializer::deSerialize(path, *this);
+		ECSSerializer::deSerialize(path);
+		ECSSerializer::reCoupleWithSceneGraph(m_sceneGraph);
+		for (const auto& compL : EntityReg::getComponentArray<PointLightComponent>())
+		{
+			assert(!m_poinLightMap.contains(compL.getKey()));
+			m_poinLightMap.insert_or_assign(compL.getKey(), PointLight(compL.position, compL.color, compL.strength));
+			this->lights().pointLights->addPointLight(m_poinLightMap[compL.getKey()]);
+		}
 	}
 
 	void LevelEditor::save(std::string path)
@@ -151,7 +146,7 @@ namespace Rimfrost
 			if (auto nodeComp = EntityReg::getComponent<NodeComponent>(pcComp.getEntityID()); nodeComp)
 			{
 				//assert(m_poinLightMap.contains(pcComp.getKey()));
-				if(m_poinLightMap.contains(pcComp.getKey()))
+				if (m_poinLightMap.contains(pcComp.getKey()))
 				{
 					auto& pointLight = m_poinLightMap[pcComp.getKey()];
 

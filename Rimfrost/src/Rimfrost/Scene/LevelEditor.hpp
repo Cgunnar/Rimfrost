@@ -32,7 +32,7 @@ namespace Rimfrost
 
 		NodeEditGUI m_nodeEditGui;
 
-		std::string m_inputMapFile;
+		std::string m_inputMap;
 		std::string m_outPutMapFile;
 		bool m_saveOnExit = false;
 
