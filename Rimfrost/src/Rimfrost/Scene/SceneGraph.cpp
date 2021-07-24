@@ -234,6 +234,20 @@ namespace Rimfrost
 
 				m_nodes[i] = Node(-1, -2, -1); //set to invalid Node, may do something not this expensive
 
+				//update new index in parents vector
+				if (m_nodes[firstInvalidIndex].m_parentID != rootNode)
+				{
+					for (auto& selfAsChildInParent : m_nodes[m_nodes[firstInvalidIndex].m_parentID].m_childIDs)
+					{
+						if (selfAsChildInParent == i)
+						{
+							selfAsChildInParent = firstInvalidIndex;
+							break;
+						}
+					}
+				}
+
+				//update new index to all childs
 				for (auto childID : m_nodes[firstInvalidIndex].m_childIDs)
 				{
 					m_nodes[childID].m_parentID = firstInvalidIndex;

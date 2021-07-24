@@ -121,6 +121,7 @@ namespace Rimfrost
 			}
 			m_pointLightGizmoHandles.clear();
 			m_sceneGraph.packSceneGraph();
+			ECSSerializer::reCoupleWithSceneGraph(m_sceneGraph);
 			ECSSerializer::serialize(m_outPutMapFile);
 			SceneSerializer::serialize(m_outPutMapFile, *this);
 		}
