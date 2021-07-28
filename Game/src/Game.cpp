@@ -6,7 +6,7 @@
 #include "Rimfrost\EventSystem\MouseEvent.hpp"
 #include "Rimfrost\EventSystem\KeyboardEvent.hpp"
 #include "Rimfrost\EventSystem\PauseEvent.hpp"
-#include "Rimfrost\Scene\LevelEditor.hpp"
+#include "Rimfrost\LevelEditor\LevelEditor.hpp"
 #include "Rimfrost\Scene\SceneSerializer.hpp"
 #include "Rimfrost\EntCom\SerializeECS.hpp"
 #include "Rimfrost\EntCom\rfEntity.hpp"
@@ -53,6 +53,8 @@ Game::~Game()
 {
 	m_acticeScene->save("Saves/TestSave/");
 	m_entities.clear();
+	m_acticeScene.reset();
+	m_scenes.clear();
 	EntityReg::clear();
 }
 

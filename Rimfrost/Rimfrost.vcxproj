@@ -58,7 +58,7 @@
       <PrecompiledHeaderFile>rfpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\Graphics;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;..\external_headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\Graphics;src\Rimfrost\LevelEditor;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;..\external_headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -75,7 +75,7 @@
       <PrecompiledHeaderFile>rfpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_NDEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\Graphics;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;..\external_headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\Graphics;src\Rimfrost\LevelEditor;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;..\external_headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -137,15 +137,16 @@
     <ClInclude Include="src\Rimfrost\Graphics\TextureRepo.hpp" />
     <ClInclude Include="src\Rimfrost\Graphics\VertexBuffer.hpp" />
     <ClInclude Include="src\Rimfrost\Graphics\VertexShader.hpp" />
+    <ClInclude Include="src\Rimfrost\LevelEditor\EntityEditGUI.hpp" />
+    <ClInclude Include="src\Rimfrost\LevelEditor\LevelEditor.hpp" />
+    <ClInclude Include="src\Rimfrost\LevelEditor\NodeEditGUI.hpp" />
     <ClInclude Include="src\Rimfrost\Math\Matrix.hpp" />
     <ClInclude Include="src\Rimfrost\Math\RfextendedMath.hpp" />
     <ClInclude Include="src\Rimfrost\Math\RimfrostMath.hpp" />
     <ClInclude Include="src\Rimfrost\Math\Transform.hpp" />
     <ClInclude Include="src\Rimfrost\Math\Vector.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\IScene.hpp" />
-    <ClInclude Include="src\Rimfrost\Scene\LevelEditor.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\Node.hpp" />
-    <ClInclude Include="src\Rimfrost\Scene\NodeEditGUI.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\SceneGraph.hpp" />
     <ClInclude Include="src\Rimfrost\Scene\SceneSerializer.hpp" />
     <ClInclude Include="src\Rimfrost\TestClass.hpp" />
@@ -198,13 +199,14 @@
     <ClCompile Include="src\Rimfrost\Graphics\TextureRepo.cpp" />
     <ClCompile Include="src\Rimfrost\Graphics\VertexBuffer.cpp" />
     <ClCompile Include="src\Rimfrost\Graphics\VertexShader.cpp" />
+    <ClCompile Include="src\Rimfrost\LevelEditor\EntityEditGUI.cpp" />
+    <ClCompile Include="src\Rimfrost\LevelEditor\LevelEditor.cpp" />
+    <ClCompile Include="src\Rimfrost\LevelEditor\NodeEditGUI.cpp" />
     <ClCompile Include="src\Rimfrost\Math\Matrix.cpp" />
     <ClCompile Include="src\Rimfrost\Math\RfextendedMath.cpp" />
     <ClCompile Include="src\Rimfrost\Math\Transform.cpp" />
     <ClCompile Include="src\Rimfrost\Math\Vector.cpp" />
-    <ClCompile Include="src\Rimfrost\Scene\LevelEditor.cpp" />
     <ClCompile Include="src\Rimfrost\Scene\Node.cpp" />
-    <ClCompile Include="src\Rimfrost\Scene\NodeEditGUI.cpp" />
     <ClCompile Include="src\Rimfrost\Scene\SceneGraph.cpp" />
     <ClCompile Include="src\Rimfrost\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\Rimfrost\TestClass.cpp" />

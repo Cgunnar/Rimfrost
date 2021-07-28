@@ -1,6 +1,7 @@
 #pragma once
 #include "Rimfrost\Graphics\Lights.hpp"
-#include "Rimfrost\Scene\NodeEditGUI.hpp"
+#include "Rimfrost\LevelEditor\NodeEditGUI.hpp"
+#include "Rimfrost\LevelEditor\EntityEditGUI.hpp"
 #include "Rimfrost\Math\RimfrostMath.hpp"
 #include "Rimfrost\Scene\SceneGraph.hpp"
 #include "Rimfrost\Scene\IScene.hpp"
@@ -31,6 +32,7 @@ namespace Rimfrost
 		Lights m_lights;
 
 		NodeEditGUI m_nodeEditGui;
+		EntityEditGUI m_entityEditGui;
 
 		std::string m_inputMap;
 		std::string m_outPutMapFile;

@@ -1,4 +1,6 @@
 #include "rfpch.hpp"
+#include <imgui.h>
+
 #include "LevelEditor.hpp"
 #include "RandGen.hpp"
 #include "Logger.hpp"
@@ -8,7 +10,6 @@
 #include "Rimfrost\Scene\SceneSerializer.hpp"
 #include "Rimfrost\EntCom\SerializeECS.hpp"
 #include "Rimfrost\EntCom\rfComponents.hpp"
-#include <imgui.h>
 
 #include "RfextendedMath.hpp"
 
@@ -171,6 +172,7 @@ namespace Rimfrost
 
 		m_camera.update(static_cast<float>(dt));
 		m_nodeEditGui.view();
+		m_entityEditGui.view();
 
 		if (m_isTranslatingNode) translateSelectedNode();
 		if (m_isRotatingNode) rotateSelectedNode(static_cast<float>(dt));
@@ -542,6 +544,19 @@ namespace Rimfrost
 						std::bind(&LevelEditor::selectScale, this));
 
 					m_nodeEditGui.selectedTRS();
+
+					//select entity from node clicked on
+					if (!m_entityEditGui.trySelectEntityFromNode(m_selectedNode))
+					{
+						for (auto& p : m_pointLightGizmoHandles)
+						{
+							if (p.first == m_selectedNode)
+							{
+								m_entityEditGui.selectEntity(p.second);
+								break;
+							}
+						}
+					}
 				}
 			}
 		}
