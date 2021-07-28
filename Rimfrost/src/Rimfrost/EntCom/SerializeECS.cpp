@@ -175,7 +175,7 @@ namespace Rimfrost
 			{
 				freeSlotQueueAsVector.pop_back();	
 			}
-			EntityReg::m_entCompManInstance.m_entityRegistry.emplace_back(EntityReg::m_entCompManInstance.createEntityForDeSerialization(index));
+			EntityReg::m_entCompManInstance.m_entityRegistry.emplace_back(EntityReg::m_entCompManInstance.createEntityFromExistingID(index));
 			index++;
 		}
 	}

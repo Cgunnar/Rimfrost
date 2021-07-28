@@ -70,11 +70,16 @@ namespace Rimfrost
 
 		m_sceneGraph.hideNode(m_gizmoRootNode, true);
 
-		for (const auto& p : m_lights.pointLights->getPointLights())
+
+		//create a pair of lightGizmo and entityRef to entitys with PointLightComponent and NodeComponent
+		for (const auto& p : EntityReg::getComponentArray<PointLightComponent>())
 		{
-			NodeHandle lightGizmo = m_sceneGraph.addModel("Models/smallInvNormSphere.obj");
-			lightGizmo->localMatrix.setTranslation(p.first.getPosition());
-			m_pointLightGizmoHandles.push_back(lightGizmo);
+			if (auto n = EntityReg::getComponent<NodeComponent>(p.getEntityID()); n)
+			{
+				NodeHandle lightGizmo = m_sceneGraph.addModel("Models/smallInvNormSphere.obj", n->nodeHandel->getParentID());
+				lightGizmo->localMatrix = n->nodeHandel->localMatrix;
+				m_pointLightGizmoHandles.emplace_back(lightGizmo, p.getEntity());
+			}
 		}
 
 
@@ -112,13 +117,13 @@ namespace Rimfrost
 			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode);
 			for (auto& p : m_pointLightGizmoHandles)
 			{
-				m_sceneGraph.removeNode(p);
+				m_sceneGraph.removeNode(p.first);
 			}
-			m_pointLightGizmoHandles.clear();
 			m_sceneGraph.packSceneGraph();
 			ECSSerializer::reCoupleWithSceneGraph(m_sceneGraph);
 			ECSSerializer::serialize(m_outPutMapFile);
 			SceneSerializer::serialize(m_outPutMapFile, *this);
+			m_pointLightGizmoHandles.clear();
 		}
 
 

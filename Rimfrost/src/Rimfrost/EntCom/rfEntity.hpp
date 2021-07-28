@@ -87,6 +87,7 @@ namespace Rimfrost
 
 	public:
 		EntityID getEntityID() const { return entityIndex; }
+		Entity getEntity() const;
 	protected:
 		EntityID entityIndex = -1;
 
@@ -131,8 +132,6 @@ namespace Rimfrost
 		static const ComponentTypeID typeID;
 		static const size_t size;
 		static const std::string componentName;
-
-		
 
 	private:
 		static std::vector<T> componentArray;
@@ -198,6 +197,7 @@ namespace Rimfrost
 	{
 		friend EntityReg;
 		friend ECSSerializer;
+		friend BaseComponent;
 		EntityComponentManager() = default;
 		EntityComponentManager(const EntityComponentManager&) = delete;
 		EntityComponentManager& operator=(const EntityComponentManager&) = delete;
@@ -221,7 +221,7 @@ namespace Rimfrost
 	private:
 		void removeComponent(ComponentTypeID type, EntityID entityID);
 		void removeInternalEntity(Entity& entity);
-		Entity createEntityForDeSerialization(EntityID id) { return Entity(id, this); }
+		Entity createEntityFromExistingID(EntityID id) { return Entity(id, this); }
 
 	private:
 		std::vector<std::vector<ComponentMetaData>> m_entitiesComponentHandles;
@@ -234,6 +234,7 @@ namespace Rimfrost
 	class EntityReg
 	{
 		friend ECSSerializer;
+		friend BaseComponent;
 		EntityReg() = delete;
 	public:
 		static void clear();
@@ -272,16 +273,19 @@ namespace Rimfrost
 		// this will delete alla entities and components, before componentesArray gets destroyed
 		for (auto& e : m_entCompManInstance.m_entityRegistry)
 		{
-			if (e.getRefCount() != 1)
+			if (!e.empty())
 			{
-				OutputDebugString(L"[ERROR] Release all outstanding references to entities before calling EntityReg::clear(). \n\tEntityID: ");
-				OutputDebugString(std::to_wstring(e.getID()).c_str());
-				OutputDebugString(L"\n\tNumRefs needed to be released: ");
-				OutputDebugString(std::to_wstring(e.getRefCount() - 1).c_str());
-				OutputDebugString(L"\n");
-				throw std::runtime_error("release all outstanding references to entities before calling EntityReg::clear().");
+				if (e.getRefCount() != 1)
+				{
+					OutputDebugString(L"[ERROR] Release all outstanding references to entities before calling EntityReg::clear(). \n\tEntityID: ");
+					OutputDebugString(std::to_wstring(e.getID()).c_str());
+					OutputDebugString(L"\n\tNumRefs needed to be released: ");
+					OutputDebugString(std::to_wstring(e.getRefCount() - 1).c_str());
+					OutputDebugString(L"\n");
+					throw std::runtime_error("release all outstanding references to entities before calling EntityReg::clear().");
+				}
+				m_entCompManInstance.removeEntity(e);
 			}
-			m_entCompManInstance.removeEntity(e);
 		}
 		m_entCompManInstance.m_entityRegistry.clear();
 		m_entCompManInstance.clearHasBeenCalled = true;
@@ -680,6 +684,11 @@ namespace Rimfrost
 		comUtil.compDestroy = destroy;
 		s_componentRegister.push_back(comUtil);
 		return compID;
+	}
+
+	inline Entity BaseComponent::getEntity() const
+	{
+		return EntityReg::m_entCompManInstance.createEntityFromExistingID(entityIndex);
 	}
 
 	inline size_t BaseComponent::getSize(ComponentTypeID id)

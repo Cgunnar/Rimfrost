@@ -90,7 +90,7 @@ namespace Rimfrost
 		Transform m_selectedReferencSystem;
 		NodeEditGUI::RadioButtonRefSystem m_selecteRefSysEnum = NodeEditGUI::RadioButtonRefSystem::WORLD;
 
-		std::vector<NodeHandle> m_pointLightGizmoHandles;
+		std::vector<std::pair<NodeHandle, Entity>> m_pointLightGizmoHandles;
 
 		NodeHandle m_arrowX;
 		NodeHandle m_arrowY;
