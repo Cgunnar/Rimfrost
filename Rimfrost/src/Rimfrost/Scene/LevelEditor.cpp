@@ -23,7 +23,7 @@ namespace Rimfrost
 
 
 
-	LevelEditor::LevelEditor(const std::string& inputMap, const std::string& outPutMap) : m_whiteLight({ 0, 8, 0 }, { 1.0f, 1.0f, 1.0f }, 100, "whiteLight")
+	LevelEditor::LevelEditor(const std::string& inputMap, const std::string& outPutMap)
 	{
 		assert(outPutMap.back() == '\\' || outPutMap.back() == '/');
 		assert(inputMap.back() == '\\' || inputMap.back() == '/');
@@ -33,7 +33,6 @@ namespace Rimfrost
 
 	LevelEditor::~LevelEditor()
 	{
-		if (m_lightSphere) delete m_lightSphere;
 		OutputDebugString(L"~LevelEditor\n");
 	}
 
@@ -43,7 +42,6 @@ namespace Rimfrost
 		EventSystem::addObserver(*this, MouseButtonsEvent::eventType);
 
 		m_lights.pointLights = std::make_shared<PointLightContainer>();
-		m_lights.pointLights->addPointLight(m_whiteLight);
 
 
 		this->load(m_inputMap);

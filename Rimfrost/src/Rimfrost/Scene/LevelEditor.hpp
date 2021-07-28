@@ -80,9 +80,6 @@ namespace Rimfrost
 
 		bool m_acceptMousePickingEvent = false;
 
-		PointLight m_whiteLight;
-		NodeHandle* m_lightSphere = nullptr;
-
 		NodeHandle m_selectedNode;
 		NodeHandle m_gizmoRootNode;
 
