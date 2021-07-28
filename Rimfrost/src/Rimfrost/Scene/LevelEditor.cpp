@@ -146,6 +146,14 @@ namespace Rimfrost
 
 	void LevelEditor::update(double dt)
 	{
+		//move pointlights to lightGizmo
+		for (auto& l : m_pointLightGizmoHandles)
+		{
+			assert(l.second.getComponent<NodeComponent>());
+			NodeComponent* lightNode = l.second.getComponent<NodeComponent>();
+			lightNode->nodeHandel->localMatrix = l.first->localMatrix;
+		}
+
 		for (auto& pcComp : EntityReg::getComponentArray<PointLightComponent>())
 		{
 			if (auto nodeComp = EntityReg::getComponent<NodeComponent>(pcComp.getEntityID()); nodeComp)

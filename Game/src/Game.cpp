@@ -34,12 +34,12 @@ Game::Game()
 	m_acticeScene = m_scenes[0];
 	m_acticeScene->setUpScene();
 
-	/*auto n = m_acticeScene->sceneGraph().addModel("Models/green_glass.obj", ModelSettings::TRANSPARENCY_IS_TWOSIDED);
+	/*auto n = m_acticeScene->sceneGraph().addNode();
 	n->localMatrix.setTranslation(-7, 1, 1);
 	Entity e = EntityReg::createEntity();
 	e.addComponent(NodeComponent())->nodeHandel = n;
 	PointLightComponent p;
-	p.color = { 1,0,0 };
+	p.color = { 1,1,1 };
 	p.strength = 300;
 	p.position = { -7, 1, 1 };
 	e.addComponent(p);
@@ -51,8 +51,8 @@ Game::Game()
 
 Game::~Game()
 {
-	m_entities.clear();
 	m_acticeScene->save("Saves/TestSave/");
+	m_entities.clear();
 	EntityReg::clear();
 }
 
