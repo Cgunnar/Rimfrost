@@ -58,7 +58,7 @@
       <PrecompiledHeaderFile>rfpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\Graphics;src\Rimfrost\LevelEditor;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;..\external_headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\Graphics;src\Rimfrost\LevelEditor;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Shaders;src\Rimfrost\Utilities;vendor\imgui;vendor\imgui\.github;vendor\imgui\backends;vendor\imgui\docs;vendor\imgui\examples;vendor\imgui\ImGui;vendor\imgui\misc;vendor\imgui\.github\workflows;vendor\imgui\backends\vulkan;vendor\imgui\examples\example_allegro5;vendor\imgui\examples\example_android_opengl3;vendor\imgui\examples\example_apple_metal;vendor\imgui\examples\example_apple_opengl2;vendor\imgui\examples\example_emscripten_opengl3;vendor\imgui\examples\example_emscripten_wgpu;vendor\imgui\examples\example_glfw_metal;vendor\imgui\examples\example_glfw_opengl2;vendor\imgui\examples\example_glfw_opengl3;vendor\imgui\examples\example_glfw_vulkan;vendor\imgui\examples\example_glut_opengl2;vendor\imgui\examples\example_marmalade;vendor\imgui\examples\example_null;vendor\imgui\examples\example_sdl_directx11;vendor\imgui\examples\example_sdl_metal;vendor\imgui\examples\example_sdl_opengl2;vendor\imgui\examples\example_sdl_opengl3;vendor\imgui\examples\example_sdl_vulkan;vendor\imgui\examples\example_win32_directx10;vendor\imgui\examples\example_win32_directx11;vendor\imgui\examples\example_win32_directx12;vendor\imgui\examples\example_win32_directx9;vendor\imgui\examples\libs;vendor\imgui\examples\example_android_opengl3\android;vendor\imgui\examples\example_android_opengl3\android\app;vendor\imgui\examples\example_android_opengl3\android\app\src;vendor\imgui\examples\example_android_opengl3\android\app\src\main;vendor\imgui\examples\example_android_opengl3\android\app\src\main\java;vendor\imgui\examples\example_apple_metal\example_apple_metal.xcodeproj;vendor\imgui\examples\example_apple_metal\iOS;vendor\imgui\examples\example_apple_metal\macOS;vendor\imgui\examples\example_apple_opengl2\example_apple_opengl2.xcodeproj;vendor\imgui\examples\example_emscripten_wgpu\web;vendor\imgui\examples\example_marmalade\data;vendor\imgui\examples\libs\gl3w;vendor\imgui\examples\libs\glfw;vendor\imgui\examples\libs\usynergy;vendor\imgui\examples\libs\gl3w\GL;vendor\imgui\examples\libs\glfw\include;vendor\imgui\examples\libs\glfw\lib-vc2010-32;vendor\imgui\examples\libs\glfw\lib-vc2010-64;vendor\imgui\examples\libs\glfw\include\GLFW;vendor\imgui\misc\cpp;vendor\imgui\misc\debuggers;vendor\imgui\misc\fonts;vendor\imgui\misc\freetype;vendor\imgui\misc\single_file;..\external_headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -75,7 +75,7 @@
       <PrecompiledHeaderFile>rfpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_NDEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\Graphics;src\Rimfrost\LevelEditor;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Shaders;src\Rimfrost\Utilities;..\ImGui;..\external_headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Rimfrost;src\Rimfrost\Core;src\Rimfrost\EntCom;src\Rimfrost\EventSystem;src\Rimfrost\Graphics;src\Rimfrost\LevelEditor;src\Rimfrost\Math;src\Rimfrost\Scene;src\Rimfrost\Shaders;src\Rimfrost\Utilities;vendor\imgui;vendor\imgui\.github;vendor\imgui\backends;vendor\imgui\docs;vendor\imgui\examples;vendor\imgui\ImGui;vendor\imgui\misc;vendor\imgui\.github\workflows;vendor\imgui\backends\vulkan;vendor\imgui\examples\example_allegro5;vendor\imgui\examples\example_android_opengl3;vendor\imgui\examples\example_apple_metal;vendor\imgui\examples\example_apple_opengl2;vendor\imgui\examples\example_emscripten_opengl3;vendor\imgui\examples\example_emscripten_wgpu;vendor\imgui\examples\example_glfw_metal;vendor\imgui\examples\example_glfw_opengl2;vendor\imgui\examples\example_glfw_opengl3;vendor\imgui\examples\example_glfw_vulkan;vendor\imgui\examples\example_glut_opengl2;vendor\imgui\examples\example_marmalade;vendor\imgui\examples\example_null;vendor\imgui\examples\example_sdl_directx11;vendor\imgui\examples\example_sdl_metal;vendor\imgui\examples\example_sdl_opengl2;vendor\imgui\examples\example_sdl_opengl3;vendor\imgui\examples\example_sdl_vulkan;vendor\imgui\examples\example_win32_directx10;vendor\imgui\examples\example_win32_directx11;vendor\imgui\examples\example_win32_directx12;vendor\imgui\examples\example_win32_directx9;vendor\imgui\examples\libs;vendor\imgui\examples\example_android_opengl3\android;vendor\imgui\examples\example_android_opengl3\android\app;vendor\imgui\examples\example_android_opengl3\android\app\src;vendor\imgui\examples\example_android_opengl3\android\app\src\main;vendor\imgui\examples\example_android_opengl3\android\app\src\main\java;vendor\imgui\examples\example_apple_metal\example_apple_metal.xcodeproj;vendor\imgui\examples\example_apple_metal\iOS;vendor\imgui\examples\example_apple_metal\macOS;vendor\imgui\examples\example_apple_opengl2\example_apple_opengl2.xcodeproj;vendor\imgui\examples\example_emscripten_wgpu\web;vendor\imgui\examples\example_marmalade\data;vendor\imgui\examples\libs\gl3w;vendor\imgui\examples\libs\glfw;vendor\imgui\examples\libs\usynergy;vendor\imgui\examples\libs\gl3w\GL;vendor\imgui\examples\libs\glfw\include;vendor\imgui\examples\libs\glfw\lib-vc2010-32;vendor\imgui\examples\libs\glfw\lib-vc2010-64;vendor\imgui\examples\libs\glfw\include\GLFW;vendor\imgui\misc\cpp;vendor\imgui\misc\debuggers;vendor\imgui\misc\fonts;vendor\imgui\misc\freetype;vendor\imgui\misc\single_file;..\external_headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -158,6 +158,8 @@
     <ClInclude Include="src\Rimfrost\Utilities\ReadImg.hpp" />
     <ClInclude Include="src\Rimfrost\Utilities\Timer.hpp" />
     <ClInclude Include="src\rfpch.hpp" />
+    <ClInclude Include="vendor\imgui\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="vendor\imgui\backends\imgui_impl_win32.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Rimfrost\Core\EngineApp.cpp" />
@@ -217,6 +219,12 @@
     <ClCompile Include="src\rfpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="vendor\imgui\backends\imgui_impl_dx11.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="vendor\imgui\backends\imgui_impl_win32.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\Rimfrost\Shaders\MousePickingPS.hlsl">
@@ -251,7 +259,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ImGui\ImGui.vcxproj">
+    <ProjectReference Include="vendor\imgui\ImGui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
   </ItemGroup>

@@ -1,9 +1,13 @@
 workspace "Rimfrost"
     architecture "x64"
     configurations { "Debug", "Release" }
+    startproject "Game"
 
 
 outputdir = "%{cfg.buildcfg}-%{cfg.architecture}"
+
+
+include "Rimfrost/vendor/imgui"
 
 project "Rimfrost"
     location "Rimfrost"
@@ -23,6 +27,10 @@ project "Rimfrost"
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.hpp",
         "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/imgui/backends/imgui_impl_dx11.h",
+        "%{prj.name}/vendor/imgui/backends/imgui_impl_dx11.cpp",
+        "%{prj.name}/vendor/imgui/backends/imgui_impl_win32.h",
+        "%{prj.name}/vendor/imgui/backends/imgui_impl_win32.cpp",
         "%{prj.name}/src/**.hlsl"
     }
 
@@ -30,7 +38,7 @@ project "Rimfrost"
     {
         "%{prj.name}/src",
         "%{prj.name}/src/**",
-        "ImGui/",
+        "%{prj.name}/vendor/**",
         "external_headers/",
     }
 
@@ -59,6 +67,9 @@ project "Rimfrost"
     filter {"files:**.hlsl"}
         flags {"ExcludeFromBuild"}
 
+    filter {"files:Rimfrost/vendor/**.cpp"}
+        flags {"NoPCH"}
+
 
 
 
@@ -84,7 +95,7 @@ project "Game"
         "Rimfrost/src",
         "Rimfrost/src/**",
         "Rimfrost/src/Rimfrost",
-        "ImGui/",
+        "Rimfrost/vendor/imgui",
     }
 
     defines
@@ -107,31 +118,3 @@ project "Game"
        optimize "On"
 
 
-
-
-
-project "ImGui"
-    location "ImGui"
-    kind "StaticLib"
-    staticruntime "on"
-    language "C++"
-    cppdialect "C++20"
-    systemversion "latest"
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-    files 
-    {
-        "%{prj.name}/**.h",
-        "%{prj.name}/**.cpp"
-    }
-
-    filter { "configurations:Debug" }
-        defines { "_DEBUG", "DEBUG" }
-        runtime "Debug"
-        symbols "on"
-
-    filter { "configurations:Release" }
-       defines { "_NDEBUG", "NDEBUG" }
-       runtime "Release"
-       optimize "on"
