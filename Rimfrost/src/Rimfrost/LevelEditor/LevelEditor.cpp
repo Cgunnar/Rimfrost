@@ -171,6 +171,7 @@ namespace Rimfrost
 
 
 		m_camera.update(static_cast<float>(dt));
+		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 		m_nodeEditGui.view();
 		m_entityEditGui.view();
 

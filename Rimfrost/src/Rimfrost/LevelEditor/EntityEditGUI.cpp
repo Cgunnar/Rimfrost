@@ -6,6 +6,7 @@
 #include "Rimfrost\EntCom\rfComponents.hpp"
 
 
+
 namespace Rimfrost
 {
 	void EntityEditGUI::view()
@@ -40,3 +41,5 @@ namespace Rimfrost
 		m_selectedEntity = ent;
 	}
 }
+
+
