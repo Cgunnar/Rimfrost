@@ -482,7 +482,7 @@ namespace Rimfrost
 		{
 			auto& mouse = static_cast<const MouseButtonsEvent&>(e).mouseState;
 			m_mouseState = mouse;
-			if (mouse.RMBClicked)
+			if (mouse.LMBClicked)
 			{
 				m_mouseCoordOnClick.x = static_cast<float>(mouse.x);
 				m_mouseCoordOnClick.y = static_cast<float>(mouse.y);
@@ -490,14 +490,14 @@ namespace Rimfrost
 				EventSystem::postTOQueue(MousePickingRequestEvent(mouse.x, mouse.y));
 				m_acceptMousePickingEvent = true;
 			}
-			if (mouse.RMBHeld)
+			if (mouse.LMBHeld)
 			{
 				m_mouseCoord.x = static_cast<float>(mouse.x);
 				m_mouseCoord.y = static_cast<float>(mouse.y);
 				m_winWidth = mouse.windowWidth;
 				m_winHeight = mouse.windowHeight;
 			}
-			if (mouse.RMBReleased)
+			if (mouse.LMBReleased)
 			{
 				stopTranslate();
 				stopRotate();

@@ -52,6 +52,7 @@ namespace Rimfrost
 		int m_height;
 		HWND m_hWnd;
 		bool m_isClosed;
+		bool m_isStarting = true;
 
 		Rimfrost::Graphics* m_graphics;
 		std::shared_ptr<Mouse> m_mouse;

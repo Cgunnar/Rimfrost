@@ -110,6 +110,7 @@ namespace Rimfrost
 		//show window
 		ShowWindow(this->m_hWnd, SW_SHOWDEFAULT);
 
+		m_isStarting = false;
 	}
 	Window::~Window()
 	{
@@ -223,53 +224,29 @@ namespace Rimfrost
 			return true;
 		}
 
-
+		
 
 		switch (msg)
 		{
 			wchar_t msg[200];
 
-
-			//case WM_KEYDOWN:
-			//{
-			//	swprintf_s(msg, L"WM_KEYDOWN: 0x%x\n", (wchar_t)wParam);
-			//	OutputDebugString(msg);
-			//	switch (wParam)
-			//	{
-			//	/*case 0x1b:
-			//	{
-			//		PostQuitMessage(0);
-			//		return 0;
-			//	}*/
-			//	}
-			//	break;
-			//}
-			//case WM_KEYUP:
-			//{
-			//	swprintf_s(msg, L"WM_KEYUP: 0x%x\n", (wchar_t)wParam);
-			//	OutputDebugString(msg);
-			//	break;
-			//}
-
-
 		case WM_MOUSEMOVE:
 		{
+			if (!m_isStarting && !m_isClosed && m_mouse->m_showCursor && ImGui::GetIO().WantCaptureMouse) break;
 			POINTS p = MAKEPOINTS(lParam);
-
 			m_mouse->m_mouseState.x = p.x;
 			m_mouse->m_mouseState.y = p.y;
-
-
-
 			break;
 		}
 		case WM_MOUSEWHEEL:
 		{
+			if (!m_isStarting && !m_isClosed && m_mouse->m_showCursor && ImGui::GetIO().WantCaptureMouse) break;
 			m_mouse->m_mouseState.z += GET_WHEEL_DELTA_WPARAM(wParam);
 			break;
 		}
 		case WM_LBUTTONDOWN:
 		{
+			if (!m_isStarting && !m_isClosed && m_mouse->m_showCursor && ImGui::GetIO().WantCaptureMouse) break;
 			m_mouse->m_mouseState.LMBClicked = true;
 			m_mouse->m_mouseState.LMBHeld = true;
 			//print("MousePos:  \n");
@@ -278,12 +255,14 @@ namespace Rimfrost
 
 		case WM_LBUTTONUP:
 		{
+			if (!m_isStarting && !m_isClosed && m_mouse->m_showCursor && ImGui::GetIO().WantCaptureMouse) break;
 			m_mouse->m_mouseState.LMBReleased = true;
 			m_mouse->m_mouseState.LMBHeld = false;
 			break;
 		}
 		case WM_RBUTTONDOWN:
 		{
+			if (!m_isStarting && !m_isClosed && m_mouse->m_showCursor && ImGui::GetIO().WantCaptureMouse) break;
 			m_mouse->m_mouseState.RMBClicked = true;
 			m_mouse->m_mouseState.RMBHeld = true;
 			//print("MousePos:  \n");
@@ -292,6 +271,7 @@ namespace Rimfrost
 
 		case WM_RBUTTONUP:
 		{
+			if (!m_isStarting && !m_isClosed && m_mouse->m_showCursor && ImGui::GetIO().WantCaptureMouse) break;
 			m_mouse->m_mouseState.RMBReleased = true;
 			m_mouse->m_mouseState.RMBHeld = false;
 			break;
@@ -300,6 +280,7 @@ namespace Rimfrost
 
 		case WM_INPUT:
 		{
+			if (!m_isStarting && !m_isClosed && m_mouse->m_showCursor && ImGui::GetIO().WantCaptureMouse) break;
 			UINT bufferSize{};
 			UINT errorCode = GetRawInputData((HRAWINPUT)lParam, RID_INPUT, nullptr, &bufferSize, sizeof(RAWINPUTHEADER));
 			assert(errorCode != -1);
