@@ -77,7 +77,7 @@ namespace Rimfrost
 			{
 				NodeHandle lightGizmo = m_sceneGraph.addModel("Models/smallInvNormSphere.obj", n->nodeHandel->getParentID());
 				lightGizmo->localMatrix = n->nodeHandel->localMatrix;
-				m_pointLightGizmoHandles.emplace_back(lightGizmo, std::make_shared<Entity>(p.getEntity()));
+				m_pointLightGizmoHandles.emplace_back(p.getKey() , lightGizmo, std::make_shared<Entity>(p.getEntity()));
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace Rimfrost
 			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode);
 			for (auto& p : m_pointLightGizmoHandles)
 			{
-				m_sceneGraph.removeNode(p.first);
+				m_sceneGraph.removeNode(p.nodehandle);
 			}
 			m_sceneGraph.packSceneGraph();
 			ECSSerializer::reCoupleWithSceneGraph(m_sceneGraph);
@@ -440,14 +440,38 @@ namespace Rimfrost
 		return clickedRing;
 	}
 
+
+
 	void LevelEditor::updateEntitysAndLights()
 	{
+		//if entity is empty it has been deleted and the light should also be deleted
+		auto& plMap = m_poinLightMap;
+		auto&& removeLight = [&](auto& l)
+		{
+			if (l.entityRef->empty())
+			{
+				l.nodehandle.removeNode();
+				assert(plMap.contains(l.lightKey));
+				plMap.erase(l.lightKey);
+				return true;
+			}
+			return false;
+		};
+		m_pointLightGizmoHandles.erase(std::remove_if(
+			m_pointLightGizmoHandles.begin(),
+			m_pointLightGizmoHandles.end(),
+			[&plMap, &removeLight](auto& l) { return removeLight(l); }),
+			m_pointLightGizmoHandles.end());
+
+
 		//move pointlights to lightGizmo
 		for (auto& l : m_pointLightGizmoHandles)
 		{
-			assert(l.second->getComponent<NodeComponent>());
-			NodeComponent* lightNode = l.second->getComponent<NodeComponent>();
-			lightNode->nodeHandel->localMatrix = l.first->localMatrix;
+			assert(!l.entityRef->empty());
+			assert(l.entityRef->getComponent<NodeComponent>());
+			NodeComponent* lightNode = l.entityRef->getComponent<NodeComponent>();
+			lightNode->nodeHandel->localMatrix = l.nodehandle->localMatrix;
+			
 		}
 
 		for (auto& pcComp : EntityReg::getComponentArray<PointLightComponent>())
@@ -556,9 +580,9 @@ namespace Rimfrost
 					{
 						for (auto& p : m_pointLightGizmoHandles)
 						{
-							if (p.first == m_selectedNode)
+							if (p.nodehandle == m_selectedNode)
 							{
-								m_entityEditGui.selectEntity(p.second);
+								m_entityEditGui.selectEntity(p.entityRef);
 								break;
 							}
 						}

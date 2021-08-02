@@ -89,7 +89,13 @@ namespace Rimfrost
 		Transform m_selectedReferencSystem;
 		NodeEditGUI::RadioButtonRefSystem m_selecteRefSysEnum = NodeEditGUI::RadioButtonRefSystem::WORLD;
 
-		std::vector<std::pair<NodeHandle, std::shared_ptr<Entity>>> m_pointLightGizmoHandles;
+		struct LightEntAndNode
+		{
+			int64_t lightKey;
+			NodeHandle nodehandle;
+			std::shared_ptr<Entity> entityRef;
+		};
+		std::vector<LightEntAndNode> m_pointLightGizmoHandles;
 
 		NodeHandle m_arrowX;
 		NodeHandle m_arrowY;

@@ -15,7 +15,7 @@ namespace Rimfrost
 	void EntityEditGUI::view()
 	{
 		ImGui::Begin("Entity");
-		if (m_selectedEntity->empty())
+		if (!m_selectedEntity || m_selectedEntity->empty())
 		{
 			ImGui::End();
 			return;
@@ -56,6 +56,8 @@ namespace Rimfrost
 	{
 		Logger::getLogger().debugLog("EntityEditGUI::removeEntity() selectedEntityRefCount: " + std::to_string(m_selectedEntity->getRefCount()) + "\n");
 		assert(m_selectedEntity->getRefCount() == 2);
+		m_selectedEntity->reset();
+		m_selectedEntity.reset();
 	}
 }
 
