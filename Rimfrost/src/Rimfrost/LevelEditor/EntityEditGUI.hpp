@@ -14,6 +14,7 @@ namespace Rimfrost
 		void view();
 		[[nodiscard]] bool trySelectEntityFromNode(NodeID id);
 		void selectEntity(std::shared_ptr<Entity> ent);
+		void deSelectEntity();
 
 	private:
 		std::shared_ptr<Entity> m_selectedEntity;

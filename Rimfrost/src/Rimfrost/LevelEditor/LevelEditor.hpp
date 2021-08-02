@@ -92,7 +92,7 @@ namespace Rimfrost
 		struct LightEntAndNode
 		{
 			int64_t lightKey;
-			NodeHandle nodehandle;
+			NodeHandle gizmoNode;
 			std::shared_ptr<Entity> entityRef;
 		};
 		std::vector<LightEntAndNode> m_pointLightGizmoHandles;
@@ -140,6 +140,7 @@ namespace Rimfrost
 		bool handleArrowSelection(Rimfrost::NodeID id);
 		GizmoXYZ handleRingSelection(NodeID id);
 
+		void selectFromMousePicking(NodeID clickedID);
 		
 		void updateEntitysAndLights();
 		void updateGizmo();

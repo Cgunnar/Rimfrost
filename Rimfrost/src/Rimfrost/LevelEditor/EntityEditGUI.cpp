@@ -52,6 +52,10 @@ namespace Rimfrost
 		assert(!ent->empty());
 		m_selectedEntity = ent;
 	}
+	void EntityEditGUI::deSelectEntity()
+	{
+		m_selectedEntity.reset();
+	}
 	void EntityEditGUI::removeEntity()
 	{
 		Logger::getLogger().debugLog("EntityEditGUI::removeEntity() selectedEntityRefCount: " + std::to_string(m_selectedEntity->getRefCount()) + "\n");

@@ -116,7 +116,7 @@ namespace Rimfrost
 			if (m_gizmoRootNode.isValid()) m_sceneGraph.removeNode(m_gizmoRootNode);
 			for (auto& p : m_pointLightGizmoHandles)
 			{
-				m_sceneGraph.removeNode(p.nodehandle);
+				m_sceneGraph.removeNode(p.gizmoNode);
 			}
 			m_sceneGraph.packSceneGraph();
 			ECSSerializer::reCoupleWithSceneGraph(m_sceneGraph);
@@ -440,6 +440,67 @@ namespace Rimfrost
 		return clickedRing;
 	}
 
+	void LevelEditor::selectFromMousePicking(NodeID clickedID)
+	{
+		Logger::getLogger().debugLog("selectFromMousePicking, pickEvent: " + std::to_string(clickedID) + "\n");
+
+		if (clickedID == 0) 
+		{
+			return;
+		}
+
+		NodeHandle temp = NodeHandle(m_sceneGraph, clickedID);
+		if (temp.isValid() && **temp) //*NodeHandle returns Node, *Node returns optional<SubModel>
+		{
+			//find the root of the model and get the parent
+			NodeID tempParent = temp->getParentID();
+			while (!m_sceneGraph.getNodes()[tempParent].isParentToModel())
+			{
+				tempParent = m_sceneGraph.getNodes()[tempParent].getParentID();
+				assert(tempParent != rootNode);
+			}
+
+			if (handleArrowSelection(tempParent)) //click on arrow
+			{
+				Logger::getLogger().debugLog("clicked on Arrow\n");
+			}
+			else if (handleRingSelection(tempParent) != LevelEditor::GizmoXYZ::NONE)
+			{
+				Logger::getLogger().debugLog("clicked on ring\n");
+			}
+			else if (!(m_selectedNode.isValid() && m_selectedNode->getID() == tempParent))//clicked on unselected
+			{
+				deSelectTranslate();
+				deSelectRotate();
+				deSelectScale();
+				m_entityEditGui.deSelectEntity();
+
+				m_selectedNode = NodeHandle(m_sceneGraph, tempParent);
+
+				m_nodeEditGui = NodeEditGUI(m_selectedNode,
+					std::bind(&LevelEditor::selectTranslateFromGui, this, std::placeholders::_1),
+					std::bind(&LevelEditor::selectRotateFromGui, this, std::placeholders::_1),
+					std::bind(&LevelEditor::selectScale, this));
+
+				m_nodeEditGui.selectedTRS();
+
+				//select entity from node clicked on
+				if (!m_entityEditGui.trySelectEntityFromNode(m_selectedNode))
+				{
+					//pointlight gizmo have sibling nodes
+					for (auto& p : m_pointLightGizmoHandles)
+					{
+						if (p.gizmoNode == m_selectedNode)
+						{
+							m_entityEditGui.selectEntity(p.entityRef);
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
 
 
 	void LevelEditor::updateEntitysAndLights()
@@ -450,7 +511,7 @@ namespace Rimfrost
 		{
 			if (l.entityRef->empty())
 			{
-				l.nodehandle.removeNode();
+				l.gizmoNode.removeNode();
 				assert(plMap.contains(l.lightKey));
 				plMap[l.lightKey].setOnOff(false); // this does not remove the pointlight from the pointlightContainer or structuredbuffer submitted to gpu
 				plMap.erase(l.lightKey);
@@ -471,7 +532,7 @@ namespace Rimfrost
 			assert(!l.entityRef->empty());
 			assert(l.entityRef->getComponent<NodeComponent>());
 			NodeComponent* lightNode = l.entityRef->getComponent<NodeComponent>();
-			lightNode->nodeHandel->localMatrix = l.nodehandle->localMatrix;
+			lightNode->nodeHandel->localMatrix = l.gizmoNode->localMatrix;
 			
 		}
 
@@ -540,56 +601,8 @@ namespace Rimfrost
 		if (e.type() == MousePickingEvent::eventType && m_acceptMousePickingEvent)
 		{
 			m_acceptMousePickingEvent = false;
-			auto& mpe = static_cast<const MousePickingEvent&>(e);
-			Logger::getLogger().debugLog("LevelEditor::onEvent, pickEvent: " + std::to_string(mpe.nodeID) + "\n");
-			NodeHandle temp = NodeHandle(m_sceneGraph, mpe.nodeID);
-			if (temp.isValid() && **temp)
-			{
-				//find the root of the model and get the parent
-				NodeID tempParent = temp->getParentID();
-				while (!m_sceneGraph.getNodes()[tempParent].isParentToModel())
-				{
-					tempParent = m_sceneGraph.getNodes()[tempParent].getParentID();
-					assert(tempParent != rootNode);
-				}
-
-				if (handleArrowSelection(tempParent)) //click on arrow
-				{
-					Logger::getLogger().debugLog("clicked on Arrow\n");
-				}
-				else if (handleRingSelection(tempParent) != LevelEditor::GizmoXYZ::NONE)
-				{
-					Logger::getLogger().debugLog("clicked on ring\n");
-				}
-				else if (!(m_selectedNode.isValid() && m_selectedNode->getID() == tempParent))//clicked on unselected
-				{
-					deSelectTranslate();
-					deSelectRotate();
-					deSelectScale();
-
-					m_selectedNode = NodeHandle(m_sceneGraph, tempParent);
-
-					m_nodeEditGui = NodeEditGUI(m_selectedNode,
-						std::bind(&LevelEditor::selectTranslateFromGui, this, std::placeholders::_1),
-						std::bind(&LevelEditor::selectRotateFromGui, this, std::placeholders::_1),
-						std::bind(&LevelEditor::selectScale, this));
-
-					m_nodeEditGui.selectedTRS();
-
-					//select entity from node clicked on
-					if (!m_entityEditGui.trySelectEntityFromNode(m_selectedNode))
-					{
-						for (auto& p : m_pointLightGizmoHandles)
-						{
-							if (p.nodehandle == m_selectedNode)
-							{
-								m_entityEditGui.selectEntity(p.entityRef);
-								break;
-							}
-						}
-					}
-				}
-			}
+			NodeID nodeID = static_cast<const MousePickingEvent&>(e).nodeID;
+			selectFromMousePicking(nodeID);
 		}
 
 		if (e.type() == KeyboardEvent::eventType)
