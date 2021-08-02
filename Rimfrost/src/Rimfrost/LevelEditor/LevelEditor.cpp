@@ -452,6 +452,7 @@ namespace Rimfrost
 			{
 				l.nodehandle.removeNode();
 				assert(plMap.contains(l.lightKey));
+				plMap[l.lightKey].setOnOff(false); // this does not remove the pointlight from the pointlightContainer or structuredbuffer submitted to gpu
 				plMap.erase(l.lightKey);
 				return true;
 			}
