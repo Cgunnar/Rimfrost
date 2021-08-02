@@ -160,6 +160,14 @@ namespace Rimfrost
 		updateGizmo();
 	}
 
+	void LevelEditor::deSelectNode()
+	{
+		deSelectTranslate();
+		deSelectRotate();
+		deSelectScale();
+		m_selectedNode.invalidateHandle();
+	}
+
 	template<typename T> int sgn(T val)
 	{
 		return (T(0) < val) - (val < T(0));
@@ -477,15 +485,9 @@ namespace Rimfrost
 
 				m_selectedNode = NodeHandle(m_sceneGraph, tempParent);
 
-				m_nodeEditGui = NodeEditGUI(m_selectedNode,
-					std::bind(&LevelEditor::selectTranslateFromGui, this, std::placeholders::_1),
-					std::bind(&LevelEditor::selectRotateFromGui, this, std::placeholders::_1),
-					std::bind(&LevelEditor::selectScale, this));
-
-				m_nodeEditGui.selectedTRS();
-
 				//select entity from node clicked on
-				if (!m_entityEditGui.trySelectEntityFromNode(m_selectedNode))
+				bool nodeHasEntity = m_entityEditGui.trySelectEntityFromNode(m_selectedNode);
+				if (!nodeHasEntity)
 				{
 					//pointlight gizmo have sibling nodes
 					for (auto& p : m_pointLightGizmoHandles)
@@ -493,10 +495,19 @@ namespace Rimfrost
 						if (p.gizmoNode == m_selectedNode)
 						{
 							m_entityEditGui.selectEntity(p.entityRef);
+							nodeHasEntity = true;
 							break;
 						}
 					}
 				}
+
+				m_nodeEditGui = NodeEditGUI(m_selectedNode, nodeHasEntity,
+					std::bind(&LevelEditor::selectTranslateFromGui, this, std::placeholders::_1),
+					std::bind(&LevelEditor::selectRotateFromGui, this, std::placeholders::_1),
+					std::bind(&LevelEditor::selectScale, this),
+					std::bind(&LevelEditor::deSelectNode, this));
+
+				m_nodeEditGui.selectedTRS();
 			}
 		}
 	}

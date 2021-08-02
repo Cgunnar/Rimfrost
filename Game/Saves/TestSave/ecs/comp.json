@@ -36,14 +36,14 @@
             "typeName": "struct PointMass"
         },
         {
-            "componentCount": 2,
+            "componentCount": 1,
             "componentSize": 32,
             "componentTypeID": 5,
             "path": "Saves/TestSave/ecs/comp_bin/struct RimfrostNodeComponent",
             "typeName": "struct Rimfrost::NodeComponent"
         },
         {
-            "componentCount": 2,
+            "componentCount": 1,
             "componentSize": 48,
             "componentTypeID": 6,
             "path": "Saves/TestSave/ecs/comp_bin/struct RimfrostPointLightComponent",

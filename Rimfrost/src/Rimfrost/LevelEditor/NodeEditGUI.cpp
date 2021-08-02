@@ -8,13 +8,15 @@ using namespace DirectX;
 namespace Rimfrost
 {
 
-	NodeEditGUI::NodeEditGUI(NodeHandle handle, std::function<void(RadioButtonRefSystem)> selectTranslate,
-		std::function<void(RadioButtonRefSystem)> selectRotate, std::function<void()> selectScale)
+	NodeEditGUI::NodeEditGUI(NodeHandle handle, bool isOwnedByEntity, std::function<void(RadioButtonRefSystem)> selectTranslate,
+		std::function<void(RadioButtonRefSystem)> selectRotate, std::function<void()> selectScale, std::function<void()> deSelectNode)
 	{
 		m_node = handle;
+		m_nodeIsOwnedByEntity = isOwnedByEntity;
 		m_selectTranslate = selectTranslate;
 		m_selectRotate = selectRotate;
 		m_selectScale = selectScale;
+		m_deSelectNode = deSelectNode;
 	}
 
 	void NodeEditGUI::view()
@@ -46,6 +48,17 @@ namespace Rimfrost
 			pos[2] = 0;
 			m_node->localMatrix.setTranslation(pos[0], pos[1], pos[2]);
 		}
+
+		if (!m_nodeIsOwnedByEntity)
+		{
+			if (ImGui::Button("Remove"))
+			{
+				m_deSelectNode();
+				m_node.removeNode();
+			}
+		}
+		
+
 		ImGui::End();
 
 

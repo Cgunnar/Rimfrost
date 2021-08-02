@@ -114,6 +114,8 @@ namespace Rimfrost
 	private:
 		void update(double dt) override;
 
+		void deSelectNode();
+
 		void translateSelectedNode();
 		void rotateSelectedNode(float dt);
 

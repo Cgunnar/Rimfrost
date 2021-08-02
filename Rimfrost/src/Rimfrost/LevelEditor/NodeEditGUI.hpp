@@ -24,17 +24,19 @@ namespace Rimfrost
 
 		NodeEditGUI() = default;
 		~NodeEditGUI() = default;
-		NodeEditGUI(NodeHandle handle, std::function<void(RadioButtonRefSystem)> selectTranslate,
-			std::function<void(RadioButtonRefSystem)> selectRotate, std::function<void()> selectScale);
+		NodeEditGUI(NodeHandle handle, bool isOwnedByEntity, std::function<void(RadioButtonRefSystem)> selectTranslate,
+			std::function<void(RadioButtonRefSystem)> selectRotate, std::function<void()> selectScale, std::function<void()> deSelectNode);
 
 		void view();
 		void selectedTRS();
 
 	private:
 		NodeHandle m_node;
+		bool m_nodeIsOwnedByEntity;
 		std::function<void(RadioButtonRefSystem)> m_selectTranslate;
 		std::function<void(RadioButtonRefSystem)> m_selectRotate;
 		std::function<void()> m_selectScale;
+		std::function<void()> m_deSelectNode;
 
 		RadioButtonRefSystem m_radioRefSys = RadioButtonRefSystem::WORLD;
 		RadioButtonRefSystem m_prevRadioRefSys = RadioButtonRefSystem::WORLD;
