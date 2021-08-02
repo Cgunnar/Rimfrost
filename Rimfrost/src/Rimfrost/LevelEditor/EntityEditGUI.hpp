@@ -10,12 +10,16 @@ namespace Rimfrost
 
 
 	public:
+		EntityEditGUI();
 		void view();
 		[[nodiscard]] bool trySelectEntityFromNode(NodeID id);
-		void selectEntity(Entity ent);
+		void selectEntity(std::shared_ptr<Entity> ent);
 
 	private:
-		Entity m_selectedEntity;
+		std::shared_ptr<Entity> m_selectedEntity;
+
+		void removeEntity();
+
 	};
 }
 

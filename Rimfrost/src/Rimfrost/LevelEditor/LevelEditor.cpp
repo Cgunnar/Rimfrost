@@ -77,7 +77,7 @@ namespace Rimfrost
 			{
 				NodeHandle lightGizmo = m_sceneGraph.addModel("Models/smallInvNormSphere.obj", n->nodeHandel->getParentID());
 				lightGizmo->localMatrix = n->nodeHandel->localMatrix;
-				m_pointLightGizmoHandles.emplace_back(lightGizmo, p.getEntity());
+				m_pointLightGizmoHandles.emplace_back(lightGizmo, std::make_shared<Entity>(p.getEntity()));
 			}
 		}
 
@@ -145,28 +145,7 @@ namespace Rimfrost
 
 	void LevelEditor::update(double dt)
 	{
-		//move pointlights to lightGizmo
-		for (auto& l : m_pointLightGizmoHandles)
-		{
-			assert(l.second.getComponent<NodeComponent>());
-			NodeComponent* lightNode = l.second.getComponent<NodeComponent>();
-			lightNode->nodeHandel->localMatrix = l.first->localMatrix;
-		}
-
-		for (auto& pcComp : EntityReg::getComponentArray<PointLightComponent>())
-		{
-			if (auto nodeComp = EntityReg::getComponent<NodeComponent>(pcComp.getEntityID()); nodeComp)
-			{
-				//assert(m_poinLightMap.contains(pcComp.getKey()));
-				if (m_poinLightMap.contains(pcComp.getKey()))
-				{
-					auto& pointLight = m_poinLightMap[pcComp.getKey()];
-
-					pcComp.position = nodeComp->nodeHandel->worldMatrix.getTranslation();
-					pointLight.setPosition(pcComp.position);
-				}
-			}
-		}
+		updateEntitysAndLights();
 
 
 
@@ -459,6 +438,32 @@ namespace Rimfrost
 			startRotate(rotationNormal);
 		}
 		return clickedRing;
+	}
+
+	void LevelEditor::updateEntitysAndLights()
+	{
+		//move pointlights to lightGizmo
+		for (auto& l : m_pointLightGizmoHandles)
+		{
+			assert(l.second->getComponent<NodeComponent>());
+			NodeComponent* lightNode = l.second->getComponent<NodeComponent>();
+			lightNode->nodeHandel->localMatrix = l.first->localMatrix;
+		}
+
+		for (auto& pcComp : EntityReg::getComponentArray<PointLightComponent>())
+		{
+			if (auto nodeComp = EntityReg::getComponent<NodeComponent>(pcComp.getEntityID()); nodeComp)
+			{
+				//assert(m_poinLightMap.contains(pcComp.getKey()));
+				if (m_poinLightMap.contains(pcComp.getKey()))
+				{
+					auto& pointLight = m_poinLightMap[pcComp.getKey()];
+
+					pcComp.position = nodeComp->nodeHandel->worldMatrix.getTranslation();
+					pointLight.setPosition(pcComp.position);
+				}
+			}
+		}
 	}
 
 	void LevelEditor::updateGizmo()
