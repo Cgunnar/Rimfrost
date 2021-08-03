@@ -6,6 +6,7 @@
 #include "Rimfrost\Core\Keyboard.hpp"
 
 #include "Rimfrost\EventSystem\EventSystem.hpp"
+#include "Rimfrost\Events\PauseEvent.hpp"
 
 using namespace Rimfrost;
 namespace Rimfrost

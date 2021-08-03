@@ -2,10 +2,7 @@
 #include "Components\TestComponents.hpp"
 #include "Rimfrost\EntCom\rfComponents.hpp"
 
-#include "Rimfrost\EventSystem\EventSystem.hpp"
-#include "Rimfrost\EventSystem\MouseEvent.hpp"
-#include "Rimfrost\EventSystem\KeyboardEvent.hpp"
-#include "Rimfrost\EventSystem\PauseEvent.hpp"
+
 #include "Rimfrost\LevelEditor\LevelEditor.hpp"
 #include "Rimfrost\Scene\SceneSerializer.hpp"
 #include "Rimfrost\EntCom\SerializeECS.hpp"

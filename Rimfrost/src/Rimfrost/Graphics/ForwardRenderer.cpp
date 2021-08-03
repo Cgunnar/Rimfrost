@@ -8,7 +8,8 @@
 #include "Engine1.hpp"
 #include "Rimfrost\Scene\IScene.hpp"
 #include "Rimfrost\EventSystem\EventSystem.hpp"
-#include "Rimfrost\EventSystem\MouseEvent.hpp"
+#include "Rimfrost\Events\MouseEvent.hpp"
+#include "Logger.hpp"
 
 using namespace DirectX;
 using namespace std;

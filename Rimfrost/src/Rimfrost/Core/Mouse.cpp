@@ -3,8 +3,8 @@
 #include <assert.h>
 
 #include "Logger.hpp"
-#include <EventSystem.hpp>
-#include "MouseEvent.hpp"
+#include "Rimfrost/EventSystem/EventSystem.hpp"
+#include "Rimfrost/Events/MouseEvent.hpp"
 
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")

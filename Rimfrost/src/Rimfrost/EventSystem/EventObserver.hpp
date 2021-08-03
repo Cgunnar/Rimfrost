@@ -1,7 +1,5 @@
 #pragma once
-#include "Event.hpp"
-#include "PauseEvent.hpp"
-#include "Logger.hpp"
+#include "Rimfrost\EventSystem\Event.hpp"
 
 namespace Rimfrost
 {

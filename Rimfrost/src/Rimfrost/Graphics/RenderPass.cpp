@@ -1,8 +1,9 @@
 #include "rfpch.hpp"
 #include "RenderPass.hpp"
+#include "Logger.hpp"
 #include "EventSystem.hpp"
 #include "ResizeEvent.hpp"
-#include <math.h>
+
 
 using namespace Microsoft::WRL;
 using namespace std;

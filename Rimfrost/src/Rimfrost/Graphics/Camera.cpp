@@ -1,9 +1,9 @@
 #include "rfpch.hpp"
 
 #include "Camera.hpp"
-#include <EventSystem.hpp>
-#include "Rimfrost\EventSystem\KeyboardEvent.hpp"
-#include "Rimfrost\EventSystem\MouseEvent.hpp"
+#include "Rimfrost\EventSystem\EventSystem.hpp"
+#include "Rimfrost\Events\KeyboardEvent.hpp"
+#include "Rimfrost\Events\MouseEvent.hpp"
 using namespace DirectX;
 
 namespace Rimfrost

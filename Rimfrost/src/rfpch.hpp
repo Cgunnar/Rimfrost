@@ -12,6 +12,8 @@
 
 //#include <DirectXMath.h>
 
+#include <math.h>
+
 #include <assert.h>
 #include <iosfwd>
 #include <iostream>

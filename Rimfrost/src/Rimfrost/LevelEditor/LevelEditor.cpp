@@ -5,7 +5,8 @@
 #include "RandGen.hpp"
 #include "Logger.hpp"
 #include "MouseEvent.hpp"
-#include "Rimfrost\EventSystem\KeyboardEvent.hpp"
+#include "Rimfrost\Events\KeyboardEvent.hpp"
+#include "Rimfrost\Events\PauseEvent.hpp"
 #include "Rimfrost\EventSystem\EventSystem.hpp"
 #include "Rimfrost\Scene\SceneSerializer.hpp"
 #include "Rimfrost\EntCom\SerializeECS.hpp"
@@ -41,6 +42,7 @@ namespace Rimfrost
 	{
 		EventSystem::addObserver(*this, MousePickingEvent::eventType);
 		EventSystem::addObserver(*this, MouseButtonsEvent::eventType);
+		EventSystem::addObserver(*this, PauseEvent::eventType);
 
 		m_lights.pointLights = std::make_shared<PointLightContainer>();
 
@@ -581,6 +583,20 @@ namespace Rimfrost
 
 	void LevelEditor::onEvent(const Event& e)
 	{
+		if (e.type() == PauseEvent::eventType)
+		{
+			if (static_cast<const PauseEvent&>(e).m_isPaused)
+			{
+				m_acceptMousePickingEvent = true;
+				ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+			}
+			else
+			{
+				m_acceptMousePickingEvent = false;
+				ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
+			}
+		}
+
 		if (e.type() == MouseButtonsEvent::eventType)
 		{
 			auto& mouse = static_cast<const MouseButtonsEvent&>(e).mouseState;
