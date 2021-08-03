@@ -4,6 +4,8 @@
 #include "Rimfrost\EventSystem\EventSystem.hpp"
 #include "Rimfrost\Events\KeyboardEvent.hpp"
 #include "Rimfrost\Events\MouseEvent.hpp"
+#include "Rimfrost\Events\MiscEvents.hpp"
+
 using namespace DirectX;
 
 namespace Rimfrost
@@ -20,14 +22,21 @@ namespace Rimfrost
 		m_worldMatrix = Transform();
 	}
 
-	void Camera::lockTranslation(bool status)
+	void Camera::lockCamera(bool lockRotation, bool lockTranslation)
 	{
-		m_lockTranslation = status;
+		m_lockRotation = lockRotation;
+		m_lockTranslation = lockTranslation;
+		EventSystem::postTOQueue(CameraEvent(this));
 	}
 
-	void Camera::lockRotation(bool status)
+	bool Camera::translationIsLocked() const
 	{
-		m_lockRotation = status;
+		return m_lockTranslation;
+	}
+
+	bool Camera::rotationIsLocked() const
+	{
+		return m_lockRotation;
 	}
 
 	void Camera::update(float dt)

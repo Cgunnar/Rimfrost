@@ -6,7 +6,7 @@
 #include "Logger.hpp"
 #include "MouseEvent.hpp"
 #include "Rimfrost\Events\KeyboardEvent.hpp"
-#include "Rimfrost\Events\PauseEvent.hpp"
+#include "Rimfrost\Events\MiscEvents.hpp"
 #include "Rimfrost\EventSystem\EventSystem.hpp"
 #include "Rimfrost\Scene\SceneSerializer.hpp"
 #include "Rimfrost\EntCom\SerializeECS.hpp"
@@ -42,7 +42,7 @@ namespace Rimfrost
 	{
 		EventSystem::addObserver(*this, MousePickingEvent::eventType);
 		EventSystem::addObserver(*this, MouseButtonsEvent::eventType);
-		EventSystem::addObserver(*this, PauseEvent::eventType);
+		EventSystem::addObserver(*this, CameraEvent::eventType);
 
 		m_lights.pointLights = std::make_shared<PointLightContainer>();
 
@@ -583,18 +583,12 @@ namespace Rimfrost
 
 	void LevelEditor::onEvent(const Event& e)
 	{
-		if (e.type() == PauseEvent::eventType)
+		if (e.type() == CameraEvent::eventType)
 		{
-			if (static_cast<const PauseEvent&>(e).m_isPaused)
-			{
-				m_acceptMousePickingEvent = true;
+			if (static_cast<const CameraEvent&>(e).camera->rotationIsLocked())
 				ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
-			}
 			else
-			{
-				m_acceptMousePickingEvent = false;
 				ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
-			}
 		}
 
 		if (e.type() == MouseButtonsEvent::eventType)
@@ -606,8 +600,11 @@ namespace Rimfrost
 				m_mouseCoordOnClick.x = static_cast<float>(mouse.x);
 				m_mouseCoordOnClick.y = static_cast<float>(mouse.y);
 
-				EventSystem::postTOQueue(MousePickingRequestEvent(mouse.x, mouse.y));
-				m_acceptMousePickingEvent = true;
+				if (m_camera.rotationIsLocked())
+				{
+					EventSystem::postTOQueue(MousePickingRequestEvent(mouse.x, mouse.y));
+					m_acceptMousePickingEvent = true;
+				}
 			}
 			if (mouse.LMBHeld)
 			{

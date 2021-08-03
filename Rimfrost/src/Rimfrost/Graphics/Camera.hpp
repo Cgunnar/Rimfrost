@@ -14,8 +14,9 @@ namespace Rimfrost
 	public:
 		Camera();
 		~Camera() = default;
-		void lockTranslation(bool status);
-		void lockRotation(bool status);
+		void lockCamera(bool lockRotation, bool lockTranslation);
+		bool translationIsLocked() const;
+		bool rotationIsLocked() const;
 		void update(float dt);
 		void SetPosition(Vector3 newPosition);
 		//void SetOrientation(Matrix newOrientation);

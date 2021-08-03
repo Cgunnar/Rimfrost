@@ -90,8 +90,8 @@ void Game::onEvent(const Event& e)
 {
 	if (e.type() == PauseEvent::eventType)
 	{
-		this->m_acticeScene->camera().lockTranslation(this->isPaused());
-		this->m_acticeScene->camera().lockRotation(this->isPaused());
+		bool lock = this->isPaused();
+		this->m_acticeScene->camera().lockCamera(lock, lock);
 	}
 
 	/*if (e.type() == MouseButtonsEvent::eventType)
