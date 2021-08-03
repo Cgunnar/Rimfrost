@@ -137,7 +137,7 @@ namespace Rimfrost
 		void stopRotate(bool keepNewAngle = true);
 
 		void startScaling();
-		void stopScaling(bool keeoNewScale = true);
+		void stopScaling(bool keepNewScale = true);
 
 		bool handleArrowSelection(Rimfrost::NodeID id);
 		GizmoXYZ handleRingSelection(NodeID id);

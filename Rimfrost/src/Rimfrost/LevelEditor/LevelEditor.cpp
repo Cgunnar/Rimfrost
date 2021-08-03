@@ -43,6 +43,7 @@ namespace Rimfrost
 		EventSystem::addObserver(*this, MousePickingEvent::eventType);
 		EventSystem::addObserver(*this, MouseButtonsEvent::eventType);
 		EventSystem::addObserver(*this, CameraEvent::eventType);
+		EventSystem::addObserver(*this, KeyboardEvent::eventType);
 
 		m_lights.pointLights = std::make_shared<PointLightContainer>();
 
@@ -322,6 +323,7 @@ namespace Rimfrost
 	void LevelEditor::startTranslate(Vector3 translationDirectionLocalSpace)
 	{
 		m_isTranslatingNode = true;
+		m_selectedNodeTransformOnStart = m_selectedNode->localMatrix;
 
 		m_translationInfo.translateDirectionWorldSpace =
 			m_selectedReferencSystem.getRotationMatrix() * Vector4(translationDirectionLocalSpace, 0);
@@ -341,6 +343,8 @@ namespace Rimfrost
 
 	void LevelEditor::stopTranslate(bool keepNewPos)
 	{
+		if (!keepNewPos && m_selectedNode.isValid())
+			m_selectedNode->localMatrix = m_selectedNodeTransformOnStart;
 		m_isTranslatingNode = false;
 	}
 
@@ -373,16 +377,21 @@ namespace Rimfrost
 
 	void LevelEditor::stopRotate(bool keepNewAngle)
 	{
+		if (!keepNewAngle && m_selectedNode.isValid())
+			m_selectedNode->localMatrix = m_selectedNodeTransformOnStart;
 		m_isRotatingNode = false;
 	}
 
 	void LevelEditor::startScaling()
 	{
 		m_isScalingNode = true;
+		m_selectedNodeTransformOnStart = m_selectedNode->localMatrix;
 	}
 
-	void LevelEditor::stopScaling(bool keeoNewScale)
+	void LevelEditor::stopScaling(bool keepNewScale)
 	{
+		if (!keepNewScale && m_selectedNode.isValid())
+			m_selectedNode->localMatrix = m_selectedNodeTransformOnStart;
 		m_isScalingNode = false;
 	}
 
@@ -632,8 +641,18 @@ namespace Rimfrost
 		if (e.type() == KeyboardEvent::eventType)
 		{
 			auto& keyboard = static_cast<const KeyboardEvent&>(e);
-			if (keyboard.keyAndState.state == KeyState::KEY_CLICKED)
+			if (keyboard.keyAndState.key == Key::ESC)
 			{
+				if (keyboard.keyAndState.state == KeyState::KEY_CLICKED)
+				{
+					stopRotate(false);
+					stopTranslate(false);
+					stopScaling(false);
+				}
+			}
+			else if (keyboard.keyAndState.state == KeyState::KEY_CLICKED)
+			{
+				
 				if ((*keyboard.boardState)[Key::LCTRL] == KeyState::KEY_DOWN)
 				{
 					switch (keyboard.keyAndState.key)
