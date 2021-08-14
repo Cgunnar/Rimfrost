@@ -1,20 +1,20 @@
 {
     "camera": {
-        "00": 0.9983596205711365,
+        "00": 0.9998202919960022,
         "01": 0.0,
-        "02": 0.05416066199541092,
+        "02": 0.0,
         "03": 0.0,
-        "10": -0.001473988057114184,
-        "11": 0.9994476437568665,
-        "12": 0.027170458808541298,
+        "10": 0.0,
+        "11": 0.9998210668563843,
+        "12": 0.0,
         "13": 0.0,
-        "20": -0.054140087217092514,
-        "21": -0.02721041813492775,
-        "22": 0.9979803562164307,
+        "20": 0.0,
+        "21": 0.0,
+        "22": 0.9998288750648499,
         "23": 0.0,
-        "30": 2.166991710662842,
-        "31": 5.253779411315918,
-        "32": -17.40830421447754,
+        "30": 2.503239870071411,
+        "31": 5.391104221343994,
+        "32": -15.526764869689941,
         "33": 1.0
     },
     "nodeArray": [
@@ -544,9 +544,9 @@
                 "21": -0.03130482882261276,
                 "22": -0.3838515281677246,
                 "23": 0.0,
-                "30": -20.232744216918945,
-                "31": 2.1093807220458984,
-                "32": 4.154154300689697,
+                "30": 4.2344465255737305,
+                "31": -0.15169286727905273,
+                "32": -2.2618155479431152,
                 "33": 1.0
             }
         },
@@ -748,62 +748,6 @@
         },
         {
             "ID": 26,
-            "coldID": 58,
-            "materialName": "",
-            "modelParent": true,
-            "modelPath": "",
-            "parentID": 18446744073709551615,
-            "settings": 0,
-            "subModelID": 18446744073709551615,
-            "transform": {
-                "00": 1.0,
-                "01": 0.0,
-                "02": 0.0,
-                "03": 0.0,
-                "10": 0.0,
-                "11": 1.0,
-                "12": 0.0,
-                "13": 0.0,
-                "20": 0.0,
-                "21": 0.0,
-                "22": 1.0,
-                "23": 0.0,
-                "30": 4.13304328918457,
-                "31": 4.185941696166992,
-                "32": 0.0,
-                "33": 1.0
-            }
-        },
-        {
-            "ID": 27,
-            "coldID": 59,
-            "materialName": "Material.001",
-            "modelParent": false,
-            "modelPath": "Models/red_cone.obj",
-            "parentID": 26,
-            "settings": 0,
-            "subModelID": 0,
-            "transform": {
-                "00": 1.0,
-                "01": 0.0,
-                "02": 0.0,
-                "03": 0.0,
-                "10": 0.0,
-                "11": 1.0,
-                "12": 0.0,
-                "13": 0.0,
-                "20": 0.0,
-                "21": 0.0,
-                "22": 1.0,
-                "23": 0.0,
-                "30": 0.0,
-                "31": 0.0,
-                "32": 0.0,
-                "33": 1.0
-            }
-        },
-        {
-            "ID": 28,
             "coldID": 126,
             "materialName": "",
             "modelParent": true,
@@ -831,12 +775,12 @@
             }
         },
         {
-            "ID": 29,
+            "ID": 27,
             "coldID": 127,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 28,
+            "parentID": 26,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -859,7 +803,7 @@
             }
         },
         {
-            "ID": 30,
+            "ID": 28,
             "coldID": 143,
             "materialName": "",
             "modelParent": true,
@@ -887,12 +831,12 @@
             }
         },
         {
-            "ID": 31,
+            "ID": 29,
             "coldID": 144,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 30,
+            "parentID": 28,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -915,7 +859,7 @@
             }
         },
         {
-            "ID": 32,
+            "ID": 30,
             "coldID": 177,
             "materialName": "",
             "modelParent": true,
@@ -943,12 +887,12 @@
             }
         },
         {
-            "ID": 33,
+            "ID": 31,
             "coldID": 178,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 32,
+            "parentID": 30,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -971,7 +915,7 @@
             }
         },
         {
-            "ID": 34,
+            "ID": 32,
             "coldID": 245,
             "materialName": "",
             "modelParent": true,
@@ -999,12 +943,12 @@
             }
         },
         {
-            "ID": 35,
+            "ID": 33,
             "coldID": 246,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 34,
+            "parentID": 32,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -1027,7 +971,7 @@
             }
         },
         {
-            "ID": 36,
+            "ID": 34,
             "coldID": 262,
             "materialName": "",
             "modelParent": true,
@@ -1055,12 +999,12 @@
             }
         },
         {
-            "ID": 37,
+            "ID": 35,
             "coldID": 263,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 36,
+            "parentID": 34,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -1083,7 +1027,7 @@
             }
         },
         {
-            "ID": 38,
+            "ID": 36,
             "coldID": 398,
             "materialName": "",
             "modelParent": true,
@@ -1111,12 +1055,12 @@
             }
         },
         {
-            "ID": 39,
+            "ID": 37,
             "coldID": 399,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 38,
+            "parentID": 36,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -1139,7 +1083,7 @@
             }
         },
         {
-            "ID": 40,
+            "ID": 38,
             "coldID": 449,
             "materialName": "",
             "modelParent": true,
@@ -1167,12 +1111,12 @@
             }
         },
         {
-            "ID": 41,
+            "ID": 39,
             "coldID": 450,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 40,
+            "parentID": 38,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -1195,7 +1139,7 @@
             }
         },
         {
-            "ID": 42,
+            "ID": 40,
             "coldID": 551,
             "materialName": "",
             "modelParent": true,
@@ -1223,12 +1167,12 @@
             }
         },
         {
-            "ID": 43,
+            "ID": 41,
             "coldID": 552,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 42,
+            "parentID": 40,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -1251,7 +1195,7 @@
             }
         },
         {
-            "ID": 44,
+            "ID": 42,
             "coldID": 585,
             "materialName": "",
             "modelParent": true,
@@ -1279,12 +1223,12 @@
             }
         },
         {
-            "ID": 45,
+            "ID": 43,
             "coldID": 586,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 44,
+            "parentID": 42,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -1307,7 +1251,7 @@
             }
         },
         {
-            "ID": 46,
+            "ID": 44,
             "coldID": 619,
             "materialName": "",
             "modelParent": true,
@@ -1335,12 +1279,12 @@
             }
         },
         {
-            "ID": 47,
+            "ID": 45,
             "coldID": 620,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 46,
+            "parentID": 44,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -1363,7 +1307,7 @@
             }
         },
         {
-            "ID": 48,
+            "ID": 46,
             "coldID": 653,
             "materialName": "",
             "modelParent": true,
@@ -1391,12 +1335,12 @@
             }
         },
         {
-            "ID": 49,
+            "ID": 47,
             "coldID": 654,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 48,
+            "parentID": 46,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -1419,7 +1363,7 @@
             }
         },
         {
-            "ID": 50,
+            "ID": 48,
             "coldID": 670,
             "materialName": "",
             "modelParent": true,
@@ -1447,12 +1391,12 @@
             }
         },
         {
-            "ID": 51,
+            "ID": 49,
             "coldID": 671,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 50,
+            "parentID": 48,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -1475,7 +1419,7 @@
             }
         },
         {
-            "ID": 52,
+            "ID": 50,
             "coldID": 755,
             "materialName": "",
             "modelParent": true,
@@ -1503,12 +1447,12 @@
             }
         },
         {
-            "ID": 53,
+            "ID": 51,
             "coldID": 756,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 52,
+            "parentID": 50,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -1531,7 +1475,7 @@
             }
         },
         {
-            "ID": 54,
+            "ID": 52,
             "coldID": 772,
             "materialName": "",
             "modelParent": true,
@@ -1559,12 +1503,12 @@
             }
         },
         {
-            "ID": 55,
+            "ID": 53,
             "coldID": 773,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/red_cone.obj",
-            "parentID": 54,
+            "parentID": 52,
             "settings": 0,
             "subModelID": 0,
             "transform": {
@@ -1587,7 +1531,7 @@
             }
         },
         {
-            "ID": 56,
+            "ID": 54,
             "coldID": 825,
             "materialName": "",
             "modelParent": false,
@@ -1615,7 +1559,7 @@
             }
         },
         {
-            "ID": 57,
+            "ID": 55,
             "coldID": 845,
             "materialName": "",
             "modelParent": true,
@@ -1624,31 +1568,31 @@
             "settings": 0,
             "subModelID": 18446744073709551615,
             "transform": {
-                "00": 1.0,
-                "01": 0.0,
-                "02": 0.0,
+                "00": -0.8744124174118042,
+                "01": 0.4457528591156006,
+                "02": -0.1914469599723816,
                 "03": 0.0,
-                "10": 0.0,
-                "11": -0.16431382298469543,
-                "12": 0.9864045977592468,
+                "10": 0.13941575586795807,
+                "11": -0.1470813751220703,
+                "12": -0.9792205095291138,
                 "13": 0.0,
-                "20": 0.0,
-                "21": -0.9864045977592468,
-                "22": -0.16431382298469543,
+                "20": -0.46466580033302307,
+                "21": -0.8829658627510071,
+                "22": 0.06646718084812164,
                 "23": 0.0,
-                "30": 5.714183807373047,
-                "31": 1.0,
-                "32": -5.317966461181641,
+                "30": 4.682690143585205,
+                "31": 2.349440574645996,
+                "32": -3.624217987060547,
                 "33": 1.0
             }
         },
         {
-            "ID": 58,
+            "ID": 56,
             "coldID": 846,
             "materialName": "Material.001",
             "modelParent": false,
             "modelPath": "Models/green_glass.obj",
-            "parentID": 57,
+            "parentID": 55,
             "settings": 1,
             "subModelID": 0,
             "transform": {
@@ -1671,7 +1615,7 @@
             }
         },
         {
-            "ID": 59,
+            "ID": 57,
             "coldID": 923,
             "materialName": "",
             "modelParent": false,
@@ -1692,9 +1636,9 @@
                 "21": 0.0,
                 "22": 1.0,
                 "23": 0.0,
-                "30": -5.3922576904296875,
-                "31": 5.66206169128418,
-                "32": -6.248042106628418,
+                "30": -3.4065632820129395,
+                "31": 2.4402577877044678,
+                "32": -0.6205778121948242,
                 "33": 1.0
             }
         }
