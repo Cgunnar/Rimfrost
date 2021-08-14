@@ -343,7 +343,7 @@ namespace Rimfrost
 
 	void LevelEditor::stopTranslate(bool keepNewPos)
 	{
-		if (!keepNewPos && m_selectedNode.isValid())
+		if (!keepNewPos && m_selectedNode.isValid() && m_isTranslatingNode)
 			m_selectedNode->localMatrix = m_selectedNodeTransformOnStart;
 		m_isTranslatingNode = false;
 	}
@@ -377,7 +377,7 @@ namespace Rimfrost
 
 	void LevelEditor::stopRotate(bool keepNewAngle)
 	{
-		if (!keepNewAngle && m_selectedNode.isValid())
+		if (!keepNewAngle && m_selectedNode.isValid() && m_isRotatingNode)
 			m_selectedNode->localMatrix = m_selectedNodeTransformOnStart;
 		m_isRotatingNode = false;
 	}
@@ -390,7 +390,7 @@ namespace Rimfrost
 
 	void LevelEditor::stopScaling(bool keepNewScale)
 	{
-		if (!keepNewScale && m_selectedNode.isValid())
+		if (!keepNewScale && m_selectedNode.isValid() && m_isScalingNode)
 			m_selectedNode->localMatrix = m_selectedNodeTransformOnStart;
 		m_isScalingNode = false;
 	}
