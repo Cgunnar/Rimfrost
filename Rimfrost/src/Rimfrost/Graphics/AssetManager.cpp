@@ -8,7 +8,7 @@ namespace Rimfrost
 	using namespace std;
 
 	unordered_map<ModelID, Model> AssetManager::s_modelMap;
-	unordered_map<ModelID, SubMeshTree> AssetManager::s_subMeshTreeMap;
+	//unordered_map<ModelID, SubMeshTree> AssetManager::s_subMeshTreeMap;
 	unordered_map<string, ModelID> AssetManager::s_filePathToIDMap;
 
 	

@@ -5,6 +5,8 @@
 #include <string>
 namespace Rimfrost
 {
+
+	typedef std::string TextureID; //fix to not somthing as bad as string
 	typedef size_t SubModelID;
 	typedef size_t ModelID;
 

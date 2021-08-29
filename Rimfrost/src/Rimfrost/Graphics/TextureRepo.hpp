@@ -5,7 +5,7 @@
 
 namespace Rimfrost
 {
-	typedef std::string TextureID;
+	
 
 	class TextureRepo
 	{

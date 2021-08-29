@@ -224,9 +224,8 @@ namespace Rimfrost
 		OutputDebugString(L"~ForwardRenderer\n");
 	}
 
-	uint32_t ForwardRenderer::renderScene(IScene& scene)
+	void ForwardRenderer::renderScene(IScene& scene)
 	{
-		m_timer.start();
 
 		auto& nodes = scene.sceneGraph().getNodes();
 		auto& renderSubmits = scene.sceneGraph().getRenderSubmits();
@@ -287,7 +286,7 @@ namespace Rimfrost
 		{
 			auto& r = renderSubmits[i];
 
-			if (nodes[r].getID() == -1) continue;
+			if (nodes[r].getID() == rootNode) continue;
 			if (!indexToChangeRenderPass.empty() && indexToChangeRenderPass.front() == i)
 			{
 				m_renderPasses.next();
@@ -358,8 +357,6 @@ namespace Rimfrost
 		//dont do mousepicking
 		m_frameData.mouseX = -1;
 		m_frameData.mouseY = -1;
-
-		return m_timer.stop();
 	}
 
 	void ForwardRenderer::onEvent(const Event& e)

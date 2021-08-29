@@ -20,7 +20,7 @@ namespace Rimfrost
 		ForwardRenderer();
 		~ForwardRenderer();
 
-		uint32_t renderScene(IScene& scene);
+		void renderScene(IScene& scene);
 		void onEvent(const Event& e) override;
 
 	private:

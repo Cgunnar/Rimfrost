@@ -22,7 +22,7 @@ namespace Rimfrost
 
 	private:
 		static std::unordered_map<ModelID, Model> s_modelMap;
-		static std::unordered_map<ModelID, SubMeshTree> s_subMeshTreeMap;
+		//static std::unordered_map<ModelID, SubMeshTree> s_subMeshTreeMap;
 		static std::unordered_map<std::string, ModelID> s_filePathToIDMap;
 	};
 

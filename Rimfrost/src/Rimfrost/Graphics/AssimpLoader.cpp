@@ -176,7 +176,10 @@ EngineMeshSubset AssimpLoader::processMesh(aiMesh* mesh, const aiScene* scene, c
 	// Get material
 	auto mtl = scene->mMaterials[mesh->mMaterialIndex];
 	aiString diffName, normName, specName;
+
+	aiString metallic;
 	errorCheck = mtl->GetTexture(aiTextureType_DIFFUSE, 0, &diffName);
+	errorCheck = mtl->GetTexture(AI_MATKEY_GLTF_PBRMETALLICROUGHNESS_METALLICROUGHNESS_TEXTURE, &metallic);
 	//mtl->GetTexture(aiTextureType_HEIGHT, 0, &normName);
 	errorCheck = mtl->GetTexture(aiTextureType_NORMALS, 0, &normName);
 	errorCheck = mtl->GetTexture(aiTextureType_SPECULAR, 0, &specName);

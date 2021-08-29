@@ -52,10 +52,6 @@ namespace Rimfrost
 
 		Rimfrost::Material m_mat;
 
-		//std::shared_ptr<Texture> m_diffTexture;
-		//std::shared_ptr<Texture> m_specTexture;
-		//std::shared_ptr<Texture> m_normTexture;
-
 		TextureID m_diffTexture;
 		TextureID m_specTexture;
 		TextureID m_normTexture;

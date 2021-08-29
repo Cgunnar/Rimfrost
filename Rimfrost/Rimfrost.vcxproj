@@ -91,7 +91,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Rimfrost\Events\MiscEvents.hpp" />
     <ClInclude Include="src\Rimfrost.hpp" />
     <ClInclude Include="src\Rimfrost\Core\EngineApp.hpp" />
     <ClInclude Include="src\Rimfrost\Core\EntryPoint.hpp" />
@@ -105,6 +104,7 @@
     <ClInclude Include="src\Rimfrost\EventSystem\EventObserver.hpp" />
     <ClInclude Include="src\Rimfrost\EventSystem\EventSystem.hpp" />
     <ClInclude Include="src\Rimfrost\Events\KeyboardEvent.hpp" />
+    <ClInclude Include="src\Rimfrost\Events\MiscEvents.hpp" />
     <ClInclude Include="src\Rimfrost\Events\MouseEvent.hpp" />
     <ClInclude Include="src\Rimfrost\Events\PauseEvent.hpp" />
     <ClInclude Include="src\Rimfrost\Events\ResizeEvent.hpp" />
@@ -163,7 +163,6 @@
     <ClInclude Include="vendor\imgui\backends\imgui_impl_win32.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Rimfrost\Events\MiscEvents.cpp" />
     <ClCompile Include="src\Rimfrost\Core\EngineApp.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Keyboard.cpp" />
     <ClCompile Include="src\Rimfrost\Core\Mouse.cpp" />
@@ -173,6 +172,7 @@
     <ClCompile Include="src\Rimfrost\EventSystem\EventObserver.cpp" />
     <ClCompile Include="src\Rimfrost\EventSystem\EventSystem.cpp" />
     <ClCompile Include="src\Rimfrost\Events\KeyboardEvent.cpp" />
+    <ClCompile Include="src\Rimfrost\Events\MiscEvents.cpp" />
     <ClCompile Include="src\Rimfrost\Events\MouseEvent.cpp" />
     <ClCompile Include="src\Rimfrost\Events\PauseEvent.cpp" />
     <ClCompile Include="src\Rimfrost\Events\ResizeEvent.cpp" />

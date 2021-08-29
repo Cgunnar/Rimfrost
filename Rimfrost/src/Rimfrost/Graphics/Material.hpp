@@ -24,6 +24,14 @@ namespace Rimfrost
 
 	};
 
+	/*struct PbrTextures
+	{
+		TextureID ao;
+		TextureID albedo;
+		TextureID height;
+		TextureID metallic;
+		TextureID albedo;
+	};*/
 
 
 	class Material
