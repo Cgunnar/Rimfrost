@@ -228,7 +228,7 @@ namespace Rimfrost
 
 		switch (msg)
 		{
-			wchar_t msg[200];
+			wchar_t printmsg[200];
 
 		case WM_MOUSEMOVE:
 		{
@@ -312,8 +312,8 @@ namespace Rimfrost
 		case WM_CLOSE:
 		{
 			m_isClosed = true;
-			swprintf_s(msg, L"WM_CLOSE: 0x%x\n", (wchar_t)wParam);
-			OutputDebugString(msg);
+			swprintf_s(printmsg, L"WM_CLOSE: 0x%x\n", (wchar_t)wParam);
+			OutputDebugString(printmsg);
 
 			ImGui_ImplDX11_Shutdown();
 			ImGui_ImplWin32_Shutdown();
@@ -325,16 +325,16 @@ namespace Rimfrost
 		}
 		case WM_DESTROY:
 		{
-			swprintf_s(msg, L"WM_DESTROY: 0x%x\n", (wchar_t)wParam);
-			OutputDebugString(msg);
+			swprintf_s(printmsg, L"WM_DESTROY: 0x%x\n", (wchar_t)wParam);
+			OutputDebugString(printmsg);
 			PostQuitMessage(0);
 			return 0;
 		}
 		case WM_ACTIVATEAPP:
 		{
 			if (this->m_graphics == nullptr) break;
-			swprintf_s(msg, L"WM_ACTIVATEAPP: %d\n", (int)wParam);
-			OutputDebugString(msg);
+			swprintf_s(printmsg, L"WM_ACTIVATEAPP: %d\n", (int)wParam);
+			OutputDebugString(printmsg);
 			if (wParam)
 			{
 				//this->GetGraphics().SetFullScreen(this->GetGraphics().ShouldBeFullScreen());
@@ -361,8 +361,8 @@ namespace Rimfrost
 				int rx = winRect.right - winRect.left;
 				int ry = winRect.bottom - winRect.top;
 
-				swprintf_s(msg, L"WM_WINDOWPOSCHANGED, res: %d x %d\n", rx, ry);
-				OutputDebugString(msg);
+				swprintf_s(printmsg, L"WM_WINDOWPOSCHANGED, res: %d x %d\n", rx, ry);
+				OutputDebugString(printmsg);
 
 				this->getGraphics().onResize(rx, ry);
 
@@ -388,8 +388,8 @@ namespace Rimfrost
 			break;
 		}
 		default:
-			break;
+			return DefWindowProc(hWnd, msg, wParam, lParam);;
 		}
-		return DefWindowProc(hWnd, msg, wParam, lParam);
+		return 0;
 	}
 }
